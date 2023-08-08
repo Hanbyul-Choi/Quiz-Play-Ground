@@ -17,7 +17,7 @@ const InCorrectModal: React.FC<InCorrectModalProps> = ({ toggleModal }) => {
     };
   }, []);
   return createPortal(
-    <div className="flex justify-center items-center h-screen">
+    <div className="absolute ml-[34%]">
       <img src={'./assets/incorrect.svg'} />
     </div>,
     document.getElementById(PORTAL_MODAL)!
