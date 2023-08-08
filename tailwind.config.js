@@ -8,7 +8,7 @@ module.exports = {
       clickRed: '#B83535',
       yellow: '#F9D923',
       hoverYellow: '#FBE464',
-      clockYellow: '#B83535',
+      clickYellow: '#B83535',
       green: '#36AE7C',
       hoverGreen: '#68CFA4',
       clickGreen: '#409370',
@@ -18,8 +18,10 @@ module.exports = {
       skyblue: '#3AB4F2',
       clickSkyblue: '#4F9EC6',
       hoverSkyblue: '#82CDF4',
-      gray: '#9E9D9D',
-      clickGray: '#777777'
+      gray1: '#F0F0F0',
+      gray2: '#D9D9D9',
+      gray3: '#9E9D9D',
+      gray4: '#777777'
     },
     extend: {}
   },
