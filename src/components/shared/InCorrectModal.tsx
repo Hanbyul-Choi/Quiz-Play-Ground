@@ -11,7 +11,7 @@ const InCorrectModal: React.FC<InCorrectModalProps> = ({ toggleModal }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       toggleModal();
-    }, 2000);
+    }, 1000);
     return () => {
       clearTimeout(timer);
     };
