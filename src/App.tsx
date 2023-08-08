@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/shared/Layout';
+import Header from './components/shared/Header';
 import { PictureGame, TextGame } from './components/games';
 import { AddGame, Game, GameResult, Home, Main, MyPage } from './pages';
 
