@@ -18,8 +18,10 @@ module.exports = {
       skyblue: '#3AB4F2',
       clickSkyblue: '#4F9EC6',
       hoverSkyblue: '#82CDF4',
-      gray: '#9E9D9D',
-      clickGray: '#777777'
+      gray1: '#F0F0F0',
+      gray2: '#D9D9D9',
+      gray3: '#9E9D9D',
+      gray4: '#777777'
     },
     extend: {}
   },
