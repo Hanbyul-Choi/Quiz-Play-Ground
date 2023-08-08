@@ -23,8 +23,19 @@ module.exports = {
         gray2: '#D9D9D9',
         gray3: '#9E9D9D',
         gray4: '#777777'
+      },
+      keyframes: {
+        progress: {
+          from: { width: '100%' },
+          to: { width: '0%' }
+        }
+      },
+      animation: {
+        progress3: 'progress 3s ease-in forwards',
+        progress5: 'progress 5s ease-in forwards',
+        progress7: 'progress 7s ease-in forwards'
       }
-    }
-  },
-  plugins: []
+    },
+    plugins: []
+  }
 };
