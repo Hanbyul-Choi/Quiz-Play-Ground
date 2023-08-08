@@ -8,7 +8,7 @@ module.exports = {
       clickRed: '#B83535',
       yellow: '#F9D923',
       hoverYellow: '#FBE464',
-      clockYellow: '#B83535',
+      clickYellow: '#B83535',
       green: '#36AE7C',
       hoverGreen: '#68CFA4',
       clickGreen: '#409370',
