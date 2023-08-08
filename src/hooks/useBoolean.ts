@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
-export const useBoolean = (initialState = false) => {
+export const useBoolean = (
+  initialState = false
+): [boolean, { on: () => void; off: () => void; toggle: () => void }] => {
   const [value, setValue] = useState(initialState);
 
   const controller = useMemo(
