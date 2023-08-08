@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
-  const [isLogin] = useState(true);
+  const [isLogin] = useState(false);
 
   const initialColors = {
     join: 'text-white',
@@ -33,6 +33,7 @@ const Header: FC = () => {
           </>
         ) : (
           <>
+            <p className="flex items-center mr-4 text-gray2 text-[13px]">익명의 펭귄 님, 환영합니다!</p>
             <Link to={'/addgame'} className={colors.addGame} onClick={() => handleClick('addGame')}>
               게임만들기
             </Link>
