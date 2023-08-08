@@ -1,3 +1,4 @@
+
 import CorrectModal from '../components/shared/CorrectModal';
 import InCorrectModal from '../components/shared/InCorrectModal';
 import { modalStateStore } from '../store';
@@ -17,4 +18,5 @@ export const Home = () => {
       {isInCorrectModalOpen && <InCorrectModal toggleModal={toggleInCorrectModal} />}
     </>
   );
+
 };
