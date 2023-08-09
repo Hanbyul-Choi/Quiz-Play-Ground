@@ -28,12 +28,22 @@ module.exports = {
         progress: {
           from: { width: '100%' },
           to: { width: '0%' }
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' }
         }
       },
       animation: {
         progress3: 'progress 3s ease-in forwards',
         progress5: 'progress 5s ease-in forwards',
-        progress7: 'progress 7s ease-in forwards'
+        progress7: 'progress 7s ease-in forwards',
+        fadeIn: 'fadeIn 0.5s forwards',
+        fadeOut: 'fadeOut 0.5s forwards'
       },
       translate: {
         center: '50%'
