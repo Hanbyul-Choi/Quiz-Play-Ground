@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
-type animateType = {
-  [key: number]: string;
-};
+type animateType = Record<number, string>;
 
 const ProgressBar = ({ time }: { time: number }) => {
   const [sec, setSec] = useState(time);
@@ -12,9 +10,9 @@ const ProgressBar = ({ time }: { time: number }) => {
     5000: 'animate-progress5',
     7000: 'animate-progress7'
   };
-
+  console.log(sec);
   useEffect(() => {
-    const interval_id = setInterval(() => {
+    const INTERVAL_ID = setInterval(() => {
       setSec(sec => sec - 1000);
     }, 1000);
 
@@ -23,7 +21,7 @@ const ProgressBar = ({ time }: { time: number }) => {
     }, time * 0.8);
 
     setTimeout(() => {
-      clearInterval(interval_id);
+      clearInterval(INTERVAL_ID);
     }, time);
   }, []);
 
@@ -38,9 +36,9 @@ const ProgressBar = ({ time }: { time: number }) => {
 
 export default ProgressBar;
 
-//사용방법
-{
-  /* <ProgressBar time={3000} /> */
-  /* <ProgressBar time={5000} /> */
-  /* <ProgressBar time={7000} /> */
-}
+// // 사용방법
+// {
+//   /* <ProgressBar time={3000} /> */
+//   /* <ProgressBar time={5000} /> */
+//   /* <ProgressBar time={7000} /> */
+// }
