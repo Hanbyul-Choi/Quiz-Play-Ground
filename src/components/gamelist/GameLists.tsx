@@ -6,7 +6,7 @@ type humanInfo = Record<string, string>;
 
 export const categoryMatch: humanInfo = {
   relay: '이어 말하기',
-  nonsensequiz: '넌센스 킈퀴',
+  nonsensequiz: '넌센스 퀴즈',
   personquiz: '인물 퀴즈',
   mzwordsquiz: '신조어 퀴즈'
 };
