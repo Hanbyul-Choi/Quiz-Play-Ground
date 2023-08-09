@@ -7,6 +7,11 @@ interface ModalState {
   toggleInCorrectModal: () => void;
 }
 
+interface AuthStateType {
+  isModalOpen: boolean;
+  toggleModal: () => void;
+}
+
 export const userStore = create(set => ({
   users: [],
   addUser: () => {},
@@ -22,5 +27,19 @@ export const modalStateStore = create<ModalState>(set => ({
   },
   toggleInCorrectModal: () => {
     set(state => ({ isInCorrectModalOpen: !state.isInCorrectModalOpen }));
+  }
+}));
+
+export const loginStateStore = create<AuthStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const signUpStateStore = create<AuthStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
   }
 }));

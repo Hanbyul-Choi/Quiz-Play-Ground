@@ -4,18 +4,22 @@ interface ButtonProps {
   buttonStyle: string;
   children: React.ReactNode;
   onClick: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 type VariantsType = Record<string, string>;
 
-const Button = ({ buttonStyle, children, onClick }: ButtonProps) => {
+const Button = ({ buttonStyle, children, onClick, ...props }: ButtonProps) => {
   const buttonStyleArr = buttonStyle.split(' ');
   let size: string = '';
   let full: string = '';
 
+  const buttonDefault = 'text-black font-bold px-[10px] py-[5px]  shadow-lg';
+
   const colorVariants: VariantsType = {
     yellow: 'bg-yellow hover:bg-hoverYellow active:bg-clickYellow',
-    blue: 'bg-skyBlue hover:bg-hoverSkyBlue active:bg-clickSkyBlue'
+    blue: 'bg-skyBlue hover:bg-hoverSkyBlue active:bg-clickSkyBlue',
+    disabled: 'bg-gray2'
   };
 
   const outlineVariants: VariantsType = {
@@ -45,15 +49,30 @@ const Button = ({ buttonStyle, children, onClick }: ButtonProps) => {
     full = 'w-full';
   }
 
-  const buttonDefault = 'text-black font-bold px-[10px] py-[5px]  shadow-lg';
+  if (props.disabled === true) {
+    return (
+      <button className={`${buttonDefault} ${colorVariants.disabled} ${size} ${full}`} onClick={onClick} {...props}>
+        {children}
+      </button>
+    );
+  }
+
   return (
     <>
       {buttonStyleArr.includes('outlined') ? (
-        <button className={`${buttonDefault} ${outlineVariants[buttonStyleArr[0]]} ${size} ${full}`} onClick={onClick}>
+        <button
+          className={`${buttonDefault} ${outlineVariants[buttonStyleArr[0]]} ${size} ${full}`}
+          onClick={onClick}
+          {...props}
+        >
           {children}
         </button>
       ) : (
-        <button className={`${buttonDefault} ${colorVariants[buttonStyleArr[0]]} ${size} ${full}`} onClick={onClick}>
+        <button
+          className={`${buttonDefault} ${colorVariants[buttonStyleArr[0]]} ${size} ${full}`}
+          onClick={onClick}
+          {...props}
+        >
           {children}
         </button>
       )}
@@ -74,15 +93,18 @@ export default Button;
 // }
 // {
 //   /* <Button
-// buttonStyle="gray2 md full oulined"
+// buttonStyle="gray2 md full outlined"
 // onClick={() => {}}
 // >
-// 작성
+// +
 // </Button> */
 // }
 
-// // buttonStyle 작성 순서
-// // 1. color
-// // 2. size : xs, sm, md, lg
-// // 3. full(width 100%) : 필수아님
-// // 3. outlined : 필수아님
+// buttonStyle 작성 순서
+// 1. color
+// 2. size : xs, sm, md, lg
+
+// (선택사항)
+// 3. full(width 100%)
+// 3. outlined
+// 4. disabled
