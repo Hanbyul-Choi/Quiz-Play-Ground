@@ -11,6 +11,7 @@ export interface Content {
   date: number;
   category: string;
   gameId: string;
+  topic?: string;
 }
 
 export const dummy: Content[] = [
@@ -20,22 +21,24 @@ export const dummy: Content[] = [
     writer: '익명의 눈사람',
     date: 1689067911504,
     category: 'relay',
-    gameId: '123zbs45'
+    gameId: '123zbs45',
+    topic: '속담'
   },
   {
-    title: '예능게임',
-    quiz: 20,
-    writer: '익명의 츤데레',
-    date: 1689067911511,
-    category: 'relay',
-    gameId: '123zbs25'
-  },
-  {
-    title: '예능게임',
+    title: '사자성어 이어말하기',
     quiz: 20,
     writer: '익명의 눈사람',
-    date: 1689067911502,
+    date: 1689067911511,
     category: 'relay',
+    gameId: '123zbs25',
+    topic: '사자성어'
+  },
+  {
+    title: 'mz 도전!',
+    quiz: 20,
+    writer: '익명의 펭귄',
+    date: 1689067911502,
+    category: 'mzwordsquiz',
     gameId: '123zbs15'
   }
 ];
@@ -44,8 +47,6 @@ export const Main = () => {
   const params = useParams();
 
   const { category } = params;
-  console.log(category);
-
   return (
     <div className="flex-col items-center justify-center p-5">
       <HotGames data={dummy} />
@@ -71,12 +72,13 @@ export const Main = () => {
         <Dropdown
           options={['인기순', '최신순']}
           selected={1}
+          border
           onChange={val => {
             console.log(val);
           }}
         />
       </div>
-      <GameLists />
+      <GameLists data={dummy} />
     </div>
   );
 };
