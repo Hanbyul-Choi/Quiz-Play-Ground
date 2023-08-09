@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
 const MyGame = () => {
-  const [activeButton, setActiveButton] = useState('myQuestion');
+  const [activeButton, setActiveButton] = useState<'myQuestion' | 'favoriteGame'>('myQuestion');
+
+  const handleButtonClick = (type: 'myQuestion' | 'favoriteGame') => {
+    setActiveButton(type);
+  };
 
   return (
     <div className="flex flex-col mr-12">
@@ -9,7 +13,7 @@ const MyGame = () => {
         <button
           className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black' : 'text-gray3'}`}
           onClick={() => {
-            setActiveButton('myQuestion');
+            handleButtonClick('myQuestion');
           }}
         >
           내가 작성한 문제
@@ -17,7 +21,7 @@ const MyGame = () => {
         <button
           className={`text-[20px] ${activeButton === 'favoriteGame' ? 'text-black' : 'text-gray3'}`}
           onClick={() => {
-            setActiveButton('favoriteGame');
+            handleButtonClick('favoriteGame');
           }}
         >
           찜한 게임

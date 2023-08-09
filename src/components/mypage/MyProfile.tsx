@@ -12,7 +12,7 @@ const MyProfile = () => {
         </p>
         <div className="flex flex-col items-center ">
           <button>
-            <img src={'./assets/DefaultProfile.svg'} />
+            <img src={'./assets/DefaultProfile.svg'} alt="profileImage" />
           </button>
           <button>Edit</button>
         </div>
