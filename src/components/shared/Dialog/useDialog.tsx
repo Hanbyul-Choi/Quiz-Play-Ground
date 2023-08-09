@@ -1,10 +1,10 @@
-import { useOverlayContext } from '../Dialog/';
 import { Dialog } from './Dialog';
+import { useOverlayContext } from '../Dialog/';
 
 export const useDialog = () => {
   const { mount: _mount, unmount: _unmount } = useOverlayContext();
-  const Confirm = (element: string) => {
-    return new Promise(resolve => {
+  const Confirm = async (element: string) => {
+    return await new Promise(resolve => {
       _mount(
         'Confirm',
         <Dialog
@@ -24,8 +24,8 @@ export const useDialog = () => {
     });
   };
 
-  const Alert = (element: string) => {
-    return new Promise(resolve => {
+  const Alert = async (element: string) => {
+    return await new Promise(resolve => {
       _mount(
         'Alert',
         <Dialog

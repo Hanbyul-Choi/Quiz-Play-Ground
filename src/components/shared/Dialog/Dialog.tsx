@@ -1,5 +1,7 @@
+import { type MouseEvent } from 'react';
+
 import { useLockBodyScroll } from 'hooks';
-import { MouseEvent } from 'react';
+
 import Button from '../Button';
 
 interface DiologProps {
@@ -22,7 +24,7 @@ export const Dialog = ({ onClose, onSucess, type, children }: DiologProps) => {
     <div className="fixed top-0 left-0 bg-black opacity-[0.3] w-full h-full z-50" onClick={close}>
       <div className="flex-col items-center justify-center gap-[25px] absolute top-[50%] left-[50%] -translate-x-center -translate-y-center bg-white rounded-[8px] p-[25px] w-[300px] ">
         <p className="flex items-center justify-center">{children}</p>
-        {type === 'Confirm' && onSucess ? (
+        {type === 'Confirm' && onSucess != null ? (
           <div className="flex items-center justify-center gap-[15px] mt-10">
             <Button buttonStyle="yellow sm" onClick={onClose}>
               취소
