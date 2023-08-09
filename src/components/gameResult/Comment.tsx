@@ -4,7 +4,7 @@ import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
 
 const Comment = () => {
-  const [isLogin] = useState(false);
+  const [isLogin] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col ml-10">
