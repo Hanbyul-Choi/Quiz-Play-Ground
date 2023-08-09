@@ -24,19 +24,19 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
   useClickAway({ ref: containerRef, callback: setIsOpen.off });
 
   return (
-    <div className="relative min-w-[150px]" ref={containerRef}>
+    <div className="relative min-w-[100px]" ref={containerRef}>
       <button
-        className="flex justify-center border-[2px] min-w-[150px] border-gray4 rounded-lg p-[4px]"
+        className="flex justify-center border-[2px] min-w-[100px] border-gray4 rounded-lg p-[4px]"
         onClick={setIsOpen.toggle}
       >
         {selected !== undefined ? options[selected - 1] : selectedOption === null ? '선택하세요' : selectedOption} ▼
       </button>
       {isOpen && (
-        <ul className="absolute flex-col min-w-[150px] items-center bg-slate-50 z-10 mt-[5px] border-[2px] border-gray4 rounded-lg overflow-hidden">
+        <ul className="absolute flex-col min-w-[100px] items-center bg-slate-50 z-10 mt-[5px] border-[2px] border-gray4 rounded-lg overflow-hidden">
           {options.map((option, index) => (
             <li
               key={index}
-              className="dropdown-option bg-slate-50 cursor-pointer w-full border-b-[1px] p-[2px] border-b-gray4 hover:bg-gray2"
+              className="dropdown-option flex justify-center bg-slate-50 cursor-pointer w-full border-b-[1px] p-[2px] border-b-gray4 hover:bg-gray2"
               onClick={() => {
                 selectOption(option);
               }}
