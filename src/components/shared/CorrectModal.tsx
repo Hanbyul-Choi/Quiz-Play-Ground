@@ -7,7 +7,9 @@ interface CorrectModalProps {
   toggleModal: () => void;
 }
 
-const CorrectModal: React.FC<CorrectModalProps> = ({ toggleModal }) => {
+// const elementRef = useRef(document.getElementById(PORTAL_MODAL))
+
+const CorrectModal = ({ toggleModal }: CorrectModalProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       toggleModal();
@@ -16,11 +18,18 @@ const CorrectModal: React.FC<CorrectModalProps> = ({ toggleModal }) => {
       clearTimeout(timer);
     };
   }, []);
+
+  const modalRoot = document.getElementById(PORTAL_MODAL);
+
+  if (modalRoot == null) {
+    return null;
+  }
+
   return createPortal(
     <div className="absolute ml-[34%]">
       <img src={'./assets/correct.svg'} />
     </div>,
-    document.getElementById(PORTAL_MODAL)!
+    modalRoot
   );
 };
 

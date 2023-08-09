@@ -15,7 +15,12 @@ export const Game = () => {
             <option>7초</option>
           </select>
         </p>
-        <button onClick={() => navigate('/textgame/1/1')} className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow">
+        <button
+          onClick={() => {
+            navigate('/textgame/1/1');
+          }}
+          className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
+        >
           게임시작
         </button>
       </div>
@@ -23,7 +28,7 @@ export const Game = () => {
         <p>게임 방법</p>
         <br />
         <p>&nbsp;1. 제한시간 내에 답을 입력해주세요.</p>
-        <p>&nbsp;2. 제한시간 내에 정답을 맞추거나, 틀릴 경우 '다음 문제' 버튼을 눌러 넘어가세요.</p>
+        <p>&nbsp;2. 제한시간 내에 정답을 맞추거나, 틀릴 경우 다음 문제 버튼을 눌러 넘어가세요.</p>
         <p>&nbsp;3. 마지막 문제까지 모두 완료하면 게임 결과를 확인해 볼 수 있습니다.</p>
       </div>
     </div>
