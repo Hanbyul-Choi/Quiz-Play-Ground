@@ -1,14 +1,12 @@
-import { MouseEventHandler } from 'react';
+import { type MouseEventHandler } from 'react';
 
-type ButtonProps = {
+interface ButtonProps {
   buttonStyle: string;
   children: React.ReactNode;
   onClick: MouseEventHandler<HTMLButtonElement>;
-};
+}
 
-type VariantsType = {
-  [key: string]: string;
-};
+type VariantsType = Record<string, string>;
 
 const Button = ({ buttonStyle, children, onClick }: ButtonProps) => {
   const buttonStyleArr = buttonStyle.split(' ');
@@ -65,26 +63,26 @@ const Button = ({ buttonStyle, children, onClick }: ButtonProps) => {
 
 export default Button;
 
-//사용방법
-{
-  /* <Button
-buttonStyle="yellow sm"
-onClick={() => {}}
->
-작성
-</Button> */
-}
-{
-  /* <Button
-buttonStyle="gray2 md full oulined"
-onClick={() => {}}
->
-작성
-</Button> */
-}
+// 사용방법
+// {
+//   /* <Button
+// buttonStyle="yellow sm"
+// onClick={() => {}}
+// >
+// 작성
+// </Button> */
+// }
+// {
+//   /* <Button
+// buttonStyle="gray2 md full oulined"
+// onClick={() => {}}
+// >
+// 작성
+// </Button> */
+// }
 
-//buttonStyle 작성 순서
-//1. color
-//2. size : xs, sm, md, lg
-//3. full(width 100%) : 필수아님
-//3. outlined : 필수아님
+// // buttonStyle 작성 순서
+// // 1. color
+// // 2. size : xs, sm, md, lg
+// // 3. full(width 100%) : 필수아님
+// // 3. outlined : 필수아님

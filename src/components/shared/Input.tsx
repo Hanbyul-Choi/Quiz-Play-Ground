@@ -1,13 +1,11 @@
-type InputProps = {
+interface InputProps {
   inputStyleType: 'comment' | 'auth' | 'quiz' | 'answer';
   inputType: 'text' | 'textarea';
   holderMsg?: string;
   name?: string;
-};
+}
 
-type InputConfigType = {
-  [key: string]: string;
-};
+type InputConfigType = Record<string, string>;
 
 const inputStyleConfig: InputConfigType = {
   comment: 'w-[400px] py-[5px] px-6 outline-none rounded-full shadow-md',
@@ -19,7 +17,7 @@ const inputStyleConfig: InputConfigType = {
 export const Input = ({ inputType, inputStyleType, holderMsg, name }: InputProps) => {
   return (
     <input
-      id={`${name}`}
+      id={`${name ?? ''}`}
       type={`${inputType}`}
       className={`${inputStyleConfig[inputStyleType]}`}
       placeholder={`${holderMsg ?? ''}`}

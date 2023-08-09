@@ -17,6 +17,10 @@ export const userStore = create(set => ({
 export const modalStateStore = create<ModalState>(set => ({
   isCorrectModalOpen: false,
   isInCorrectModalOpen: false,
-  toggleCorrectModal: () => set(state => ({ isCorrectModalOpen: !state.isCorrectModalOpen })),
-  toggleInCorrectModal: () => set(state => ({ isInCorrectModalOpen: !state.isInCorrectModalOpen }))
+  toggleCorrectModal: () => {
+    set(state => ({ isCorrectModalOpen: !state.isCorrectModalOpen }));
+  },
+  toggleInCorrectModal: () => {
+    set(state => ({ isInCorrectModalOpen: !state.isInCorrectModalOpen }));
+  }
 }));

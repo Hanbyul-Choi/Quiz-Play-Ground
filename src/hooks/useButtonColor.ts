@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-type ButtonColors = {
+interface ButtonColors {
   join: string;
   login: string;
   addGame: string;
   myPage: string;
   logout: string;
-};
+}
 
 export const useButtonColor = (initialColors: ButtonColors) => {
   const [colors, setColors] = useState(initialColors);

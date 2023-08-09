@@ -7,9 +7,15 @@ export const useBoolean = (
 
   const controller = useMemo(
     () => ({
-      on: () => setValue(true),
-      off: () => setValue(false),
-      toggle: () => setValue(prev => !prev)
+      on: () => {
+        setValue(true);
+      },
+      off: () => {
+        setValue(false);
+      },
+      toggle: () => {
+        setValue(prev => !prev);
+      }
     }),
     []
   );
