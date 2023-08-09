@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+
 import { useBoolean, useClickAway } from '../../../hooks';
 
 interface DropdownProps {
@@ -8,9 +9,6 @@ interface DropdownProps {
   onChange: (value: string) => void;
 }
 
-const dropList = {
-  sm: 150
-};
 export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange, size = 'md' }) => {
   const [isOpen, setIsOpen] = useBoolean(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -18,7 +16,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
   const containerRef = useRef(null);
 
   const selectOption = (option: string) => {
-    if (!option) return;
+    if (option.length === 0) return;
     setSelectedOption(option);
     setIsOpen.off();
     onChange(option);
@@ -31,7 +29,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
         className="flex justify-center border-[2px] min-w-[150px] border-gray4 rounded-lg p-[4px]"
         onClick={setIsOpen.toggle}
       >
-        {selected ? options[selected - 1] : selectedOption || '선택하세요'} ▼
+        {selected !== undefined ? options[selected - 1] : selectedOption === null ? '선택하세요' : selectedOption} ▼
       </button>
       {isOpen && (
         <ul className="absolute flex-col min-w-[150px] items-center bg-slate-50 z-10 mt-[5px] border-[2px] border-gray4 rounded-lg overflow-hidden">
@@ -39,7 +37,9 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
             <li
               key={index}
               className="dropdown-option bg-slate-50 cursor-pointer w-full border-b-[1px] p-[2px] border-b-gray4 hover:bg-gray2"
-              onClick={() => selectOption(option)}
+              onClick={() => {
+                selectOption(option);
+              }}
             >
               {option}
             </li>
