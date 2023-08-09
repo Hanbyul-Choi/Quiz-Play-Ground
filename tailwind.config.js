@@ -34,6 +34,9 @@ module.exports = {
         progress3: 'progress 3s ease-in forwards',
         progress5: 'progress 5s ease-in forwards',
         progress7: 'progress 7s ease-in forwards'
+      },
+      translate: {
+        center: '50%'
       }
     },
     plugins: []
