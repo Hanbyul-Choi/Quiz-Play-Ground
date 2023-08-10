@@ -5,6 +5,7 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  type?: 'submit' | 'button';
 }
 
 type VariantsType = Record<string, string>;
