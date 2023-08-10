@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { Link, useParams } from 'react-router-dom';
 
+import { getGameLikes } from 'api/gameLikes';
 import { getGameLists } from 'api/gameList';
 import GameLists from 'components/gamelist/GameLists';
 import HotGames from 'components/gamelist/HotGames';
@@ -11,98 +12,96 @@ export interface GameListContent {
   category: string;
   date: number;
   title: string;
-  topic?: string;
+  topic: string | null;
   totalQuiz: number;
   userId: string;
 }
-export interface Content {
-  title: string;
-  quiz: number;
-  writer: string;
-  date: number;
-  category: string;
-  gameId: string;
-  topic?: string;
-}
 
-export const dummy: Content[] = [
-  {
-    title: '예능게임',
-    quiz: 20,
-    writer: '익명의 눈사람',
-    date: 1689067911504,
-    category: 'relay',
-    gameId: '123zbs45',
-    topic: '속담'
-  },
-  {
-    title: '사자성어 이어말하기',
-    quiz: 20,
-    writer: '익명의 눈사람',
-    date: 1689067911511,
-    category: 'relay',
-    gameId: '123zbs25',
-    topic: '사자성어'
-  },
-  {
-    title: 'mz 도전!',
-    quiz: 20,
-    writer: '익명의 펭귄',
-    date: 1689067911502,
-    category: 'mzwordsquiz',
-    gameId: '123zbs15'
-  }
-];
+type Match = Record<string, string>;
+
+export const categoryMatch: Match = {
+  relay: '이어 말하기',
+  nonsensequiz: '넌센스 퀴즈',
+  personquiz: '인물 퀴즈',
+  mzwordsquiz: '신조어 퀴즈'
+};
+
+export const topicMatch: Match = {
+  proverb: '속담',
+  idiom: '사자성어',
+  '4words': '일상단어'
+};
 
 export const Main = () => {
-  const params = useParams();
-  const { category } = params;
+  const [curCategory, setCurCategory] = useState('');
 
   const { data } = useQuery('gameList', getGameLists);
-
-  // const [gameLists, setGameList] = useState(data);
+  const { data: likes } = useQuery('gameLike', getGameLikes);
 
   const filterData = () => {
     if (data === undefined) return;
     let filteredData = data;
 
-    if (category !== undefined) {
-      filteredData = filteredData.filter(content => content.category === category);
-      console.log(category, filteredData);
+    if (curCategory !== '') {
+      filteredData = filteredData.filter(content => content.category === curCategory);
     }
-
     return filteredData;
   };
 
-  const filteredData = filterData();
-  // useEffect(() => {
-  //   if (category !== undefined) {
-  //     setGameList(data?.filter(game => game.category === category));
-  //   }
-  //   console.log(params, data);
-  // }, [params]);
+  const handleCategoryClick = (category: string) => {
+    setCurCategory(category);
+  };
 
-  if (filteredData === undefined) return;
+  const filteredData = filterData();
+
+  if (filteredData === undefined || data === undefined || likes === undefined) return;
+
+  const topGame = [data[0], data[1], data[2]];
+
   return (
     <div className="flex-col items-center justify-center p-5">
-      <HotGames data={dummy} />
-
+      <HotGames data={topGame} />
       <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
-        <Link to={'/main'} className={category === undefined ? 'text-black' : ''}>
+        <button
+          onClick={() => {
+            handleCategoryClick('');
+          }}
+          className={curCategory === '' ? 'text-black' : ''}
+        >
           전체
-        </Link>
-        <Link to={'/main/relay'} className={category === 'relay' ? 'text-black' : ''}>
+        </button>
+        <button
+          onClick={() => {
+            handleCategoryClick('relay');
+          }}
+          className={curCategory === 'relay' ? 'text-black' : ''}
+        >
           이어 말하기
-        </Link>
-        <Link to={'/main/nonsense'} className={category === 'nonsense' ? 'text-black' : ''}>
+        </button>
+        <button
+          onClick={() => {
+            handleCategoryClick('nonsense');
+          }}
+          className={curCategory === 'nonsense' ? 'text-black' : ''}
+        >
           넌센스 퀴즈
-        </Link>
-        <Link to={'/main/personquiz'} className={category === 'personquiz' ? 'text-black' : ''}>
+        </button>
+        <button
+          onClick={() => {
+            handleCategoryClick('personquiz');
+          }}
+          className={curCategory === 'personquiz' ? 'text-black' : ''}
+        >
           인물 퀴즈
-        </Link>
-        <Link to={'/main/mzwordsquiz'} className={category === 'mzwords' ? 'text-black' : ''}>
+        </button>
+        <button
+          onClick={() => {
+            handleCategoryClick('mzwordsquiz');
+          }}
+          className={curCategory === 'mzwordsquiz' ? 'text-black' : ''}
+        >
           신조어 퀴즈
-        </Link>
+        </button>
       </div>
       <div className="filter flex items-center justify-end mt-7 gap-2">
         <p>(인기순 / 최신순)</p>
@@ -122,7 +121,7 @@ export const Main = () => {
           게임 제작에 참여해주세요.
         </h2>
       ) : (
-        <GameLists data={filteredData} />
+        <GameLists data={filteredData} likes={likes} />
       )}
     </div>
   );
