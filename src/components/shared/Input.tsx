@@ -1,10 +1,11 @@
 interface InputProps {
   inputStyleType: 'comment' | 'auth' | 'quiz' | 'answer';
-  inputType: 'text' | 'textarea' | 'email' | 'password';
+  inputType: 'text' | 'textarea';
   holderMsg?: string;
   name?: string;
-  value?: string;
+  id?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 }
 
 type InputConfigType = Record<string, string>;
@@ -16,15 +17,16 @@ const inputStyleConfig: InputConfigType = {
   answer: 'p-[5px] border-b-2 text-center outline-none'
 };
 
-export const Input = ({ inputType, inputStyleType, holderMsg, name, value, onChange }: InputProps) => {
+export const Input = ({ inputType, inputStyleType, holderMsg, name, id, onChange, value }: InputProps) => {
   return (
     <input
-      id={`${name ?? ''}`}
+      id={id}
+      name={name}
       type={`${inputType}`}
       className={`${inputStyleConfig[inputStyleType]}`}
       placeholder={`${holderMsg ?? ''}`}
-      value={value}
       onChange={onChange}
+      value={value}
     />
   );
 };
