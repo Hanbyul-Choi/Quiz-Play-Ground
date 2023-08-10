@@ -2,27 +2,19 @@ import { type FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { auth } from 'config/firebase';
-import { loginStateStore, signUpStateStore } from 'store';
+import { activeButtonStore, loginStateStore, signUpStateStore } from 'store';
 
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
-import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
-  const [isLogin] = useState(true);
+  const [isLogin] = useState(false);
+
+  const activeButton = activeButtonStore(state => state.activeButton);
+  const setActiveButton = activeButtonStore(state => state.setActiveButton);
 
   const user = auth.currentUser;
   console.log('user', user);
-
-  const initialColors = {
-    join: 'text-white',
-    login: 'text-white',
-    addGame: 'text-white',
-    myPage: 'text-white',
-    logout: 'text-white'
-  };
-
-  const [colors, handleClick] = useButtonColor(initialColors);
 
   // Auth modal Store
   const isLoginModalOpen = loginStateStore(state => state.isModalOpen);
@@ -35,16 +27,20 @@ const Header: FC = () => {
       {isLoginModalOpen && <LoginModal />}
       {isSignUpModalOpen && <SignUpModal />}
       <div className="flex items-center justify-between p-2 px-8 bg-blue">
-        <Link to={'/'}>
+        <Link
+          to={'/'}
+          onClick={() => {
+            setActiveButton(null);
+          }}
+        >
           <img src={'/assets/logo-playground.svg'} alt="Quiz-PlayGround" />
         </Link>
         <div className="flex gap-4">
           {isLogin ? (
             <>
               <button
-                className={colors.join}
+                className="text-white"
                 onClick={() => {
-                  handleClick('join');
                   toggleSignUpModal();
                 }}
               >
@@ -52,9 +48,8 @@ const Header: FC = () => {
               </button>
               <p className="text-white">|</p>
               <button
-                className={colors.login}
+                className="text-white"
                 onClick={() => {
-                  handleClick('login');
                   toggleLoginModal();
                 }}
               >
@@ -66,9 +61,9 @@ const Header: FC = () => {
               <p className="flex items-center mr-4 text-gray2 text-[13px]">익명의 펭귄 님, 환영합니다!</p>
               <Link
                 to={'/addgame'}
-                className={colors.addGame}
+                className={`${activeButton === 'addGame' ? 'text-gray3' : 'text-white'}`}
                 onClick={() => {
-                  handleClick('addGame');
+                  setActiveButton('addGame');
                 }}
               >
                 게임만들기
@@ -76,18 +71,18 @@ const Header: FC = () => {
               <p className="text-white">|</p>
               <Link
                 to={'/mypage'}
-                className={colors.myPage}
+                className={`${activeButton === 'myPage' ? 'text-gray3' : 'text-white'}`}
                 onClick={() => {
-                  handleClick('myPage');
+                  setActiveButton('myPage');
                 }}
               >
                 마이페이지
               </Link>
               <p className="text-white">|</p>
               <button
-                className={colors.logout}
+                className="text-white"
                 onClick={() => {
-                  handleClick('logout');
+                  setActiveButton(null);
                 }}
               >
                 로그아웃

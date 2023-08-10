@@ -17,6 +17,11 @@ interface AuthModalStateType {
   toggleModal: () => void;
 }
 
+interface ActiveButtonStateType {
+  activeButton: 'addGame' | 'myPage' | null;
+  setActiveButton: (type: 'addGame' | 'myPage' | null) => void;
+}
+
 export const userStore = create<UserStateType>(set => ({
   user: { userId: null, userName: null, userEmail: null },
   loginUser: () => {},
@@ -46,5 +51,12 @@ export const signUpStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
     set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const activeButtonStore = create<ActiveButtonStateType>(set => ({
+  activeButton: null,
+  setActiveButton: type => {
+    set({ activeButton: type });
   }
 }));

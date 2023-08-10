@@ -1,8 +1,11 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from 'components/shared/Button';
+import { activeButtonStore } from 'store';
 
 const MyProfile = () => {
+  const setActiveButton = activeButtonStore(state => state.setActiveButton);
+
   return (
     <div className="flex flex-col items-center ml-12">
       <div className="flex">
@@ -21,9 +24,16 @@ const MyProfile = () => {
         <Button buttonStyle="blue md" onClick={() => {}}>
           프로필 수정
         </Button>
-        <Button buttonStyle="yellow md" onClick={() => {}}>
-          게임 만들기
-        </Button>
+        <Link to={`/addgame`}>
+          <Button
+            buttonStyle="yellow md"
+            onClick={() => {
+              setActiveButton('addGame');
+            }}
+          >
+            게임 만들기
+          </Button>
+        </Link>
       </div>
       <div className="flex items-center mt-8 p-6 border border-black rounded-md shadow-lg">
         <div className="flex flex-col gap-2 mr-4">
