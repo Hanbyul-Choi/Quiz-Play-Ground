@@ -6,9 +6,9 @@ import { useInput } from 'hooks';
 import { loginStateStore, signUpStateStore } from 'store';
 
 import Button from './Button';
-import { PORTAL_MODAL } from './CorrectModal';
 import { Input } from './Input';
 import { Label } from './Label';
+import { PORTAL_MODAL } from './modal/CorrectModal';
 
 const LoginModal = () => {
   const modalRoot = document.getElementById(PORTAL_MODAL);

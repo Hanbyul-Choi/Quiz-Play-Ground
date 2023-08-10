@@ -1,6 +1,6 @@
 interface InputProps {
   inputStyleType: 'comment' | 'auth' | 'quiz' | 'answer';
-  inputType: 'text' | 'textarea';
+  inputType: 'text' | 'textarea' | 'email' | 'password';
   holderMsg?: string;
   name?: string;
   id?: string;
