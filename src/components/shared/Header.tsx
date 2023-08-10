@@ -25,6 +25,16 @@ const Header: FC = () => {
     });
   }, []);
 
+  window.addEventListener('beforeunload', () => {
+    logout()
+      .then(() => {
+        sessionStorage.clear();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+
   const initialColors = {
     join: 'text-white',
     login: 'text-white',
