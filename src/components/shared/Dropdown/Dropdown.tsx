@@ -26,7 +26,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
   return (
     <div className="relative min-w-[150px]" ref={containerRef}>
       <button
-        className="flex justify-center border-[2px] min-w-[150px] border-gray4 rounded-lg p-[4px]"
+        className="flex justify-center min-w-[150px] rounded-lg p-[4px] bg-white border-2 border-gray2"
         onClick={setIsOpen.toggle}
       >
         {selected !== undefined ? options[selected - 1] : selectedOption === null ? '선택하세요' : selectedOption} ▼
