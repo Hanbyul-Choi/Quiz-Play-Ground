@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 export const PORTAL_MODAL = 'portal-root';
@@ -7,15 +7,20 @@ interface InCorrectModalProps {
   toggleModal: () => void;
 }
 
-const InCorrectModal = ({ toggleModal }: InCorrectModalProps) => {
+const InCorrectModal = ({ toggleModal }: InCorrectModalProps): React.ReactPortal | null => {
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      toggleModal();
+      setIsVisible(false);
+      setTimeout(() => {
+        toggleModal();
+      }, 500);
     }, 1000);
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [toggleModal]);
 
   const modalRoot = document.getElementById(PORTAL_MODAL);
 
@@ -24,8 +29,8 @@ const InCorrectModal = ({ toggleModal }: InCorrectModalProps) => {
   }
 
   return createPortal(
-    <div className="absolute ml-[34%]">
-      <img src={'./assets/incorrect.svg'} />
+    <div className={`absolute ml-[34%] ${isVisible ? 'animate-fadeIn' : 'animate-fadeOut'}`}>
+      <img src={'./assets/incorrect.svg'} alt="InCorrect" />
     </div>,
     modalRoot
   );
