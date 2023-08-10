@@ -1,18 +1,35 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { logout } from 'api/auth';
 import { auth } from 'config/firebase';
-import { loginStateStore, signUpStateStore } from 'store';
+import { loginStateStore, signUpStateStore, userStore } from 'store';
 
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
 import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
-  const [isLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
 
-  const user = auth.currentUser;
-  console.log('user', user);
+  const { userName, loginUser, logoutUser } = userStore();
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user !== null) {
+        setIsLogin(false);
+        loginUser({ id: user.uid, email: user.email, name: user.displayName });
+      } else {
+        setIsLogin(true);
+        logoutUser();
+      }
+    });
+  }, []);
+
+  // const user = auth.currentUser;
+  // if (user !== null) {
+  //   console.log('user', user.uid);
+  // }
 
   const initialColors = {
     join: 'text-white',
@@ -44,7 +61,6 @@ const Header: FC = () => {
               <button
                 className={colors.join}
                 onClick={() => {
-                  handleClick('join');
                   toggleSignUpModal();
                 }}
               >
@@ -54,7 +70,6 @@ const Header: FC = () => {
               <button
                 className={colors.login}
                 onClick={() => {
-                  handleClick('login');
                   toggleLoginModal();
                 }}
               >
@@ -63,7 +78,7 @@ const Header: FC = () => {
             </>
           ) : (
             <>
-              <p className="flex items-center mr-4 text-gray2 text-[13px]">익명의 펭귄 님, 환영합니다!</p>
+              <p className="flex items-center mr-4 text-gray2 text-[13px]">{userName}님, 환영합니다!</p>
               <Link
                 to={'/addgame'}
                 className={colors.addGame}
@@ -87,7 +102,10 @@ const Header: FC = () => {
               <button
                 className={colors.logout}
                 onClick={() => {
-                  handleClick('logout');
+                  logout().catch(error => {
+                    error.errorHandler(error);
+                    console.log('로그인 에러 발생');
+                  });
                 }}
               >
                 로그아웃

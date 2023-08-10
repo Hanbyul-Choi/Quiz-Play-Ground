@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 
 interface UserStateType {
-  user: object;
-  loginUser: () => void;
+  userId: string | null;
+  userEmail: string | null;
+  userName: string | null;
+  loginUser: (data: dataType) => void;
   logoutUser: () => void;
   updateUser: () => void;
 }
@@ -17,10 +19,22 @@ interface AuthModalStateType {
   toggleModal: () => void;
 }
 
+interface dataType {
+  id: string | null;
+  email: string | null;
+  name: string | null;
+}
+
 export const userStore = create<UserStateType>(set => ({
-  user: { userId: null, userName: null, userEmail: null },
-  loginUser: () => {},
-  logoutUser: () => {},
+  userId: null,
+  userEmail: null,
+  userName: null,
+  loginUser: ({ id, email, name }: dataType) => {
+    set(state => ({ userId: id, userEmail: email, userName: name }));
+  },
+  logoutUser: () => {
+    set(state => ({ userId: null }));
+  },
   updateUser: () => {}
 }));
 
