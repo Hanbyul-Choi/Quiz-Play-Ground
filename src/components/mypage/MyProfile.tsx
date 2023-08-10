@@ -20,9 +20,6 @@ const MyProfile = () => {
     userImg = data[0].userImg;
   }
 
-  // if (isLoading) {
-  //   return <div>로딩중...</div>;
-  // }
   return (
     <>
       {isModalOpen && <ProfileUpdateModal />}

@@ -15,7 +15,20 @@ const Header: FC = () => {
 
   const { userName } = userStore();
 
+  const logoutuser = async () => {
+    const sessionUser = sessionStorage.getItem('userId');
+    if (sessionUser === null) {
+      try {
+        await logout();
+        sessionStorage.clear();
+      } catch (error) {
+        console.error('에러 발생');
+      }
+    }
+  };
+
   useEffect(() => {
+    logoutuser().catch(Error);
     auth.onAuthStateChanged(user => {
       if (user !== null) {
         setIsLogin(false);
@@ -24,16 +37,6 @@ const Header: FC = () => {
       }
     });
   }, []);
-
-  window.addEventListener('beforeunload', () => {
-    logout()
-      .then(() => {
-        sessionStorage.clear();
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  });
 
   const initialColors = {
     join: 'text-white',
