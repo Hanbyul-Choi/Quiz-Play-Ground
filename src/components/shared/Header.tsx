@@ -32,8 +32,8 @@ const Header: FC = () => {
 
   return (
     <>
-      {isLoginModalOpen && <LoginModal />}
-      {isSignUpModalOpen && <SignUpModal />}
+      {(isLoginModalOpen as boolean) && <LoginModal />}
+      {(isSignUpModalOpen as boolean) && <SignUpModal />}
       <div className="flex items-center justify-between p-2 px-8 bg-blue">
         <Link to={'/'}>
           <img src={'/assets/logo-playground.svg'} alt="Quiz-PlayGround" />
