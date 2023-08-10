@@ -6,12 +6,36 @@ interface DropdownProps {
   options: string[];
   selected?: number;
   size?: string;
+  border?: boolean;
   onChange: (value: string) => void;
+  text?: string;
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange, size = 'md' }) => {
+type DropdownType = Record<string, string>;
+
+export const Dropdown: React.FC<DropdownProps> = ({
+  options,
+  selected,
+  onChange,
+  size = 'md',
+  border = false,
+  text = '선택하세요'
+}) => {
   const [isOpen, setIsOpen] = useBoolean(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(
+    selected !== undefined ? options[selected - 1] : null
+  );
+
+  const dropdownBorder = 'border-[1px] border-gray4 rounded-xl overflow-hidden';
+
+  const dropdownSize: DropdownType = {
+    sm: 'min-w-[50px]',
+    md: 'min-w-[100px]',
+    lg: 'min-w-[150px]'
+  };
+
+  const flex = 'flex justify-center items-center';
+  const flexCol = 'flex-col justify-center items-center';
 
   const containerRef = useRef(null);
 
@@ -24,19 +48,26 @@ export const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange,
   useClickAway({ ref: containerRef, callback: setIsOpen.off });
 
   return (
-    <div className="relative min-w-[150px]" ref={containerRef}>
+    <div className={`relative ${dropdownSize[size]}`} ref={containerRef}>
       <button
-        className="flex justify-center border-[2px] min-w-[150px] border-gray4 rounded-lg p-[4px]"
+        className={`${flex} ${dropdownSize[size]} ${border ? dropdownBorder : ''} p-[4px]`}
         onClick={setIsOpen.toggle}
       >
-        {selected !== undefined ? options[selected - 1] : selectedOption === null ? '선택하세요' : selectedOption} ▼
+        {selectedOption === null ? text : selectedOption} ▼
       </button>
       {isOpen && (
-        <ul className="absolute flex-col min-w-[150px] items-center bg-slate-50 z-10 mt-[5px] border-[2px] border-gray4 rounded-lg overflow-hidden">
+        <ul
+          className={`absolute ${flexCol} ${dropdownSize[size]} bg-slate-50 z-10 mt-[5px] border-[1px] ${
+            border ? dropdownBorder : ''
+          }`}
+        >
           {options.map((option, index) => (
             <li
               key={index}
-              className="dropdown-option bg-slate-50 cursor-pointer w-full border-b-[1px] p-[2px] border-b-gray4 hover:bg-gray2"
+              className={`dropdown-option ${flex} bg-slate-50 cursor-pointer w-full ${
+                border ? 'border-b-[1px] border-black' : ''
+              }p-[2px]
+              hover:bg-gray2`}
               onClick={() => {
                 selectOption(option);
               }}
