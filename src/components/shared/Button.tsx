@@ -3,7 +3,7 @@ import { type MouseEventHandler } from 'react';
 interface ButtonProps {
   buttonStyle: string;
   children: React.ReactNode;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
 }
 

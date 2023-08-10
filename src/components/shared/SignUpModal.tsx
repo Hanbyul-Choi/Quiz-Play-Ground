@@ -1,7 +1,9 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import { signup } from 'api/auth';
 import { useInput } from 'hooks';
 import { loginStateStore, signUpStateStore } from 'store';
 
@@ -15,7 +17,7 @@ const SignUpModal = () => {
   const navigate = useNavigate();
 
   const [id, onChangeId] = useInput();
-  const [nickcname, onChangeNickname] = useInput();
+  const [nickname, onChangeNickname] = useInput();
   const [password, onChangePassword] = useInput();
   const [passwordConf, onChangePasswordConf] = useInput();
 
@@ -29,7 +31,7 @@ const SignUpModal = () => {
   };
   const isValidNickname = (): boolean => {
     const nicknameCheck = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]*$/;
-    if (nickcname.length > 1 && nicknameCheck.test(nickcname)) {
+    if (nickname.length > 1 && nicknameCheck.test(nickname)) {
       return false;
     }
     return true;
@@ -61,6 +63,26 @@ const SignUpModal = () => {
   const validationClass = 'mt-1 ml-3 mb-3 text-sm';
   const labelClass = 'mt-2 mb-1 ml-3 font-bold';
 
+  // 쿼리
+  const queryClient = useQueryClient();
+  const mutation = useMutation(signup, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('user');
+    }
+  });
+
+  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      mutation.mutate({ id, password, nickname });
+      navigate('/');
+      toggleSignUpModal();
+      console.log('로그인 성공');
+    } catch (error) {
+      console.log('로그인 오류');
+    }
+  };
+
   if (modalRoot == null) {
     return null;
   }
@@ -76,7 +98,11 @@ const SignUpModal = () => {
         >
           X
         </div>
-        <form>
+        <form
+          onSubmit={e => {
+            handleSignup(e);
+          }}
+        >
           <div className={`${labelClass}`}>
             <Label name="id">아이디</Label>
           </div>
@@ -101,7 +127,7 @@ const SignUpModal = () => {
             inputType="text"
             inputStyleType="auth"
             holderMsg="닉네임을 입력해주세요"
-            value={nickcname}
+            value={nickname}
             onChange={onChangeNickname}
           />
           {!isNickname ? (
@@ -142,14 +168,7 @@ const SignUpModal = () => {
             <p className={`${validationClass} text-red`}>비밀번호가 일치하지 않습니다</p>
           )}
           <div className="mt-12">
-            <Button
-              buttonStyle="yellow md full"
-              onClick={() => {
-                navigate('/');
-                toggleSignUpModal();
-              }}
-              disabled={disabled}
-            >
+            <Button buttonStyle="yellow md full" disabled={disabled}>
               회원가입
             </Button>
           </div>

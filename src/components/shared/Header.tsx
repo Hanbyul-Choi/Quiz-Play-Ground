@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { auth } from 'config/firebase';
 import { loginStateStore, signUpStateStore } from 'store';
 
 import LoginModal from './LoginModal';
@@ -9,6 +10,9 @@ import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
   const [isLogin] = useState(true);
+
+  const user = auth.currentUser;
+  console.log('user', user);
 
   const initialColors = {
     join: 'text-white',
@@ -20,6 +24,7 @@ const Header: FC = () => {
 
   const [colors, handleClick] = useButtonColor(initialColors);
 
+  // Auth modal Store
   const isLoginModalOpen = loginStateStore(state => state.isModalOpen);
   const toggleLoginModal = loginStateStore(state => state.toggleModal);
   const isSignUpModalOpen = signUpStateStore(state => state.isModalOpen);
