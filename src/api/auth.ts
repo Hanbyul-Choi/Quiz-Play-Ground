@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-import { auth, db } from './../config/firebase';
+import { auth, db, storage } from './../config/firebase';
 
 interface signupType {
   id: string;
@@ -13,6 +14,18 @@ interface userType {
   userEmail: string | null;
   userName: string | null;
   userImg: string;
+}
+interface updateUserType {
+  userId: string;
+  newName: string;
+}
+
+export interface getUserType {
+  id?: string;
+  userId?: string;
+  userEmail?: string;
+  userName?: string;
+  userImg?: string;
 }
 
 const basicImg = 'https://github.com/rmdkak/Quiz-Play-Ground/assets/92218638/6ac8e9b4-f269-48d7-8943-bfd00d833d51';
@@ -29,8 +42,7 @@ export const signup = async ({ id, password, nickname }: signupType) => {
     userName: userCredential.user.displayName,
     userImg: basicImg
   };
-  const collectionRef = collection(db, 'users');
-  await addDoc(collectionRef, newUser);
+  await setDoc(doc(db, 'users', userCredential.user.uid), newUser);
   await signOut(auth);
 };
 
@@ -39,5 +51,50 @@ export const logout = async () => {
 };
 
 export const login = async ({ id, password }: signupType) => {
-  await signInWithEmailAndPassword(auth, id, password);
+  const userCredential = await signInWithEmailAndPassword(auth, id, password);
+  const user = userCredential.user;
+  sessionStorage.setItem('userId', user.uid);
+  sessionStorage.setItem('userEmail', user.email as string);
+  sessionStorage.setItem('userName', user.displayName as string);
+  return user;
+};
+
+export const updateUserName = async ({ userId, newName }: updateUserType) => {
+  if (auth.currentUser !== null) {
+    await updateProfile(auth.currentUser, { displayName: newName });
+
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      userName: newName
+    });
+  }
+};
+
+export const getUser = async () => {
+  const userId = sessionStorage.getItem('userId');
+  const q = query(collection(db, 'users'), where('userId', '==', userId));
+  const user: getUserType[] = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(doc => {
+    user.push({ id: doc.id, ...doc.data() });
+  });
+
+  return user;
+};
+
+export const updateUserImg = async (selectedFile: File) => {
+  const userId = sessionStorage.getItem('userId');
+  if (userId !== null) {
+    const imageRef = ref(storage, `${userId}/${selectedFile.name}`);
+    await uploadBytes(imageRef, selectedFile);
+
+    const downloadURL = await getDownloadURL(imageRef);
+    sessionStorage.setItem('userImg', downloadURL);
+
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      userImg: downloadURL
+    });
+    return downloadURL;
+  }
 };

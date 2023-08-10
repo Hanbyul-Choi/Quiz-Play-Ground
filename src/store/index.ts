@@ -26,16 +26,19 @@ interface dataType {
 }
 
 export const userStore = create<UserStateType>(set => ({
-  userId: null,
-  userEmail: null,
-  userName: null,
+  userId: sessionStorage.getItem('userID'),
+  userEmail: sessionStorage.getItem('userEmail'),
+  userName: sessionStorage.getItem('userName'),
+  // userImg: sessionStorage.getItem('userImg'),
   loginUser: ({ id, email, name }: dataType) => {
     set(state => ({ userId: id, userEmail: email, userName: name }));
   },
   logoutUser: () => {
     set(state => ({ userId: null }));
   },
-  updateUser: () => {}
+  updateUser: () => {
+    set(state => ({ ...state, userName: sessionStorage.getItem('userName') }));
+  }
 }));
 
 export const modalStateStore = create<ModalState>(set => ({
@@ -57,6 +60,20 @@ export const loginStateStore = create<AuthModalStateType>(set => ({
 }));
 
 export const signUpStateStore = create<AuthModalStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const updateProfileStateStore = create<AuthModalStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const updateImgStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
     set(state => ({ isModalOpen: !state.isModalOpen }));

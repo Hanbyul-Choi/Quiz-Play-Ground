@@ -1,5 +1,5 @@
 import { type FC, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { logout } from 'api/auth';
 import { auth } from 'config/firebase';
@@ -11,25 +11,19 @@ import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
 
-  const { userName, loginUser, logoutUser } = userStore();
+  const { userName } = userStore();
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user !== null) {
         setIsLogin(false);
-        loginUser({ id: user.uid, email: user.email, name: user.displayName });
       } else {
         setIsLogin(true);
-        logoutUser();
       }
     });
   }, []);
-
-  // const user = auth.currentUser;
-  // if (user !== null) {
-  //   console.log('user', user.uid);
-  // }
 
   const initialColors = {
     join: 'text-white',
@@ -104,8 +98,10 @@ const Header: FC = () => {
                 onClick={() => {
                   logout().catch(error => {
                     error.errorHandler(error);
-                    console.log('로그인 에러 발생');
+                    console.log('로그아웃 에러 발생');
                   });
+                  sessionStorage.clear();
+                  navigate('/');
                 }}
               >
                 로그아웃

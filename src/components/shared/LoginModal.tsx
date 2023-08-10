@@ -24,9 +24,10 @@ const LoginModal = () => {
   const isPassword = Boolean(password);
   const disabled = !isId || !isPassword;
 
-  // Auth modal toggle
+  // store
   const toggleLoginModal = loginStateStore(state => state.toggleModal);
   const toggleSignUpModal = signUpStateStore(state => state.toggleModal);
+  // const { loginUser } = userStore();
 
   const validationClass = 'mt-1 ml-3 mb-3 text-sm';
   const labelClass = 'mt-2 mb-1 ml-3 font-bold';
@@ -36,7 +37,6 @@ const LoginModal = () => {
     try {
       await login({ id, password });
       toggleLoginModal();
-
       await Alert('로그인 되었습니다!');
     } catch (error) {
       let errorMassage: string = '';
