@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { getGameLikes } from 'api/gameLikes';
@@ -15,6 +15,7 @@ export interface GameListContent {
   topic: string | null;
   totalQuiz: number;
   userId: string;
+  userName: string;
 }
 
 type Match = Record<string, string>;
@@ -33,18 +34,26 @@ export const topicMatch: Match = {
 };
 
 export const Main = () => {
-  const [curCategory, setCurCategory] = useState('');
+  const [curCategory, setCurCategory] = useState<string>('');
 
   const { data } = useQuery('gameList', getGameLists);
   const { data: likes } = useQuery('gameLike', getGameLikes);
   const [sortWay, setSortWay] = useState('인기순');
+  const [filteredData, setFilteredData] = useState<GameListContent[]>();
 
-  const filterData = () => {
+  const handleCategoryClick = (category: string) => {
+    setCurCategory(category);
+  };
+  useEffect(() => {
+    setFilteredData(filterData());
+  }, [curCategory]);
+
+  const filterData = (): GameListContent[] | undefined => {
     if (data === undefined) return;
     let filteredData = data;
 
     if (curCategory !== '') {
-      filteredData = filteredData.filter(content => content.category === curCategory);
+      filteredData = filteredData.filter(content => categoryMatchKo[content.category] === curCategory);
     }
     if (sortWay === '인기순') {
       filteredData.sort((a, b) => {
@@ -63,12 +72,6 @@ export const Main = () => {
     }
     return filteredData;
   };
-
-  const handleCategoryClick = (category: string) => {
-    setCurCategory(category);
-  };
-
-  const filteredData = filterData();
 
   if (filteredData === undefined || data === undefined || likes === undefined) return;
 

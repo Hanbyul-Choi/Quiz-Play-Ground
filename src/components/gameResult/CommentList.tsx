@@ -79,6 +79,7 @@ const CommentList = () => {
           {isLogin ? (
             <form className="flex gap-3" onSubmit={handleAddComment}>
               <Input
+                border={false}
                 inputStyleType="comment"
                 inputType="text"
                 holderMsg="댓글을 입력해주세요!"
@@ -87,7 +88,6 @@ const CommentList = () => {
                 onChange={e => {
                   setValue(e.target.value);
                 }}
-                border={false}
               />
               <Button buttonStyle="yellow xs" type="submit">
                 작성
@@ -96,11 +96,11 @@ const CommentList = () => {
           ) : (
             <form className="flex gap-3">
               <Input
+                border={false}
                 inputStyleType="comment"
                 inputType="text"
                 holderMsg="로그인 후 작성가능합니다."
                 name="commentInput"
-                border={false}
               />
               <Button buttonStyle="yellow xs" disabled>
                 작성

@@ -34,7 +34,7 @@ const LikedGame = ({ games, gamesId }: propsType) => {
               return (
                 <div key={index} className="transition-all duration-200 cursor-pointer hover:bg-gray1">
                   <div className="flex mb-3 felx-row">
-                    <p className="mt-4 pl-1 text-gray4 text-[12px]">{game.userId}</p>
+                    <p className="mt-4 pl-1 text-gray4 text-[12px]">{game.userName}</p>
                     <p className="mt-4 pl-1 text-gray4 text-[12px]">|</p>
                     <p className="mt-4 pl-1 text-gray4 text-[12px]">{game.date}</p>
                   </div>

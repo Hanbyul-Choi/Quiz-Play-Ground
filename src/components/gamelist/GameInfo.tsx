@@ -24,7 +24,7 @@ interface GameinfoProps extends GameListContent {
 }
 
 const GameInfo = ({ game }: { game: GameinfoProps }) => {
-  const { category, title, topic, userId, likeDoc, postId } = game;
+  const { category, title, topic, userName, likeDoc, postId } = game;
   const { userId: curUser } = userStore();
   const { Alert } = useDialog();
 
@@ -100,19 +100,14 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
     <div className="game relative w-full h-[92px] border-b-[1px] border-gray4 mb-10">
       <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
         <div className="text-sm text-gray4">
-          {userId} | {new Date(game.date).toLocaleString()}
+          {userName} | {new Date(game.date).toLocaleString()}
         </div>
         <div className="mt-4 text-lg ">
-          [{categoryMatchKo[category]}] {title} | {game.totalQuiz}문항{' '}
-          {topic !== null ? `|  ${topicMatch[topic]}` : null}
+          [{categoryMatchKo[category]}] {title} | {game.totalQuiz}문항
+          {topic !== null ? ` |  ${topicMatch[topic]}` : null}
         </div>
       </Link>
-      <img
-        // onClick={onClickMark}
-        className="absolute top-0 right-0 cursor-pointer"
-        src={'./assets/icons/BookMark.svg'}
-        // src={game.isMarked ? marksvg.marked : marksvg.mark}
-      />
+      <img className="absolute top-0 right-0 cursor-pointer" src={'./assets/icons/BookMark.svg'} />
       <div className="absolute flex items-center gap-2 bottom-2 right-2">
         <img
           onClick={onClickLike}
