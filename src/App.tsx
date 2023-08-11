@@ -15,11 +15,11 @@ const App = () => {
       <Layout>
         <Route path="/main" element={<Main />} />
         <Route path="/addgame" element={<AddGame />} />
-        <Route path="/game/:category/:gameid" element={<Game />} />
-        <Route path="/gameresult" element={<GameResult />} />
+        <Route path="/game/:category/:postid" element={<Game />} />
+        <Route path="/gameresult/:postid" element={<GameResult />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/textgame/:category/:gameid" element={<TextGame />} />
-        <Route path="/picturegame/:category/:gameid" element={<PictureGame />} />
+        <Route path="/textgame/:category/:postid" element={<TextGame />} />
+        <Route path="/picturegame/:category/:postid" element={<PictureGame />} />
       </Layout>
     </>
   );

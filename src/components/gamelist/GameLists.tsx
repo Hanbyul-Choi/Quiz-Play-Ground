@@ -2,7 +2,12 @@ import { type GameListContent } from 'pages';
 
 import GameInfo, { type LikeDoc } from './GameInfo';
 
-const GameLists = ({ data, likes }: { data: GameListContent[]; likes: LikeDoc[] }) => {
+export interface GameDataprops {
+  data: GameListContent[];
+  likes: LikeDoc[];
+}
+
+const GameLists = ({ data, likes }: GameDataprops) => {
   if (likes === undefined) return;
   const mergedData = data.map(game => {
     const likeDoc = likes.find((doc: any) => doc.postId === game.postId);
@@ -12,7 +17,7 @@ const GameLists = ({ data, likes }: { data: GameListContent[]; likes: LikeDoc[] 
     return { ...game, likeDoc };
   });
   return (
-    <section className="game-list flex-col justify-center items-center mt-10">
+    <section className="flex-col items-center justify-center mt-10 overflow-y-scroll game-list ">
       {mergedData.map(game => (
         <GameInfo key={game.postId} game={game} />
       ))}

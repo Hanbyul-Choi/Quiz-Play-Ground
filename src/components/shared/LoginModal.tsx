@@ -64,7 +64,7 @@ const LoginModal = () => {
   }
 
   return createPortal(
-    <div className="absolute top-0 flex items-center justify-center w-screen h-screen bg-black/20">
+    <div className="absolute top-0 z-20 flex items-center justify-center w-screen h-screen bg-black/20">
       <div className="flex flex-col justify-center bg-gray1 w-[500px] h-[450px] rounded-lg p-7 gap-2 shadow-lg">
         <div
           className="ml-auto font-bold transition-all duration-100 cursor-pointer hover:scale-150"
