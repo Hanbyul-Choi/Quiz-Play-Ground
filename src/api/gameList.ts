@@ -14,6 +14,7 @@ export const getGameLists = async () => {
       title: '',
       totalQuiz: 0,
       userId: '',
+      userName: '',
       topic: null,
       ...doc.data()
     };

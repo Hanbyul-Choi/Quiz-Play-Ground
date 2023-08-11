@@ -68,6 +68,7 @@ const CommentList = () => {
           {isLogin ? (
             <form className="flex gap-3" onSubmit={handleAddComment}>
               <Input
+                border={false}
                 inputStyleType="comment"
                 inputType="text"
                 holderMsg="댓글을 입력해주세요!"
@@ -84,6 +85,7 @@ const CommentList = () => {
           ) : (
             <form className="flex gap-3">
               <Input
+                border={false}
                 inputStyleType="comment"
                 inputType="text"
                 holderMsg="로그인 후 작성가능합니다."
@@ -95,7 +97,6 @@ const CommentList = () => {
             </form>
           )}
         </div>
-
 
         <ul className="w-[450px] mt-4 border-black">
           {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}

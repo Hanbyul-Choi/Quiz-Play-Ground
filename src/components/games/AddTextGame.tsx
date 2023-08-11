@@ -40,7 +40,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [question, setQuestion] = useState<InputType[]>([{ text: '' }]);
   const [answer, setAnswer] = useState<InputType[]>([{ text: '' }]);
   const [quiz, setQuiz] = useState<GameListType[]>([]);
-  const [selectTopic, setSelectTopic] = useState<string>('');
+  const [selectTopic, setSelectTopic] = useState<string | null>(null);
 
   const { Alert, Confirm } = useDialog();
   const { userName, userId } = userStore();
