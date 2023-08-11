@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { clickLike } from 'api/gameLikes';
 import { useDialog } from 'components/shared/Dialog';
 import { useMount } from 'hooks';
-import { categoryMatch, topicMatch, type GameListContent } from 'pages';
+import { topicMatch, type GameListContent, categoryMatchKo } from 'pages';
 import { userStore } from 'store';
 
 enum likesvg {
@@ -103,7 +103,8 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
           {userId} | {new Date(game.date).toLocaleString()}
         </div>
         <div className="mt-4 text-lg ">
-          [{categoryMatch[category]}] {title} | {game.totalQuiz}문항 {topic !== null ? `|  ${topicMatch[topic]}` : null}
+          [{categoryMatchKo[category]}] {title} | {game.totalQuiz}문항{' '}
+          {topic !== null ? `|  ${topicMatch[topic]}` : null}
         </div>
       </Link>
       <img

@@ -5,7 +5,7 @@ import { Dropdown } from 'components/shared/Dropdown';
 export const Game = () => {
   const navigate = useNavigate();
   const params = useParams() ?? '';
-  const { category, gameid } = params;
+  const { category, postid } = params;
   return (
     <div className="flex flex-col items-center mt-32 font-medium gap-y-20">
       <div className="flex flex-col items-center rounded-xl w-[1000px] h-[340px] bg-hoverSkyBlue shadow-md justify-center gap-y-16">
@@ -21,7 +21,7 @@ export const Game = () => {
         </div>
         <button
           onClick={() => {
-            navigate(`/textgame/${category ?? ''}/${gameid ?? ''}`);
+            navigate(`/textgame/${category ?? ''}/${postid ?? ''}`);
           }}
           className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
         >

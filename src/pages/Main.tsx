@@ -19,7 +19,7 @@ export interface GameListContent {
 
 type Match = Record<string, string>;
 
-export const categoryMatch: Match = {
+export const categoryMatchKo: Match = {
   relay: '이어 말하기',
   nonsensequiz: '넌센스 퀴즈',
   personquiz: '인물 퀴즈',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { categoryMatch } from 'pages';
+import { categoryMatchKo } from 'pages';
 
 import { type GameDataprops } from './GameLists';
 
@@ -17,7 +17,7 @@ const HotGames = ({ data, likes }: GameDataprops) => {
             className="box relative bg-skyBlue w-full h-[144px] flex-col justify-center rounded-lg p-3"
           >
             <p className="textgame">
-              [{categoryMatch[game.category]}] {game.title}
+              [{categoryMatchKo[game.category]}] {game.title}
             </p>
             <p className="total-quiz"> {game.totalQuiz}문제</p>
             <p className="mt-6 text-sm writer text-gray4">{game.userId}</p>
