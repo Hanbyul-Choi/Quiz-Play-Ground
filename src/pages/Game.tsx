@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Dropdown } from 'components/shared/Dropdown';
+
 export const Game = () => {
   const navigate = useNavigate();
 
@@ -7,14 +9,15 @@ export const Game = () => {
     <div className="flex flex-col items-center mt-32 font-medium gap-y-20">
       <div className="flex flex-col items-center rounded-xl w-[1000px] h-[340px] bg-hoverSkyBlue shadow-md justify-center gap-y-16">
         <h1 className="text-3xl">이어말하기</h1>
-        <p className="ml-[-75px]">
+        <div className="flex items-center ml-[-75px]">
           제한시간: &nbsp;
-          <select className="px-3 rounded-lg shadow-md ">
-            <option>3초</option>
-            <option>5초</option>
-            <option>7초</option>
-          </select>
-        </p>
+          <Dropdown
+            options={['3초', '5초', '7초']}
+            onChange={val => {
+              console.log(val);
+            }}
+          />
+        </div>
         <button
           onClick={() => {
             navigate('/textgame/1/1');
