@@ -54,22 +54,51 @@ const Comment = ({ comment }: CommentProps) => {
     setIsUpdating(true);
   };
 
-  const handleUpdateCandle = () => {
+  const handleUpdateCancel = () => {
     setIsUpdating(false);
   };
 
   const handleCommentUpdateDone = () => {
-    if (comment.id === '') return;
+    if (comment.id === '' || comment.id == null) return;
     mutationCommentUpdate.mutate({ id: comment.id, content: value });
     setIsUpdating(false);
   };
+
+  // ISO 날짜 형식 변환
+  function formatDate(isoString: string): string {
+    const date = new Date(isoString);
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Seoul'
+    };
+
+    const formatter = new Intl.DateTimeFormat('ko-KR', options);
+    const parts = formatter.formatToParts(date);
+
+    const year = parts.find(part => part.type === 'year')?.value ?? '';
+    const month = parts.find(part => part.type === 'month')?.value ?? '';
+    const day = parts.find(part => part.type === 'day')?.value ?? '';
+    const hour = parts.find(part => part.type === 'hour')?.value ?? '';
+    const minute = parts.find(part => part.type === 'minute')?.value ?? '';
+    const second = parts.find(part => part.type === 'second')?.value ?? '';
+    const period = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
+
+    return `${year}. ${month}. ${day}. ${period} ${hour}:${minute}:${second}`;
+  }
 
   return (
     <li>
       <p className="mt-4 pl-1 text-gray4 text-[12px]">{comment.userName}</p>
 
       {isUpdating ? (
-        <div className="flex justify-between items-center border-b border-gray4">
+        <div className="flex items-center justify-between border-b border-gray4">
           <form className="flex">
             <input
               className="p-2 outline-none text-gray3"
@@ -85,15 +114,15 @@ const Comment = ({ comment }: CommentProps) => {
               <button type="submit" onClick={handleCommentUpdateDone}>
                 완료
               </button>
-              <button type="button" onClick={handleUpdateCandle}>
+              <button type="button" onClick={handleUpdateCancel}>
                 취소
               </button>
             </div>
-            <p className="pl-1 text-gray4 text-[12px]">{comment.date}</p>
+            <p className="pl-1 text-gray4 text-[12px]">{formatDate(comment.date)}</p>
           </div>
         </div>
       ) : (
-        <div className="flex justify-between items-center border-b border-gray4">
+        <div className="flex items-center justify-between border-b border-gray4">
           <p className="p-1">{comment.content}</p>
 
           <div className="flex flex-col">
@@ -109,7 +138,7 @@ const Comment = ({ comment }: CommentProps) => {
                 <img className="mb-2" src={'./assets/DeleteOutlined.svg'} alt="delete" />
               </button>
             </div>
-            <p className="pl-1 text-gray4 text-[12px]">{comment.date}</p>
+            <p className="pl-1 text-gray4 text-[12px]">{formatDate(comment.date)}</p>
           </div>
         </div>
       )}
