@@ -1,28 +1,27 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { modalStateStore } from 'store';
+
 import correct from '../../../assets/correct.svg';
 
 export const PORTAL_MODAL = 'portal-root';
 
-interface CorrectModalProps {
-  toggleModal: () => void;
-}
-
-const CorrectModal = ({ toggleModal }: CorrectModalProps): React.ReactPortal | null => {
+const CorrectModal = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
+  const { closeCorrectModal } = modalStateStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(() => {
-        toggleModal();
+        closeCorrectModal();
       }, 500);
     }, 1000);
     return () => {
       clearTimeout(timer);
     };
-  }, [toggleModal]);
+  }, []);
 
   const modalRoot = document.getElementById(PORTAL_MODAL);
 

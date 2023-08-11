@@ -7,6 +7,9 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   border: boolean;
+  disabled?: boolean;
+  autoFocus?: boolean;
+  forwardRef?: React.MutableRefObject<HTMLInputElement | null>;
 }
 
 type InputConfigType = Record<string, string>;
@@ -18,7 +21,19 @@ const inputStyleConfig: InputConfigType = {
   answer: 'p-[5px] border-b-2 text-center outline-none'
 };
 
-export const Input = ({ inputType, inputStyleType, holderMsg, name, id, onChange, value, border }: InputProps) => {
+export const Input = ({
+  inputType,
+  inputStyleType,
+  holderMsg,
+  name,
+  id,
+  onChange,
+  value,
+  border,
+  disabled,
+  autoFocus,
+  forwardRef
+}: InputProps) => {
   return (
     <input
       id={id}
@@ -28,6 +43,9 @@ export const Input = ({ inputType, inputStyleType, holderMsg, name, id, onChange
       placeholder={`${holderMsg ?? ''}`}
       onChange={onChange}
       value={value}
+      disabled={disabled}
+      autoFocus={autoFocus}
+      ref={forwardRef}
     />
   );
 };
