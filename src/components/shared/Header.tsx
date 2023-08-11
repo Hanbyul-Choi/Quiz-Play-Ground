@@ -1,6 +1,8 @@
-import { type FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { type FC, useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { getUser, logout } from 'api/auth';
 import { auth } from 'config/firebase';
 import { loginStateStore, signUpStateStore } from 'store';
 
@@ -9,10 +11,53 @@ import SignUpModal from './SignUpModal';
 import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
-  const [isLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
+  const [userName, setUserName] = useState<string>('');
+  const navigate = useNavigate();
+  const userId = sessionStorage.getItem('userId');
 
-  const user = auth.currentUser;
-  console.log('user', user);
+  // const logoutuser = async () => {
+  //   if (userId === null) {
+  //     try {
+  //       await logout();
+  //       sessionStorage.clear();
+  //     } catch (error) {
+  //       console.error('에러 발생');
+  //     }
+  //   }
+  // };
+
+  const { data } = useQuery('user', async () => await getUser(userId));
+  console.log(data);
+
+  const fetchUser = async () => {
+    if (userId != null) {
+      if (data !== undefined) {
+        console.log(userId);
+        console.log('여기');
+        setUserName(data[0].userName as string);
+      }
+    } else {
+      try {
+        await logout();
+        sessionStorage.clear();
+      } catch (error) {
+        console.error('에러 발생');
+      }
+    }
+  };
+
+  useEffect(() => {
+    // logoutuser().catch(Error);
+    auth.onAuthStateChanged(user => {
+      if (user !== null) {
+        setIsLogin(false);
+      } else {
+        setIsLogin(true);
+      }
+    });
+    fetchUser().catch(Error);
+  }, [userId]);
 
   const initialColors = {
     join: 'text-white',
@@ -44,7 +89,6 @@ const Header: FC = () => {
               <button
                 className={colors.join}
                 onClick={() => {
-                  handleClick('join');
                   toggleSignUpModal();
                 }}
               >
@@ -54,7 +98,6 @@ const Header: FC = () => {
               <button
                 className={colors.login}
                 onClick={() => {
-                  handleClick('login');
                   toggleLoginModal();
                 }}
               >
@@ -63,7 +106,7 @@ const Header: FC = () => {
             </>
           ) : (
             <>
-              <p className="flex items-center mr-4 text-gray2 text-[13px]">익명의 펭귄 님, 환영합니다!</p>
+              <p className="flex items-center mr-4 text-gray2 text-[13px]">{userName}님, 환영합니다!</p>
               <Link
                 to={'/addgame'}
                 className={colors.addGame}
@@ -87,7 +130,12 @@ const Header: FC = () => {
               <button
                 className={colors.logout}
                 onClick={() => {
-                  handleClick('logout');
+                  logout().catch(error => {
+                    error.errorHandler(error);
+                    console.log('로그아웃 에러 발생');
+                  });
+                  sessionStorage.clear();
+                  navigate('/');
                 }}
               >
                 로그아웃

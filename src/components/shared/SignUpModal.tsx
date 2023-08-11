@@ -1,13 +1,14 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { signup } from 'api/auth';
+import { FirebaseError } from 'firebase/app';
 import { useInput } from 'hooks';
 import { loginStateStore, signUpStateStore } from 'store';
 
 import Button from './Button';
+import { useDialog } from './Dialog';
 import { Input } from './Input';
 import { Label } from './Label';
 import { PORTAL_MODAL } from './modal/CorrectModal';
@@ -15,6 +16,7 @@ import { PORTAL_MODAL } from './modal/CorrectModal';
 const SignUpModal = () => {
   const modalRoot = document.getElementById(PORTAL_MODAL);
   const navigate = useNavigate();
+  const { Alert } = useDialog();
 
   const [id, onChangeId] = useInput();
   const [nickname, onChangeNickname] = useInput();
@@ -63,23 +65,26 @@ const SignUpModal = () => {
   const validationClass = 'mt-1 ml-3 mb-3 text-sm';
   const labelClass = 'mt-2 mb-1 ml-3 font-bold';
 
-  // 쿼리
-  const queryClient = useQueryClient();
-  const mutation = useMutation(signup, {
-    onSuccess: async () => {
-      await queryClient.invalidateQueries('user');
-    }
-  });
-
-  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      mutation.mutate({ id, password, nickname });
+      await signup({ id, password, nickname });
       navigate('/');
       toggleSignUpModal();
-      console.log('로그인 성공');
+      await Alert(`회원가입에 성공했습니다. 로그인해주세요!`);
     } catch (error) {
-      console.log('로그인 오류');
+      let errorMassage: string = '';
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            errorMassage = '이미 사용중인 이메일입니다.';
+            break;
+          default:
+            errorMassage = '회원가입에 실패했습니다.';
+            break;
+        }
+      }
+      await Alert(errorMassage);
     }
   };
 
@@ -100,7 +105,10 @@ const SignUpModal = () => {
         </div>
         <form
           onSubmit={e => {
-            handleSignup(e);
+            handleSignup(e).catch(error => {
+              error.errorHandler(error);
+              console.log('로그인 에러 발생');
+            });
           }}
         >
           <div className={`${labelClass}`}>
