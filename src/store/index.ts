@@ -20,7 +20,7 @@ interface AuthModalStateType {
 }
 
 interface dataType {
-  id: string | null;
+  uid: string | null;
   email: string | null;
   name: string | null;
 }
@@ -30,11 +30,11 @@ export const userStore = create<UserStateType>(set => ({
   userEmail: sessionStorage.getItem('userEmail'),
   userName: sessionStorage.getItem('userName'),
   // userImg: sessionStorage.getItem('userImg'),
-  loginUser: ({ id, email, name }: dataType) => {
-    set(state => ({ userId: id, userEmail: email, userName: name }));
+  loginUser: ({ uid, email, name }: dataType) => {
+    set(() => ({ userId: uid, userEmail: email, userName: name }));
   },
   logoutUser: () => {
-    set(state => ({ userId: null }));
+    set(() => ({ userId: null }));
   },
   updateUser: () => {
     set(state => ({ ...state, userName: sessionStorage.getItem('userName') }));

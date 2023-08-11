@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { getUser, logout } from 'api/auth';
 import { auth } from 'config/firebase';
-import { loginStateStore, signUpStateStore } from 'store';
+import { loginStateStore, signUpStateStore, userStore } from 'store';
 
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
@@ -14,7 +14,13 @@ const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [userName, setUserName] = useState<string>('');
   const navigate = useNavigate();
-  const userId = sessionStorage.getItem('userId');
+  const { loginUser } = userStore();
+  const uid = sessionStorage.getItem('userId');
+  const name = sessionStorage.getItem('userName');
+  const email = sessionStorage.getItem('userEmail');
+  useEffect(() => {
+    loginUser({ uid, email, name });
+  }, []);
 
   // const logoutuser = async () => {
   //   if (userId === null) {
@@ -27,14 +33,12 @@ const Header: FC = () => {
   //   }
   // };
 
-  const { data } = useQuery('user', async () => await getUser(userId));
+  const { data } = useQuery('user', async () => await getUser(uid));
   console.log(data);
 
   const fetchUser = async () => {
-    if (userId != null) {
+    if (uid != null) {
       if (data !== undefined) {
-        console.log(userId);
-        console.log('여기');
         setUserName(data[0].userName as string);
       }
     } else {
@@ -57,7 +61,7 @@ const Header: FC = () => {
       }
     });
     fetchUser().catch(Error);
-  }, [userId]);
+  }, [uid]);
 
   const initialColors = {
     join: 'text-white',
@@ -77,8 +81,8 @@ const Header: FC = () => {
 
   return (
     <>
-      {(isLoginModalOpen as boolean) && <LoginModal />}
-      {(isSignUpModalOpen as boolean) && <SignUpModal />}
+      {isLoginModalOpen && <LoginModal />}
+      {isSignUpModalOpen && <SignUpModal />}
       <div className="flex items-center justify-between p-2 px-8 bg-blue">
         <Link to={'/'}>
           <img src={'/assets/logo-playground.svg'} alt="Quiz-PlayGround" />

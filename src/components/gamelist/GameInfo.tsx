@@ -3,8 +3,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { clickLike } from 'api/gameLikes';
+import { useDialog } from 'components/shared/Dialog';
 import { useMount } from 'hooks';
 import { categoryMatch, topicMatch, type GameListContent } from 'pages';
+import { userStore } from 'store';
 
 enum likesvg {
   liked = './assets/icons/Liked.svg',
@@ -22,13 +24,15 @@ interface GameinfoProps extends GameListContent {
 
 const GameInfo = ({ game }: { game: GameinfoProps }) => {
   const { category, title, topic, userId, likeDoc, postId } = game;
-  // TODO: 실제 로그인한 user uid로 변경 필요.
-  const curUser = 'test2';
+  const { userId: curUser } = userStore();
+  const { Alert } = useDialog();
+
   const [isLiked, setIsLiked] = useState(false);
   const queryClient = useQueryClient();
 
   const clickLikeMutation = useMutation(
     async () => {
+      if (curUser === null) return;
       await clickLike(postId, curUser);
     },
     {
@@ -42,7 +46,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
 
         if (prevGameLike === undefined) return;
         const updatedGameLike = prevGameLike.map((likeDoc: LikeDoc) => {
-          if (likeDoc.postId === postId) {
+          if (likeDoc.postId === postId && curUser !== null) {
             if (likeDoc.likeUsers.includes(curUser)) {
               // 이미 좋아요한 경우 좋아요 취소  TODO: 문서자체가 없을 때도 처리 필요.
               return {
@@ -75,12 +79,17 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
     }
   );
 
-  const onClickLike = () => {
+  const onClickLike = async () => {
+    if (curUser === null) {
+      await Alert('로그인 후 이용 가능합니다.');
+      return;
+    }
     setIsLiked(prev => !prev);
     clickLikeMutation.mutate();
   };
 
   useMount(() => {
+    if (curUser === null) return;
     if (likeDoc?.likeUsers.includes(curUser) as boolean) {
       setIsLiked(true);
     }

@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { login } from 'api/auth';
 import { FirebaseError } from 'firebase/app';
 import { useInput } from 'hooks';
-import { loginStateStore, signUpStateStore } from 'store';
+import { loginStateStore, signUpStateStore, userStore } from 'store';
 
 import Button from './Button';
 import { useDialog } from './Dialog';
@@ -27,7 +27,7 @@ const LoginModal = () => {
   // store
   const toggleLoginModal = loginStateStore(state => state.toggleModal);
   const toggleSignUpModal = signUpStateStore(state => state.toggleModal);
-  // const { loginUser } = userStore();
+  const { loginUser } = userStore();
 
   const validationClass = 'mt-1 ml-3 mb-3 text-sm';
   const labelClass = 'mt-2 mb-1 ml-3 font-bold';
@@ -35,7 +35,9 @@ const LoginModal = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await login({ id, password });
+      const res = await login({ id, password });
+      const { uid, displayName: name, email } = res;
+      loginUser({ uid, email, name });
       toggleLoginModal();
       await Alert('로그인 되었습니다!');
     } catch (error) {
