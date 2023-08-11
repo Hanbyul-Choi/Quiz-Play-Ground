@@ -9,6 +9,7 @@ import { Dropdown } from 'components/shared/Dropdown';
 import { db } from 'config/firebase';
 import { FirebaseError } from 'firebase/app';
 import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { userStore } from 'store';
 
 interface InputType {
   text: string;
@@ -42,6 +43,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [selectTopic, setSelectTopic] = useState<string>('');
 
   const { Alert, Confirm } = useDialog();
+  const { userName, userId } = userStore();
 
   useEffect(() => {
     if (question[0].text === '' && answer[0].text === '') return;
@@ -120,12 +122,12 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
       return;
     }
 
-    const today = new Date();
     const id = uuid();
 
     const gameList = {
-      date: today.toLocaleString('en-US'),
-      userId: '',
+      date: Date.now(),
+      userId,
+      userName,
       category: selectCategory,
       topic: selectTopic ?? null,
       title: gameTitle,

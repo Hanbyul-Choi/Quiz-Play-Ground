@@ -6,7 +6,7 @@ import { Dropdown } from 'components/shared/Dropdown';
 
 type Match = Record<string, string>;
 
-export const categoryMatch: Match = {
+export const reverseCategoryMatch: Match = {
   이어말하기: 'relay',
   넌센스퀴즈: 'nonsensequiz',
   인물퀴즈: 'nonsensequiz',
@@ -23,7 +23,7 @@ export const AddGame = () => {
         <Dropdown
           options={['이어말하기', '넌센스퀴즈', '인물퀴즈', '신조어퀴즈']}
           onChange={val => {
-            setSelectCategory(categoryMatch[val]);
+            setSelectCategory(reverseCategoryMatch[val]);
           }}
           size="lg"
           border={true}

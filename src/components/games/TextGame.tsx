@@ -1,6 +1,10 @@
+import ProgressBar from 'components/shared/ProgressBar';
+import { setTimerStore } from 'store';
+
 import { Input, Label } from '../shared';
 
 export const TextGame = () => {
+  const { timer } = setTimerStore();
   return (
     <div className="flex flex-col items-center font-medium gap-y-16">
       <h1 className="mt-8 mb-12 text-3xl">이어말하기</h1>
@@ -17,9 +21,7 @@ export const TextGame = () => {
         <Label name="game">뒤에 이어질 단어를 입력해주세요!</Label>
         <Input inputType="text" inputStyleType="answer" name="game" border={false} />
       </form>
-      <div className="w-[800px] h-8 rounded-full bg-gray2">
-        <div className="w-[60%] h-full rounded-full bg-green"></div>
-      </div>
+      <ProgressBar time={timer} />
     </div>
   );
 };
