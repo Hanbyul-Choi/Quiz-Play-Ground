@@ -10,7 +10,7 @@ export const getGameLists = async () => {
     const content: GameListContent = {
       postId: doc.id,
       category: '',
-      date: 0,
+      date: '',
       title: '',
       totalQuiz: 0,
       userId: '',

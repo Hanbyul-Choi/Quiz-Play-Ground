@@ -4,7 +4,6 @@ import GameInfo, { type LikeDoc } from './GameInfo';
 
 const GameLists = ({ data, likes }: { data: GameListContent[]; likes: LikeDoc[] }) => {
   if (likes === undefined) return;
-  console.log(likes);
   const mergedData = data.map(game => {
     const likeDoc = likes.find((doc: any) => doc.postId === game.postId);
     if (likeDoc === undefined) {

@@ -10,7 +10,7 @@ import { Dropdown } from 'components/shared/Dropdown';
 export interface GameListContent {
   postId: string;
   category: string;
-  date: number;
+  date: string;
   title: string;
   topic: string | null;
   totalQuiz: number;
@@ -37,6 +37,7 @@ export const Main = () => {
 
   const { data } = useQuery('gameList', getGameLists);
   const { data: likes } = useQuery('gameLike', getGameLikes);
+  const [sortWay, setSortWay] = useState('인기순');
 
   const filterData = () => {
     if (data === undefined) return;
@@ -44,6 +45,21 @@ export const Main = () => {
 
     if (curCategory !== '') {
       filteredData = filteredData.filter(content => content.category === curCategory);
+    }
+    if (sortWay === '인기순') {
+      filteredData.sort((a, b) => {
+        const firstLike = likes?.find(doc => doc.postId === a.postId)?.likeUsers.length ?? 0;
+        const secondLike = likes?.find(doc => doc.postId === b.postId)?.likeUsers.length ?? 0;
+        if (firstLike > secondLike) return -1;
+        if (firstLike < secondLike) return 1;
+        else return 0;
+      });
+    } else if (sortWay === '최신순') {
+      filteredData.sort((a, b) => {
+        if (a.date > b.date) return -1;
+        if (a.date < b.date) return 1;
+        else return 0;
+      });
     }
     return filteredData;
   };
@@ -110,7 +126,7 @@ export const Main = () => {
           selected={1}
           border
           onChange={val => {
-            console.log(val);
+            setSortWay(val);
           }}
         />
       </div>

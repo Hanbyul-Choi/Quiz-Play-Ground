@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import { clickLike } from 'api/gameLikes';
 import { useMount } from 'hooks';
 import { categoryMatch, topicMatch, type GameListContent } from 'pages';
 
-const likesvg = {
-  liked: './assets/icons/Liked.svg',
-  like: './assets/icons/LikeOutLined.svg'
-};
+enum likesvg {
+  liked = './assets/icons/Liked.svg',
+  like = './assets/icons/LikeOutLined.svg'
+}
 
 export interface LikeDoc {
   postId: string;
@@ -19,12 +21,65 @@ interface GameinfoProps extends GameListContent {
 }
 
 const GameInfo = ({ game }: { game: GameinfoProps }) => {
-  const { category, title, topic, userId, likeDoc } = game;
+  const { category, title, topic, userId, likeDoc, postId } = game;
+  // TODO: 실제 로그인한 user uid로 변경 필요.
   const curUser = 'test2';
   const [isLiked, setIsLiked] = useState(false);
+  const queryClient = useQueryClient();
+
+  const clickLikeMutation = useMutation(
+    async () => {
+      await clickLike(postId, curUser);
+    },
+    {
+      // onSuccess: async () => {
+      //   await queryClient.invalidateQueries('gameLike');
+      // }
+      onMutate: async () => {
+        await queryClient.cancelQueries({ queryKey: 'gameLike' });
+
+        const prevGameLike: LikeDoc[] | undefined = queryClient.getQueryData('gameLike');
+
+        if (prevGameLike === undefined) return;
+        const updatedGameLike = prevGameLike.map((likeDoc: LikeDoc) => {
+          if (likeDoc.postId === postId) {
+            if (likeDoc.likeUsers.includes(curUser)) {
+              // 이미 좋아요한 경우 좋아요 취소  TODO: 문서자체가 없을 때도 처리 필요.
+              return {
+                ...likeDoc,
+                likeUsers: likeDoc.likeUsers.filter(id => id !== curUser)
+              };
+            } else {
+              // 좋아요 추가
+              return {
+                ...likeDoc,
+                likeUsers: [...likeDoc.likeUsers, curUser]
+              };
+            }
+          }
+          return likeDoc;
+        });
+
+        queryClient.setQueryData('gameLike', updatedGameLike);
+
+        return { prevGameLike };
+      },
+      onError: (err, variables, context) => {
+        console.log(err);
+        if (context === undefined) return;
+        queryClient.setQueryData<LikeDoc[]>(['gameLike'], context.prevGameLike);
+      },
+      onSettled: async () => {
+        await queryClient.invalidateQueries({ queryKey: 'gameLike' });
+      }
+    }
+  );
+
   const onClickLike = () => {
     setIsLiked(prev => !prev);
+    clickLikeMutation.mutate();
   };
+
   useMount(() => {
     if (likeDoc?.likeUsers.includes(curUser) as boolean) {
       setIsLiked(true);
@@ -53,7 +108,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
           src={isLiked ? likesvg.liked : likesvg.like}
           className="cursor-pointer hover:scale-110"
         />
-        {likeDoc?.likeUsers.length}
+        {likeDoc?.likeUsers.length ?? 0}
       </div>
     </div>
   );
