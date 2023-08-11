@@ -40,7 +40,7 @@ const SignUpModal = () => {
   };
   const isValidPassword = (): boolean => {
     const specialChars = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]*$/;
-    if (password.length > 8 && specialChars.test(password)) {
+    if (password.length > 7 && specialChars.test(password)) {
       return false;
     }
 

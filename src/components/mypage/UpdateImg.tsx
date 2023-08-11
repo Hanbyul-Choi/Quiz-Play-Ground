@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { updateUserImg } from 'api/auth';
+import { getUser, updateUserImg } from 'api/auth';
 import Button from 'components/shared/Button';
 import { useDialog } from 'components/shared/Dialog';
 import { PORTAL_MODAL } from 'components/shared/modal/CorrectModal';
-import { updateImgStateStore } from 'store';
+import { updateImgStateStore, userStore } from 'store';
 
 const updateImg = () => {
   const modalRoot = document.getElementById(PORTAL_MODAL);
   const { toggleModal } = updateImgStateStore();
   const [selectedFile, setSelectedFile] = useState<File>();
+  const [imgPreview, setImgPreview] = useState<string | ArrayBuffer | null>(sessionStorage.getItem('userImg'));
   const { Alert } = useDialog();
+  const { userId } = userStore();
+
+  const { data } = useQuery('user', async () => await getUser(userId));
+  useEffect(() => {
+    if (data !== undefined) {
+      setImgPreview(data[0]?.userImg as string);
+    }
+  }, [data]);
 
   const queryClient = useQueryClient();
   const mutation = useMutation(updateUserImg, {
@@ -40,7 +49,6 @@ const updateImg = () => {
     }
   };
 
-  const [imgPreview, setImgPreview] = useState<string | ArrayBuffer | null>(sessionStorage.getItem('userImg'));
   const setPreviewImg = (event: any) => {
     const reader = new FileReader();
     reader.onload = function (event) {
