@@ -21,7 +21,7 @@ export const Dialog = ({ onClose, onSucess, type, children }: DiologProps) => {
   useLockBodyScroll(true);
 
   return (
-    <div className="fixed top-0 left-0 bg-black opacity-[0.3] w-full h-full z-50" onClick={close}>
+    <div className="fixed top-0 left-0 z-50 w-full h-full bg-black/30" onClick={close}>
       <div className="flex-col items-center justify-center gap-[25px] absolute top-[50%] left-[50%] -translate-x-center -translate-y-center bg-white rounded-[8px] p-[25px] w-[300px] ">
         <p className="flex items-center justify-center">{children}</p>
         {type === 'Confirm' && onSucess != null ? (

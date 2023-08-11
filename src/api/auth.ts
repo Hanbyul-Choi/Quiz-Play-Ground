@@ -67,11 +67,12 @@ export const updateUserName = async ({ userId, newName }: updateUserType) => {
     await updateDoc(userRef, {
       userName: newName
     });
+    return userRef;
   }
 };
 
-export const getUser = async () => {
-  const userId = sessionStorage.getItem('userId');
+export const getUser = async (userId: string | null) => {
+  // const userId = sessionStorage.getItem('userId');
   const q = query(collection(db, 'users'), where('userId', '==', userId));
   const user: getUserType[] = [];
   const querySnapshot = await getDocs(q);

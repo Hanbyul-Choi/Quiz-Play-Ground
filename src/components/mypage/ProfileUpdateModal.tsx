@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { updateUserName } from 'api/auth';
 import { Input, Label } from 'components/shared';
@@ -41,11 +42,19 @@ const ProfileUpdateModal = () => {
     return null;
   }
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation(updateUserName, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('user');
+    }
+  });
+
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
       if (userId !== null) {
-        await updateUserName({ userId, newName });
+        mutation.mutate({ userId, newName });
+        // await updateUserName({ userId, newName });
         sessionStorage.setItem('userName', newName);
         toggleModal();
         updateUser();

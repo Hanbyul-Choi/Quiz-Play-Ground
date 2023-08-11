@@ -1,9 +1,10 @@
 import { type FC, useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { logout } from 'api/auth';
+import { getUser, logout } from 'api/auth';
 import { auth } from 'config/firebase';
-import { loginStateStore, signUpStateStore, userStore } from 'store';
+import { loginStateStore, signUpStateStore } from 'store';
 
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
@@ -11,13 +12,32 @@ import { useButtonColor } from '../../hooks/useButtonColor';
 
 const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [userName, setUserName] = useState<string>('');
   const navigate = useNavigate();
+  const userId = sessionStorage.getItem('userId');
 
-  const { userName } = userStore();
+  // const logoutuser = async () => {
+  //   if (userId === null) {
+  //     try {
+  //       await logout();
+  //       sessionStorage.clear();
+  //     } catch (error) {
+  //       console.error('에러 발생');
+  //     }
+  //   }
+  // };
 
-  const logoutuser = async () => {
-    const sessionUser = sessionStorage.getItem('userId');
-    if (sessionUser === null) {
+  const { data } = useQuery('user', async () => await getUser(userId));
+  console.log(data);
+
+  const fetchUser = async () => {
+    if (userId != null) {
+      if (data !== undefined) {
+        console.log(userId);
+        console.log('여기');
+        setUserName(data[0].userName as string);
+      }
+    } else {
       try {
         await logout();
         sessionStorage.clear();
@@ -28,7 +48,7 @@ const Header: FC = () => {
   };
 
   useEffect(() => {
-    logoutuser().catch(Error);
+    // logoutuser().catch(Error);
     auth.onAuthStateChanged(user => {
       if (user !== null) {
         setIsLogin(false);
@@ -36,7 +56,8 @@ const Header: FC = () => {
         setIsLogin(true);
       }
     });
-  }, []);
+    fetchUser().catch(Error);
+  }, [userId]);
 
   const initialColors = {
     join: 'text-white',

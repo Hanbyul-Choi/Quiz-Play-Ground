@@ -11,11 +11,12 @@ import UpdateImg from './UpdateImg';
 const MyProfile = () => {
   const { isModalOpen, toggleModal } = updateProfileStateStore();
   const { isModalOpen: isUpdateImgModalOpen, toggleModal: toggleImgModal } = updateImgStateStore();
+  const userId = sessionStorage.getItem('userId');
   const userName = sessionStorage.getItem('userName');
   const userEmail = sessionStorage.getItem('userEmail');
   let userImg: string | undefined = '';
 
-  const { data } = useQuery('user', getUser);
+  const { data } = useQuery('user', async () => await getUser(userId));
   if (data !== undefined) {
     userImg = data[0].userImg;
   }
