@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
@@ -79,7 +80,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
     }
   );
 
-  const onClickLike = async () => {
+  const onClickLike = async (): Promise<void> => {
     if (curUser === null) {
       await Alert('로그인 후 이용 가능합니다.');
       return;
