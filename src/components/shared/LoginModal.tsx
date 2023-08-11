@@ -1,18 +1,20 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
 
+import { login } from 'api/auth';
+import { FirebaseError } from 'firebase/app';
 import { useInput } from 'hooks';
 import { loginStateStore, signUpStateStore } from 'store';
 
 import Button from './Button';
+import { useDialog } from './Dialog';
 import { Input } from './Input';
 import { Label } from './Label';
 import { PORTAL_MODAL } from './modal/CorrectModal';
 
 const LoginModal = () => {
   const modalRoot = document.getElementById(PORTAL_MODAL);
-  const navigate = useNavigate();
+  const { Alert } = useDialog();
 
   const [id, onChangeId] = useInput();
   const [password, onChangePassword] = useInput();
@@ -22,12 +24,38 @@ const LoginModal = () => {
   const isPassword = Boolean(password);
   const disabled = !isId || !isPassword;
 
-  // Auth modal toggle
+  // store
   const toggleLoginModal = loginStateStore(state => state.toggleModal);
   const toggleSignUpModal = signUpStateStore(state => state.toggleModal);
+  // const { loginUser } = userStore();
 
   const validationClass = 'mt-1 ml-3 mb-3 text-sm';
   const labelClass = 'mt-2 mb-1 ml-3 font-bold';
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    try {
+      await login({ id, password });
+      toggleLoginModal();
+      await Alert('로그인 되었습니다!');
+    } catch (error) {
+      let errorMassage: string = '';
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/user-not-found':
+            errorMassage = '존재하지 않는 이메일입니다. 다시 확인해주세요.';
+            break;
+          case 'auth/wrong-password':
+            errorMassage = '비밀번호가 일치하지 않습니다.';
+            break;
+          default:
+            errorMassage = '로그인에 실패했습니다.';
+            break;
+        }
+      }
+      await Alert(errorMassage);
+    }
+  };
 
   if (modalRoot == null) {
     return null;
@@ -44,7 +72,14 @@ const LoginModal = () => {
         >
           X
         </div>
-        <form>
+        <form
+          onSubmit={e => {
+            handleLogin(e).catch(error => {
+              error.errorHandler(error);
+              console.log('로그인 에러 발생');
+            });
+          }}
+        >
           <div className={`${labelClass}`}>
             <Label name="id">아이디</Label>
           </div>
@@ -70,15 +105,7 @@ const LoginModal = () => {
           />
           {!isPassword && <p className={`${validationClass} text-red`}>비밀번호를 입력해주세요</p>}
           <div className="mt-12">
-            <Button
-              buttonStyle="yellow md full"
-              onClick={() => {
-                alert('로그인!');
-                navigate('/');
-                toggleLoginModal();
-              }}
-              disabled={disabled}
-            >
+            <Button buttonStyle="yellow md full" disabled={disabled}>
               로그인
             </Button>
           </div>
