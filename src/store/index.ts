@@ -76,6 +76,7 @@ export const activeButtonStore = create<ActiveButtonStateType>(set => ({
     set({ activeButton: type });
   }
 }));
+
 export const updateProfileStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
