@@ -11,8 +11,10 @@ interface UserStateType {
 interface ModalState {
   isCorrectModalOpen: boolean;
   isInCorrectModalOpen: boolean;
-  toggleCorrectModal: () => void;
-  toggleInCorrectModal: () => void;
+  openCorrectModal: () => void;
+  closeCorrectModal: () => void;
+  openInCorrectModal: () => void;
+  closeInCorrectModal: () => void;
 }
 interface AuthModalStateType {
   isModalOpen: boolean;
@@ -53,11 +55,17 @@ export const userStore = create<UserStateType>(set => ({
 export const modalStateStore = create<ModalState>(set => ({
   isCorrectModalOpen: false,
   isInCorrectModalOpen: false,
-  toggleCorrectModal: () => {
-    set(state => ({ isCorrectModalOpen: !state.isCorrectModalOpen }));
+  openCorrectModal: () => {
+    set(() => ({ isCorrectModalOpen: true }));
   },
-  toggleInCorrectModal: () => {
-    set(state => ({ isInCorrectModalOpen: !state.isInCorrectModalOpen }));
+  closeCorrectModal: () => {
+    set(() => ({ isCorrectModalOpen: false }));
+  },
+  openInCorrectModal: () => {
+    set(() => ({ isInCorrectModalOpen: true }));
+  },
+  closeInCorrectModal: () => {
+    set(() => ({ isInCorrectModalOpen: false }));
   }
 }));
 

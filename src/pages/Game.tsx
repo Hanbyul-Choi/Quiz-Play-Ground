@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Dropdown } from 'components/shared/Dropdown';
 import { setTimerStore } from 'store';
@@ -13,6 +13,8 @@ export const timerMatch: Match = {
 
 export const Game = () => {
   const navigate = useNavigate();
+  const params = useParams() ?? '';
+  const { category, postid } = params;
   const { setTimer } = setTimerStore();
 
   return (
@@ -32,7 +34,7 @@ export const Game = () => {
         </div>
         <button
           onClick={() => {
-            navigate('/textgame/1/1');
+            navigate(`/textgame/${category ?? ''}/${postid ?? ''}`);
           }}
           className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
         >

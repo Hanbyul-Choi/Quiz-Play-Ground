@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Result = () => {
   return (
     <div className="flex flex-col items-center ">
@@ -8,16 +10,12 @@ const Result = () => {
           <div className="w-[70%] h-full rounded-full bg-green"></div>
         </div>
         <p className="mb-4 text-[18px]">17문제를 맞추셨군요!</p>
-        <p className="text-[18px]">당신은 상위 80% 입니다.</p>
+        <Link to={'/main'}>
+          <p className="text-[18px]">다른 게임에도 도전해보세요. Click !</p>
+        </Link>
         <div className="absolute flex gap-1 bottom-4 right-4">
           <button>
             <img src={'./assets/LikeOutlined.svg'} alt="like" />
-          </button>
-          <button>
-            <img src={'./assets/DislikeOutlined.svg'} alt="dislike" />
-          </button>
-          <button>
-            <img src={'./assets/BookOutlined.svg'} alt="booked" />
           </button>
         </div>
       </div>

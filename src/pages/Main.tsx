@@ -19,7 +19,7 @@ export interface GameListContent {
 
 type Match = Record<string, string>;
 
-export const categoryMatch: Match = {
+export const categoryMatchKo: Match = {
   relay: '이어 말하기',
   nonsensequiz: '넌센스 퀴즈',
   personquiz: '인물 퀴즈',
@@ -72,11 +72,11 @@ export const Main = () => {
 
   if (filteredData === undefined || data === undefined || likes === undefined) return;
 
-  const topGame = [data[0], data[1], data[2]];
+  const topGame = [filteredData[0], filteredData[1], filteredData[2]];
 
   return (
     <div className="flex-col items-center justify-center p-5">
-      <HotGames data={topGame} />
+      <HotGames data={topGame} likes={likes} />
       <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
         <button
           onClick={() => {

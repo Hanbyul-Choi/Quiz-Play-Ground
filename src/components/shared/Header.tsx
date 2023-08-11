@@ -1,8 +1,7 @@
 import { type FC, useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getUser, logout } from 'api/auth';
+import { logout } from 'api/auth';
 import { auth } from 'config/firebase';
 import { activeButtonStore, loginStateStore, signUpStateStore, userStore } from 'store';
 
@@ -11,7 +10,6 @@ import SignUpModal from './SignUpModal';
 
 const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [userName, setUserName] = useState<string>('');
   const navigate = useNavigate();
   const { loginUser } = userStore();
   const uid = sessionStorage.getItem('userId');
@@ -24,26 +22,8 @@ const Header: FC = () => {
   const activeButton = activeButtonStore(state => state.activeButton);
   const setActiveButton = activeButtonStore(state => state.setActiveButton);
 
-  // const logoutuser = async () => {
-  //   if (userId === null) {
-  //     try {
-  //       await logout();
-  //       sessionStorage.clear();
-  //     } catch (error) {
-  //       console.error('에러 발생');
-  //     }
-  //   }
-  // };
-
-  const { data } = useQuery('user', async () => await getUser(uid));
-  console.log(data);
-
   const fetchUser = async () => {
-    if (uid != null) {
-      if (data !== undefined) {
-        setUserName(data[0].userName as string);
-      }
-    } else {
+    if (uid === null) {
       try {
         await logout();
         sessionStorage.clear();
@@ -54,7 +34,6 @@ const Header: FC = () => {
   };
 
   useEffect(() => {
-    // logoutuser().catch(Error);
     auth.onAuthStateChanged(user => {
       if (user !== null) {
         setIsLogin(false);
@@ -75,7 +54,7 @@ const Header: FC = () => {
     <>
       {isLoginModalOpen && <LoginModal />}
       {isSignUpModalOpen && <SignUpModal />}
-      <div className="flex items-center justify-between p-2 px-8 bg-blue">
+      <div className="fixed z-10 flex items-center justify-between w-full p-2 px-8 bg-blue">
         <Link
           to={'/'}
           onClick={() => {
@@ -107,7 +86,6 @@ const Header: FC = () => {
             </>
           ) : (
             <>
-              <p className="flex items-center mr-4 text-gray2 text-[13px]">{userName}님, 환영합니다!</p>
               <Link
                 to={'/addgame'}
                 className={`${activeButton === 'addGame' ? 'text-gray3' : 'text-white'}`}

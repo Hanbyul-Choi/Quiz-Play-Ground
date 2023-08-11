@@ -2,30 +2,28 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import useSound from 'hooks/useSound';
+import { modalStateStore } from 'store';
 
 import wrongsound from '../../../assets/audio/worngsound.mp3';
 import incorrect from '../../../assets/incorrect.svg';
 
 export const PORTAL_MODAL = 'portal-root';
 
-interface InCorrectModalProps {
-  toggleModal: () => void;
-}
-
-const InCorrectModal = ({ toggleModal }: InCorrectModalProps): React.ReactPortal | null => {
+const InCorrectModal = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
+  const { closeInCorrectModal } = modalStateStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(() => {
-        toggleModal();
+        closeInCorrectModal();
       }, 500);
     }, 1000);
     return () => {
       clearTimeout(timer);
     };
-  }, [toggleModal]);
+  }, []);
 
   useSound(wrongsound, 0.8, 2000);
 
