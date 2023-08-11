@@ -9,6 +9,7 @@ export interface gameType {
   title?: string;
   totalQuiz?: string;
   date?: string;
+  userName?: string;
 }
 
 export const getMadeGames = async (userId: string) => {
