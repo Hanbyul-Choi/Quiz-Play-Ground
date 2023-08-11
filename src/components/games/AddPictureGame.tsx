@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
@@ -25,6 +25,13 @@ export const AddPictureGame = ({ topic, selectCategory }: Props) => {
   const [question, setQuestion] = useState<File[]>([]);
   const [answer, setAnswer] = useState<InputType[]>([{ text: '' }]);
   const [quiz, setQuiz] = useState<GameListType[]>([]);
+
+  useEffect(() => {
+    setCountList([0]);
+    setQuestion([]);
+    setAnswer([{ text: '' }]);
+    setQuiz([]);
+  }, [selectCategory]);
 
   // const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
   //   const files = e.target.files;
@@ -140,6 +147,7 @@ export const AddPictureGame = ({ topic, selectCategory }: Props) => {
                   answerChangeHandler(e, idx);
                 }}
                 value={answer[idx]?.text}
+                border={false}
               />
             </li>
           ))}

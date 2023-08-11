@@ -96,6 +96,7 @@ const CommentList = () => {
           )}
         </div>
 
+
         <ul className="w-[450px] mt-4 border-black">
           {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
         </ul>

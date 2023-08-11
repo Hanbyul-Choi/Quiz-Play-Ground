@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
+
+import { type gameType, getMadeGames, getLikedGamesId, getLikedGames } from 'api/myGame';
+import { userStore } from 'store';
 
 import LikedGame from './LikedGame';
 import MadeGame from './MadeGame';
@@ -8,10 +12,40 @@ type ButtonType = 'myQuestion' | 'favoriteGame';
 const MyGame = () => {
   const [isMadeGameOpen, setIsMadeGameOpen] = useState(true);
   const [activeButton, setActiveButton] = useState<ButtonType>('myQuestion');
+  const { userId } = userStore();
 
   const handleButtonClick = (type: ButtonType) => {
     setActiveButton(type);
   };
+
+  const {
+    data: games,
+    isLoading,
+    refetch
+  } = useQuery('MadeGameLists', async () => await getMadeGames(userId as string));
+  useEffect(() => {
+    if (!isLoading && games !== undefined) {
+      void refetch();
+    }
+  }, [isLoading, games]);
+
+  const {
+    data: gamesId,
+    isLoading: isGamesIdLoading,
+    refetch: gamesIdRefetch
+  } = useQuery('GameLikes', async () => await getLikedGamesId(userId as string));
+  const {
+    data: gamesLiked,
+    isLoading: isGameLikedLoading,
+    refetch: refetchGamesLiked
+  } = useQuery('LikedGameLists', async () => await getLikedGames(gamesId as gameType[]));
+
+  useEffect(() => {
+    if (!isGameLikedLoading && gamesId !== undefined && !isGamesIdLoading) {
+      void gamesIdRefetch();
+      void refetchGamesLiked();
+    }
+  }, [isGameLikedLoading, gamesId, isGamesIdLoading]);
 
   return (
     <div className="flex flex-col mr-12 w-[450px]">
@@ -37,8 +71,8 @@ const MyGame = () => {
         </button>
       </div>
 
-      {isMadeGameOpen && <MadeGame />}
-      {!isMadeGameOpen && <LikedGame />}
+      {isMadeGameOpen && !isLoading && <MadeGame games={games as gameType[]} isLoading={isLoading} refetch={refetch} />}
+      {!isMadeGameOpen && <LikedGame gamesId={gamesId} games={gamesLiked as gameType[]} />}
     </div>
   );
 };

@@ -6,6 +6,7 @@ interface InputProps {
   id?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  border: boolean;
 }
 
 type InputConfigType = Record<string, string>;
@@ -17,13 +18,13 @@ const inputStyleConfig: InputConfigType = {
   answer: 'p-[5px] border-b-2 text-center outline-none'
 };
 
-export const Input = ({ inputType, inputStyleType, holderMsg, name, id, onChange, value }: InputProps) => {
+export const Input = ({ inputType, inputStyleType, holderMsg, name, id, onChange, value, border }: InputProps) => {
   return (
     <input
       id={id}
       name={name}
       type={`${inputType}`}
-      className={`${inputStyleConfig[inputStyleType]}`}
+      className={`${inputStyleConfig[inputStyleType]} ${border ? 'border-[1px] border-gray4' : ''}`}
       placeholder={`${holderMsg ?? ''}`}
       onChange={onChange}
       value={value}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import correct from '../../../assets/correct.svg';
+
 export const PORTAL_MODAL = 'portal-root';
 
 interface CorrectModalProps {
@@ -29,8 +31,12 @@ const CorrectModal = ({ toggleModal }: CorrectModalProps): React.ReactPortal | n
   }
 
   return createPortal(
-    <div className={`absolute ml-[34%] ${isVisible ? 'animate-fadeIn' : 'animate-fadeOut'}`}>
-      <img src={'./assets/correct.svg'} alt="correct" />
+    <div
+      className={`absolute top-[50%] left-[50%] -translate-x-center -translate-y-center ${
+        isVisible ? 'animate-fadeIn' : 'animate-fadeOut'
+      }`}
+    >
+      <img src={correct} alt="correct" />
     </div>,
     modalRoot
   );

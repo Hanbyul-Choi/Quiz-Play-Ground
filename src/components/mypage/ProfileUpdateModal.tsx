@@ -93,6 +93,7 @@ const ProfileUpdateModal = () => {
               holderMsg="닉네임을 입력해주세요"
               value={newName}
               onChange={onChangeNickname}
+              border={false}
             />
             {!disabled ? (
               <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>

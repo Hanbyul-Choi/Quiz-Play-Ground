@@ -16,7 +16,7 @@ export const PictureGame = () => {
           </div>
           <form className="flex flex-col items-center rounded-xl w-[470px] h-[400px] border-4 border-gray2 justify-center">
             <Label name="game">사진 속 인물의 이름을 입력해주세요!</Label>
-            <Input inputType="text" inputStyleType="answer" name="game" />
+            <Input inputType="text" inputStyleType="answer" name="game" border={false} />
           </form>
         </div>
       </div>

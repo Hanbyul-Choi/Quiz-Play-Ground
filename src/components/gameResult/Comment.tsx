@@ -105,7 +105,9 @@ const Comment = ({ comment }: CommentProps) => {
 
       {isUpdating ? (
         <div className="flex items-center justify-between border-b border-gray4">
+
           <form className="flex" onSubmit={handleFormSubmit}>
+
             <input
               className="p-2 outline-none text-gray3"
               value={value}

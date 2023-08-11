@@ -40,7 +40,7 @@ const SignUpModal = () => {
   };
   const isValidPassword = (): boolean => {
     const specialChars = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]*$/;
-    if (password.length > 8 && specialChars.test(password)) {
+    if (password.length > 7 && specialChars.test(password)) {
       return false;
     }
 
@@ -121,6 +121,7 @@ const SignUpModal = () => {
             holderMsg="아이디를 입력해주세요"
             value={id}
             onChange={onChangeId}
+            border={false}
           />
           {!isId ? (
             <p className={`${validationClass} text-blue`}>사용가능한 아이디입니다</p>
@@ -137,6 +138,7 @@ const SignUpModal = () => {
             holderMsg="닉네임을 입력해주세요"
             value={nickname}
             onChange={onChangeNickname}
+            border={false}
           />
           {!isNickname ? (
             <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
@@ -153,6 +155,7 @@ const SignUpModal = () => {
             holderMsg="비밀번호를 입력해주세요"
             value={password}
             onChange={onChangePassword}
+            border={false}
           />
           {!isPassword ? (
             <p className={`${validationClass} text-blue`}>사용가능한 비밀번호입니다</p>
@@ -169,6 +172,7 @@ const SignUpModal = () => {
             holderMsg="비밀번호를 확인해주세요"
             value={passwordConf}
             onChange={onChangePasswordConf}
+            border={false}
           />
           {!isPasswordConf ? (
             <p className={`${validationClass} text-blue`}>비밀번호가 일치합니다</p>
