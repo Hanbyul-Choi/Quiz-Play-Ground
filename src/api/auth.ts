@@ -72,7 +72,6 @@ export const updateUserName = async ({ userId, newName }: updateUserType) => {
 };
 
 export const getUser = async (userId: string | null) => {
-  // const userId = sessionStorage.getItem('userId');
   const q = query(collection(db, 'users'), where('userId', '==', userId));
   const user: getUserType[] = [];
   const querySnapshot = await getDocs(q);
