@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import useSound from 'hooks/useSound';
 import { modalStateStore } from 'store';
 
+import correctsound from '../../../assets/audio/correctsound.mp3';
 import correct from '../../../assets/correct.svg';
 
 export const PORTAL_MODAL = 'portal-root';
@@ -22,6 +24,8 @@ const CorrectModal = () => {
       clearTimeout(timer);
     };
   }, []);
+
+  useSound(correctsound, 1, 2000);
 
   const modalRoot = document.getElementById(PORTAL_MODAL);
 

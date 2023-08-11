@@ -9,7 +9,7 @@ type Match = Record<string, string>;
 export const reverseCategoryMatch: Match = {
   이어말하기: 'relay',
   넌센스퀴즈: 'nonsensequiz',
-  인물퀴즈: 'nonsensequiz',
+  인물퀴즈: 'personquiz',
   신조어퀴즈: 'mzwordsquiz'
 };
 
@@ -49,9 +49,9 @@ export const AddGame = () => {
         <AddTextGame topic={true} selectCategory={selectCategory} gameTitle={gameTitle} />
       ) : selectCategory === 'nonsensequiz' ? (
         <AddTextGame topic={false} selectCategory={selectCategory} gameTitle={gameTitle} />
-      ) : selectCategory === 'nonsensequiz' ? (
-        <AddTextGame topic={false} selectCategory={selectCategory} gameTitle={gameTitle} />
       ) : selectCategory === 'mzwordsquiz' ? (
+        <AddTextGame topic={false} selectCategory={selectCategory} gameTitle={gameTitle} />
+      ) : selectCategory === 'personquiz' ? (
         <AddPictureGame topic={true} selectCategory={selectCategory} gameTitle={gameTitle} />
       ) : (
         <></>
