@@ -92,6 +92,7 @@ const LoginModal = () => {
             holderMsg="아이디를 입력해주세요"
             value={id}
             onChange={onChangeId}
+            border={false}
           />
           {!isId && <p className={`${validationClass} text-red`}>아이디를 입력해주세요</p>}
           <div className={`${labelClass}`}>
@@ -104,6 +105,7 @@ const LoginModal = () => {
             holderMsg="비밀번호를 입력해주세요"
             value={password}
             onChange={onChangePassword}
+            border={false}
           />
           {!isPassword && <p className={`${validationClass} text-red`}>비밀번호를 입력해주세요</p>}
           <div className="mt-12">
