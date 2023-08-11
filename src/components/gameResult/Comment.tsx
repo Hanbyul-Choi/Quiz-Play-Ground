@@ -44,6 +44,7 @@ const Comment = ({ comment }: CommentProps) => {
 
   const handleCommentDelete = (id: string) => {
     if (id == null) return;
+
     const confirm = window.confirm('이 댓글을 삭제하시겠습니까?');
     if (!confirm) return;
     mutationCommentDelete.mutate(id);
@@ -62,6 +63,11 @@ const Comment = ({ comment }: CommentProps) => {
     if (comment.id === '' || comment.id == null) return;
     mutationCommentUpdate.mutate({ id: comment.id, content: value });
     setIsUpdating(false);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleCommentUpdateDone();
   };
 
   // ISO 날짜 형식 변환
@@ -99,7 +105,7 @@ const Comment = ({ comment }: CommentProps) => {
 
       {isUpdating ? (
         <div className="flex items-center justify-between border-b border-gray4">
-          <form className="flex">
+          <form className="flex" onSubmit={handleFormSubmit}>
             <input
               className="p-2 outline-none text-gray3"
               value={value}
