@@ -99,7 +99,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
   return (
     <div className="game relative w-full h-[92px] border-b-[1px] border-gray4 mb-10">
       <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
-        <div className=" text-gray4 text-sm">
+        <div className="text-sm  text-gray4">
           {userId} | {new Date(game.date).toLocaleString()}
         </div>
         <div className="mt-4 text-lg ">
@@ -112,7 +112,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
         src={'./assets/icons/BookMark.svg'}
         // src={game.isMarked ? marksvg.marked : marksvg.mark}
       />
-      <div className="flex items-center gap-2 absolute bottom-2 right-2">
+      <div className="absolute flex items-center gap-2 bottom-2 right-2">
         <img
           onClick={onClickLike}
           src={isLiked ? likesvg.liked : likesvg.like}

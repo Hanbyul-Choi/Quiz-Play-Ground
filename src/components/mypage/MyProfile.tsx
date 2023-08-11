@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import { Skeleton } from 'antd';
 import { getUser } from 'api/auth';
 import Button from 'components/shared/Button';
-import { activeButtonStore, updateImgStateStore, updateProfileStateStore } from 'store';
+import { activeButtonStore, updateImgStateStore, updateProfileStateStore, userStore } from 'store';
 
 import ProfileUpdateModal from './ProfileUpdateModal';
 import UpdateImg from './UpdateImg';
@@ -13,14 +14,28 @@ const MyProfile = () => {
   const setActiveButton = activeButtonStore(state => state.setActiveButton);
   const { isModalOpen, toggleModal } = updateProfileStateStore();
   const { isModalOpen: isUpdateImgModalOpen, toggleModal: toggleImgModal } = updateImgStateStore();
-  const userId = sessionStorage.getItem('userId');
-  const userName = sessionStorage.getItem('userName');
-  const userEmail = sessionStorage.getItem('userEmail');
-  let userImg: string | undefined = '';
+  const { userId, userName, userEmail } = userStore();
+  const [userImg, setUserImg] = useState('');
 
-  const { data } = useQuery('user', async () => await getUser(userId));
-  if (data !== undefined) {
-    userImg = data[0].userImg;
+  const { data, isLoading, refetch } = useQuery('user', async () => await getUser(userId));
+
+  useEffect(() => {
+    if (!isLoading && data !== undefined) {
+      void refetch();
+      setUserImg(data[0]?.userImg as string);
+    }
+  }, [isLoading, data]);
+
+  useEffect(() => {
+    void refetch();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-[320px] text-center flex justify-center">
+        <Skeleton.Avatar active size={150} />
+      </div>
+    );
   }
 
   return (
@@ -31,11 +46,15 @@ const MyProfile = () => {
         <div className="flex">
           <div className="flex flex-col items-center ">
             <button>
-              <img
-                className="object-cover w-[150px] h-[150px] rounded-full shadow-md"
-                src={`${userImg ?? ''}`}
-                alt="profileImage"
-              />
+              {userImg !== undefined ? (
+                <img
+                  className="object-cover w-[150px] h-[150px] rounded-full shadow-md"
+                  src={userImg}
+                  alt="profileImage"
+                />
+              ) : (
+                <div className="bg-gray2 w-[150px] h-[150px] rounded-full shadow-md"></div>
+              )}
             </button>
             <button className="mt-1 text-blue" onClick={toggleImgModal}>
               Edit
