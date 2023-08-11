@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 
 import { Input } from 'components/shared';
@@ -44,6 +45,8 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
 
   const { Alert, Confirm } = useDialog();
   const { userName, userId } = userStore();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (question[0].text === '' && answer[0].text === '') return;
@@ -129,7 +132,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
       userId,
       userName,
       category: selectCategory,
-      topic: selectTopic ?? null,
+      topic: selectTopic,
       title: gameTitle,
       totalQuiz: quiz.length
     };
@@ -137,6 +140,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
       await setDoc(doc(db, 'GameLists', id), gameList);
       await setDoc(doc(db, 'Games', id), { quiz });
       await Alert('성공');
+      navigate('/main');
     } catch (error) {
       let errorMsg: string = '';
       if (error instanceof FirebaseError) {

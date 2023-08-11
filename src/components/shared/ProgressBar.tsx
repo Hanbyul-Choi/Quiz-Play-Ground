@@ -1,4 +1,5 @@
-import React from 'react';
+import timersound from '../../assets/audio/timersound.mp3';
+import useSound from '../../hooks/useSound';
 
 type animateType = Record<number, string>;
 
@@ -9,6 +10,7 @@ const ProgressBar = ({ time, color }: { time: number; color: string }) => {
     7000: 'animate-progress7'
   };
 
+  useSound(timersound, 1, time);
   // useEffect(() => {
   //   if (time > 0) {
   //     const INTERVAL_ID = setInterval(() => {
