@@ -36,7 +36,6 @@ const Header: FC = () => {
   // };
 
   const { data } = useQuery('user', async () => await getUser(uid));
-  console.log(data);
 
   const fetchUser = async () => {
     if (uid != null) {
