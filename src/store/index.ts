@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 
 interface UserStateType {
-  user: object;
-  loginUser: () => void;
+  userId: string | null;
+  userEmail: string | null;
+  userName: string | null;
+  loginUser: (data: dataType) => void;
   logoutUser: () => void;
   updateUser: () => void;
 }
@@ -17,11 +19,26 @@ interface AuthModalStateType {
   toggleModal: () => void;
 }
 
+interface dataType {
+  id: string | null;
+  email: string | null;
+  name: string | null;
+}
+
 export const userStore = create<UserStateType>(set => ({
-  user: { userId: null, userName: null, userEmail: null },
-  loginUser: () => {},
-  logoutUser: () => {},
-  updateUser: () => {}
+  userId: sessionStorage.getItem('userID'),
+  userEmail: sessionStorage.getItem('userEmail'),
+  userName: sessionStorage.getItem('userName'),
+  // userImg: sessionStorage.getItem('userImg'),
+  loginUser: ({ id, email, name }: dataType) => {
+    set(state => ({ userId: id, userEmail: email, userName: name }));
+  },
+  logoutUser: () => {
+    set(state => ({ userId: null }));
+  },
+  updateUser: () => {
+    set(state => ({ ...state, userName: sessionStorage.getItem('userName') }));
+  }
 }));
 
 export const modalStateStore = create<ModalState>(set => ({
@@ -49,4 +66,16 @@ export const signUpStateStore = create<AuthModalStateType>(set => ({
   }
 }));
 
-export const addGameStore = () => {};
+export const updateProfileStateStore = create<AuthModalStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const updateImgStateStore = create<AuthModalStateType>(set => ({
+  isModalOpen: false,
+  toggleModal: () => {
+    set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
