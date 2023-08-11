@@ -29,6 +29,11 @@ interface dataType {
   name: string | null;
 }
 
+interface timerType {
+  timer: number;
+  setTimer: (newTime: number) => void;
+}
+
 export const userStore = create<UserStateType>(set => ({
   userId: sessionStorage.getItem('userID'),
   userEmail: sessionStorage.getItem('userEmail'),
@@ -88,5 +93,12 @@ export const updateImgStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
     set(state => ({ isModalOpen: !state.isModalOpen }));
+  }
+}));
+
+export const setTimerStore = create<timerType>(set => ({
+  timer: 0,
+  setTimer: newTime => {
+    set({ timer: newTime });
   }
 }));

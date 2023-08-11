@@ -99,7 +99,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
   return (
     <div className="game relative w-full h-[92px] border-b-[1px] border-gray4 mb-10">
       <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
-        <div className="text-sm  text-gray4">
+        <div className="text-sm text-gray4">
           {userId} | {new Date(game.date).toLocaleString()}
         </div>
         <div className="mt-4 text-lg ">

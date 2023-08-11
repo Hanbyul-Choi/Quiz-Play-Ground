@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import incorrect from '../../../assets/incorrect.svg';
+
 export const PORTAL_MODAL = 'portal-root';
 
 interface InCorrectModalProps {
@@ -29,8 +31,12 @@ const InCorrectModal = ({ toggleModal }: InCorrectModalProps): React.ReactPortal
   }
 
   return createPortal(
-    <div className={`absolute ml-[34%] ${isVisible ? 'animate-fadeIn' : 'animate-fadeOut'}`}>
-      <img src={'./assets/incorrect.svg'} alt="InCorrect" />
+    <div
+      className={`absolute top-[50%] left-[50%] -translate-x-center -translate-y-center ${
+        isVisible ? 'animate-fadeIn' : 'animate-fadeOut'
+      }`}
+    >
+      <img src={incorrect} alt="InCorrect" />
     </div>,
     modalRoot
   );

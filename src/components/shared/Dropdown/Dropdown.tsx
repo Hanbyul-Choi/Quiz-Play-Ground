@@ -50,7 +50,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div className={`relative ${dropdownSize[size]}`} ref={containerRef}>
       <button
-        className={`${flex} ${dropdownSize[size]} ${border ? dropdownBorder : ''} p-[4px]`}
+        className={`bg-white ${flex} ${dropdownSize[size]} ${border ? dropdownBorder : ''} p-[4px]`}
         onClick={setIsOpen.toggle}
       >
         {selectedOption === null ? text : selectedOption} ▼
