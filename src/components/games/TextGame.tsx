@@ -6,8 +6,9 @@ import { getGameData } from 'api/gameData';
 import Button from 'components/shared/Button';
 import CorrectModal from 'components/shared/modal/CorrectModal';
 import InCorrectModal from 'components/shared/modal/InCorrectModal';
-import { categoryMatch } from 'pages';
-import { modalStateStore } from 'store';
+import ProgressBar from 'components/shared/ProgressBar';
+import { categoryMatchKo } from 'pages';
+import { modalStateStore, setTimerStore } from 'store';
 
 import { Input, Label } from '../shared';
 
@@ -54,9 +55,10 @@ export const TextGame = () => {
     }
   };
 
+  const { timer } = setTimerStore();
   return (
     <div className="flex flex-col items-center font-medium gap-y-16">
-      <h1 className="mt-8 mb-12 text-3xl">{categoryMatch[category ?? '']}</h1>
+      <h1 className="mt-8 mb-12 text-3xl">{categoryMatchKo[category ?? '']}</h1>
       <div>
         <div className="flex justify-between m-2">
           <b>
@@ -91,9 +93,8 @@ export const TextGame = () => {
       )}
       {isCorrectModalOpen && <CorrectModal toggleModal={toggleCorrectModal} />}
       {isInCorrectModalOpen && <InCorrectModal toggleModal={toggleInCorrectModal} />}
-      <div className="w-[800px] h-8 rounded-full bg-gray2">
-        <div className="w-[60%] h-full rounded-full bg-green"></div>
-      </div>
+
+      <ProgressBar time={timer} />
     </div>
   );
 };
