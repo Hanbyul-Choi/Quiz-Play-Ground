@@ -9,6 +9,10 @@ import Button from 'components/shared/Button';
 
 import { activeButtonStore } from 'store';
 import { updateImgStateStore, updateProfileStateStore } from 'store';
+
+
+import { activeButtonStore } from 'store';
+import { updateImgStateStore, updateProfileStateStore } from 'store';
 import ProfileUpdateModal from './ProfileUpdateModal';
 import UpdateImg from './UpdateImg';
 
@@ -53,6 +57,7 @@ const MyProfile = () => {
 
       </div>
       <div className="flex gap-3 mt-6">
+
          <Button
             buttonStyle="blue md"
             onClick={() => {

@@ -28,6 +28,7 @@ interface dataType {
   id: string | null;
   email: string | null;
   name: string | null;
+
 }
 
 export const userStore = create<UserStateType>(set => ({
@@ -88,5 +89,6 @@ export const updateImgStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
     set(state => ({ isModalOpen: !state.isModalOpen }));
+
   }
 }));
