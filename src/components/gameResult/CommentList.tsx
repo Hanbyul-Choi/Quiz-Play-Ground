@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
+import { useParams } from 'react-router-dom';
 
-import { addComment, getComments } from 'api/comments';
+import { addComment, getComments, getTotalCommentCount } from 'api/comments';
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
 
 import Comment from './Comment';
+import CommentOutlined from '../../assets/CommentOutlined.svg';
+
+type RouteParams = Record<string, string | undefined>;
 
 const CommentList = () => {
+  const params = useParams<RouteParams>();
+  const postId: string = params.postid ?? '';
+
   const queryClient = useQueryClient();
 
   const [isLogin] = useState<boolean>(true);
   const [value, setValue] = useState<string>('');
-
-  const postId: string = '1';
 
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     ['gameResultComment', postId],
@@ -53,15 +58,21 @@ const CommentList = () => {
     mutationAddComment.mutate({ postId, content: value });
   };
 
+  // const totalCommentCount = data?.pages.reduce((acc, page) => (acc += page.length), 0);
+  const { data: totalCommentCount } = useQuery(
+    ['totalComments', postId],
+    async () => await getTotalCommentCount(postId)
+  );
+
   if (isLoading) return <>댓글 로딩중</>;
 
   return (
     <>
       <div className="flex flex-col ml-10">
-        <div className="flex items-center pb-3 border-b border-black">
-          <img src={'./assets/CommentOutlined.svg'} alt="comment" />
+        <div className="flex items-center pb-2 border-b border-black">
+          <img src={CommentOutlined} alt="comment" />
           <p className="ml-4 text-[30px]">댓글</p>
-          <p className="ml-4 text-[30px] text-grid text-red">1</p>
+          <p className="ml-2 text-[30px] text-grid text-red">{totalCommentCount}</p>
         </div>
 
         <div className="mt-8">

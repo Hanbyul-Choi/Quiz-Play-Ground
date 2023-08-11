@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import LikeOutlined from '../../assets/LikeOutlined.svg';
+
 const Result = () => {
   return (
     <div className="flex flex-col items-center ">
@@ -15,7 +17,7 @@ const Result = () => {
         </Link>
         <div className="absolute flex gap-1 bottom-4 right-4">
           <button>
-            <img src={'./assets/LikeOutlined.svg'} alt="like" />
+            <img src={LikeOutlined} alt="like" />
           </button>
         </div>
       </div>

@@ -137,3 +137,10 @@ export const updateComment = async ({ id, content }: updateCommentType) => {
   if (uid !== docData.userId) throw new Error('수정 권한이 없습니다.');
   await updateDoc(docRef, { content });
 };
+
+export const getTotalCommentCount = async (postId: string): Promise<number> => {
+  const commentQ = query(collection(db, 'comments'), where('postId', '==', postId));
+  const commentSnapshot = await getDocs(commentQ);
+  console.log(commentSnapshot);
+  return commentSnapshot.size;
+};
