@@ -1,5 +1,18 @@
 import { auth, db } from 'config/firebase';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+  updateDoc,
+  where
+} from 'firebase/firestore';
 
 interface CommentType {
   id: string;
@@ -31,12 +44,36 @@ interface updateCommentType {
 }
 
 // 무한 스크롤 아오아오
-// export const getComments = async (postId: string, cursor?: string): Promise<CommentWithNameType[]> => {
+export const getComments = async (postId: string, cursor?: string): Promise<CommentWithNameType[]> => {
+  const commentList: CommentType[] = [];
+  let commentQ = query(collection(db, 'comments'), where('postId', '==', postId), orderBy('date', 'desc'), limit(4));
+  if (cursor != null) {
+    commentQ = query(commentQ, startAfter(cursor));
+  }
+  const commentSnapshot = await getDocs(commentQ);
+
+  commentSnapshot.forEach(doc => {
+    const comment = { ...(doc.data() as Omit<CommentType, 'id'>), id: doc.id };
+    commentList.push(comment);
+  });
+
+  const userNameList: Record<string, Pick<CommentWithNameType, 'userName' | 'userImg'>> = {};
+  for (const comment of commentList) {
+    if (Object.prototype.hasOwnProperty.call(userNameList, comment.userId)) continue;
+    const userQ = query(collection(db, 'users'), where('userId', '==', comment.userId));
+    const userSnapshot = await getDocs(userQ);
+    const theUser = userSnapshot.docs[0].data() as UserType;
+    userNameList[theUser.userId] = { userName: theUser.userName, userImg: theUser.userImg };
+  }
+
+  const nameAddedCommentList = commentList.map(comment => ({ ...comment, ...userNameList[comment.userId] }));
+  return nameAddedCommentList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+};
+
+// 무한 스크롤 없는 getComments
+// export const getComments = async (postId: string): Promise<CommentWithNameType[]> => {
 //   const commentList: CommentType[] = [];
-//   let commentQ = query(collection(db, 'comments'), where('postId', '==', postId), orderBy('date', 'desc'), limit(10));
-//   if (cursor != null) {
-//     commentQ = query(commentQ, startAfter(cursor));
-//   }
+//   const commentQ = query(collection(db, 'comments'), where('postId', '==', postId));
 //   const commentSnapshot = await getDocs(commentQ);
 //   commentSnapshot.forEach(doc => {
 //     const comment = { ...(doc.data() as Omit<CommentType, 'id'>), id: doc.id };
@@ -55,28 +92,6 @@ interface updateCommentType {
 //   const nameAddedCommentList = commentList.map(comment => ({ ...comment, ...userNameList[comment.userId] }));
 //   return nameAddedCommentList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 // };
-
-export const getComments = async (postId: string): Promise<CommentWithNameType[]> => {
-  const commentList: CommentType[] = [];
-  const commentQ = query(collection(db, 'comments'), where('postId', '==', postId));
-  const commentSnapshot = await getDocs(commentQ);
-  commentSnapshot.forEach(doc => {
-    const comment = { ...(doc.data() as Omit<CommentType, 'id'>), id: doc.id };
-    commentList.push(comment);
-  });
-
-  const userNameList: Record<string, Pick<CommentWithNameType, 'userName' | 'userImg'>> = {};
-  for (const comment of commentList) {
-    if (Object.prototype.hasOwnProperty.call(userNameList, comment.userId)) continue;
-    const userQ = query(collection(db, 'users'), where('userId', '==', comment.userId));
-    const userSnapshot = await getDocs(userQ);
-    const theUser = userSnapshot.docs[0].data() as UserType;
-    userNameList[theUser.userId] = { userName: theUser.userName, userImg: theUser.userImg };
-  }
-
-  const nameAddedCommentList = commentList.map(comment => ({ ...comment, ...userNameList[comment.userId] }));
-  return nameAddedCommentList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-};
 
 export const addComment = async ({ postId, content }: addCommentType) => {
   const user = auth.currentUser;

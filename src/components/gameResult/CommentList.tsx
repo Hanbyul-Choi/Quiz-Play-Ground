@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
 
 import { addComment, getComments } from 'api/comments';
 import { Input } from 'components/shared';
@@ -14,28 +15,27 @@ const CommentList = () => {
   const [value, setValue] = useState<string>('');
 
   const postId: string = '1';
-  const { isLoading, data } = useQuery(['gameResultComment', postId], async () => await getComments(postId));
 
-  // const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-  //   ['gameResultComment', postId],
-  //   async ({ pageParam = undefined }) => await getComments(postId, pageParam),
-  //   {
-  //     getNextPageParam: (lastPage, pages) => {
-  //       if (lastPage.length === 0) return undefined;
-  //       return lastPage[lastPage.length - 1].date;
-  //     }
-  //   }
-  // );
+  const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    ['gameResultComment', postId],
+    async ({ pageParam = undefined }) => await getComments(postId, pageParam),
+    {
+      getNextPageParam: lastPage => {
+        if (lastPage.length === 0) return undefined;
+        return lastPage[lastPage.length - 1].date;
+      }
+    }
+  );
 
-  // const [ref, inView] = useInView();
+  const [ref, inView] = useInView();
 
-  // useEffect(() => {
-  //   if (inView && hasNextPage === true) {
-  //     void fetchNextPage().catch(error => {
-  //       console.error('다음 페이지를 fetching 하는데 error 발생', error);
-  //     });
-  //   }
-  // }, [inView, hasNextPage, fetchNextPage]);
+  useEffect(() => {
+    if (inView && hasNextPage === true) {
+      void fetchNextPage().catch(error => {
+        console.error('다음 페이지를 fetching 하는데 error 발생', error);
+      });
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const mutationAddComment = useMutation(addComment, {
     onSuccess: async () => {
@@ -97,14 +97,9 @@ const CommentList = () => {
         </div>
 
         <ul className="w-[450px] mt-4 border-black">
-          {/* {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))} */}
-          {data?.map(comment => (
-            <Comment key={comment.id} comment={comment} />
-          ))}
+          {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
         </ul>
-        {/* <div className="bg-yellow mt-[300px]" ref={ref}>
-          여기
-        </div> */}
+        <div className="h-2 mt-[300px]" ref={ref}></div>
       </div>
     </>
   );
