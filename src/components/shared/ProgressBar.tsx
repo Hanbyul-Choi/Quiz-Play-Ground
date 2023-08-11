@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { modalStateStore } from 'store';
 
 import InCorrectModal from './modal/InCorrectModal';
+import timersound from '../../assets/audio/timersound.mp3';
+import useSound from '../../hooks/useSound';
 
 type animateType = Record<number, string>;
 
@@ -14,9 +16,11 @@ const ProgressBar = ({ time }: { time: number }) => {
     5000: 'animate-progress5',
     7000: 'animate-progress7'
   };
-
   const isInCorrectModalOpen = modalStateStore(state => state.isInCorrectModalOpen);
   const toggleInCorrectModal = modalStateStore(state => state.toggleInCorrectModal);
+
+  useSound(timersound, 1, time);
+
   console.log(sec);
   useEffect(() => {
     const INTERVAL_ID = setInterval(() => {

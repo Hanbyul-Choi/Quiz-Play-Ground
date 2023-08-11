@@ -4,7 +4,10 @@ import { setTimerStore } from 'store';
 import { Input, Label } from '../shared';
 
 export const TextGame = () => {
+  
   const { timer } = setTimerStore();
+
+
   return (
     <div className="flex flex-col items-center font-medium gap-y-16">
       <h1 className="mt-8 mb-12 text-3xl">이어말하기</h1>
