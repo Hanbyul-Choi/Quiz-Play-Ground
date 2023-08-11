@@ -76,6 +76,7 @@ const CommentList = () => {
                 onChange={e => {
                   setValue(e.target.value);
                 }}
+                border={false}
               />
               <Button buttonStyle="yellow xs" type="submit">
                 작성
@@ -88,6 +89,7 @@ const CommentList = () => {
                 inputType="text"
                 holderMsg="로그인 후 작성가능합니다."
                 name="commentInput"
+                border={false}
               />
               <Button buttonStyle="yellow xs" disabled>
                 작성
@@ -95,7 +97,6 @@ const CommentList = () => {
             </form>
           )}
         </div>
-
 
         <ul className="w-[450px] mt-4 border-black">
           {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
