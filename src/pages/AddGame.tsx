@@ -4,6 +4,15 @@ import { AddPictureGame, AddTextGame } from 'components/games';
 import { Input } from 'components/shared';
 import { Dropdown } from 'components/shared/Dropdown';
 
+type Match = Record<string, string>;
+
+export const categoryMatch: Match = {
+  이어말하기: 'relay',
+  넌센스퀴즈: 'nonsensequiz',
+  인물퀴즈: 'nonsensequiz',
+  신조어퀴즈: 'mzwordsquiz'
+};
+
 export const AddGame = () => {
   const [selectCategory, setSelectCategory] = useState<string>('');
   const [gameTitle, setGameTitle] = useState<string>('');
@@ -12,9 +21,9 @@ export const AddGame = () => {
     <div className="flex flex-col items-center w-[1000px] font-medium gap-y-16">
       <div className="flex items-start w-full p-2 mt-8 gap-x-10">
         <Dropdown
-          options={['이어 말하기', '넌센스 퀴즈', '인물 퀴즈', '신조어 퀴즈']}
+          options={['이어말하기', '넌센스퀴즈', '인물퀴즈', '신조어퀴즈']}
           onChange={val => {
-            setSelectCategory(val);
+            setSelectCategory(categoryMatch[val]);
           }}
           size="lg"
           border={true}

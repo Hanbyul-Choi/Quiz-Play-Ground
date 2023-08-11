@@ -26,6 +26,14 @@ interface GameListType {
   answer: string;
 }
 
+type Match = Record<string, string>;
+
+export const topicMatch: Match = {
+  속담: 'proverb',
+  사자성어: 'idiom',
+  일상단어: '4words'
+};
+
 export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [countList, setCountList] = useState<number[]>([0]);
   const [question, setQuestion] = useState<InputType[]>([{ text: '' }]);
@@ -33,15 +41,21 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [quiz, setQuiz] = useState<GameListType[]>([]);
   const [selectTopic, setSelectTopic] = useState<string>('');
 
-  const { Alert } = useDialog();
+  const { Alert, Confirm } = useDialog();
 
   useEffect(() => {
+    if (question[0].text === '' && answer[0].text === '') return;
+    void clearState();
+  }, [selectCategory]);
+
+  const clearState = async (): Promise<void> => {
+    if ((await Confirm('변경')) === false) return;
     setCountList([0]);
     setQuestion([{ text: '' }]);
     setAnswer([{ text: '' }]);
     setQuiz([]);
     setSelectTopic('');
-  }, [selectCategory]);
+  };
 
   const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     const updatedQuestions = [...question];
@@ -150,9 +164,9 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
             <></>
           ) : (
             <Dropdown
-              options={['속담', '사자성어', '일상 단어']}
+              options={['속담', '사자성어', '일상단어']}
               onChange={val => {
-                setSelectTopic(val);
+                setSelectTopic(topicMatch[val]);
               }}
               size="lg"
               border={true}
