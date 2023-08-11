@@ -18,7 +18,11 @@ const MyGame = () => {
     setActiveButton(type);
   };
 
-  const { data: games, isLoading, refetch } = useQuery('GameLists', async () => await getMadeGames(userId as string));
+  const {
+    data: games,
+    isLoading,
+    refetch
+  } = useQuery('MadeGameLists', async () => await getMadeGames(userId as string));
   useEffect(() => {
     if (!isLoading && games !== undefined) {
       void refetch();
