@@ -3,6 +3,9 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { deleteComment, updateComment } from 'api/comments';
 
+import DeleteOutlined from '../../assets/DeleteOutlined.svg';
+import EditOutlined from '../../assets/EditOutlined.svg';
+
 interface CommentWithNameType {
   id: string;
   userId: string;
@@ -105,9 +108,7 @@ const Comment = ({ comment }: CommentProps) => {
 
       {isUpdating ? (
         <div className="flex items-center justify-between border-b border-gray4">
-
           <form className="flex" onSubmit={handleFormSubmit}>
-
             <input
               className="p-2 outline-none text-gray3"
               value={value}
@@ -136,14 +137,14 @@ const Comment = ({ comment }: CommentProps) => {
           <div className="flex flex-col">
             <div className="flex justify-end gap-1">
               <button onClick={handleCommentUpdateStart}>
-                <img className="mb-2" src={'./assets/EditOutlined.svg'} alt="edit" />
+                <img className="mb-2" src={EditOutlined} alt="edit" />
               </button>
               <button
                 onClick={() => {
                   handleCommentDelete(comment.id);
                 }}
               >
-                <img className="mb-2" src={'./assets/DeleteOutlined.svg'} alt="delete" />
+                <img className="mb-2" src={DeleteOutlined} alt="delete" />
               </button>
             </div>
             <p className="pl-1 text-gray4 text-[12px]">{formatDate(comment.date)}</p>
