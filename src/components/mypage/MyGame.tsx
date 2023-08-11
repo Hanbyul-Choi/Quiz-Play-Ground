@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+
 import LikedGame from './LikedGame';
 import MadeGame from './MadeGame';
 
+type ButtonType = 'myQuestion' | 'favoriteGame';
+
 const MyGame = () => {
-
   const [isMadeGameOpen, setIsMadeGameOpen] = useState(true);
-
+  const [activeButton, setActiveButton] = useState<ButtonType>('myQuestion');
 
   const handleButtonClick = (type: ButtonType) => {
     setActiveButton(type);
@@ -16,7 +18,7 @@ const MyGame = () => {
       <div className="flex items-center gap-20 pb-3 border-b border-black justify-evenly ">
         <button
           className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black' : 'text-gray3'}
-          `}
+`}
           onClick={() => {
             handleButtonClick('myQuestion');
             setIsMadeGameOpen(true);
@@ -37,7 +39,6 @@ const MyGame = () => {
 
       {isMadeGameOpen && <MadeGame />}
       {!isMadeGameOpen && <LikedGame />}
-
     </div>
   );
 };

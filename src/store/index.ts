@@ -19,16 +19,14 @@ interface AuthModalStateType {
   toggleModal: () => void;
 }
 
-
 interface ActiveButtonStateType {
   activeButton: 'addGame' | 'myPage' | null;
   setActiveButton: (type: 'addGame' | 'myPage' | null) => void;
-
+}
 interface dataType {
-  id: string | null;
+  uid: string | null;
   email: string | null;
   name: string | null;
-
 }
 
 export const userStore = create<UserStateType>(set => ({
@@ -36,11 +34,11 @@ export const userStore = create<UserStateType>(set => ({
   userEmail: sessionStorage.getItem('userEmail'),
   userName: sessionStorage.getItem('userName'),
   // userImg: sessionStorage.getItem('userImg'),
-  loginUser: ({ id, email, name }: dataType) => {
-    set(state => ({ userId: id, userEmail: email, userName: name }));
+  loginUser: ({ uid, email, name }: dataType) => {
+    set(() => ({ userId: uid, userEmail: email, userName: name }));
   },
   logoutUser: () => {
-    set(state => ({ userId: null }));
+    set(() => ({ userId: null }));
   },
   updateUser: () => {
     set(state => ({ ...state, userName: sessionStorage.getItem('userName') }));
@@ -72,12 +70,12 @@ export const signUpStateStore = create<AuthModalStateType>(set => ({
   }
 }));
 
-
 export const activeButtonStore = create<ActiveButtonStateType>(set => ({
   activeButton: null,
   setActiveButton: type => {
     set({ activeButton: type });
-
+  }
+}));
 export const updateProfileStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
@@ -89,6 +87,5 @@ export const updateImgStateStore = create<AuthModalStateType>(set => ({
   isModalOpen: false,
   toggleModal: () => {
     set(state => ({ isModalOpen: !state.isModalOpen }));
-
   }
 }));

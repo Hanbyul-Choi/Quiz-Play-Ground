@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
 
 import { OverlayProvider } from 'components/shared/Dialog';
@@ -25,5 +26,6 @@ root.render(
         <App />
       </OverlayProvider>
     </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
   </QueryClientProvider>
 );
