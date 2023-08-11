@@ -15,7 +15,7 @@ export const TextGame = () => {
       </div>
       <form className="flex flex-col items-center rounded-xl w-[1000px] h-[150px] border-4 border-gray2 justify-center">
         <Label name="game">뒤에 이어질 단어를 입력해주세요!</Label>
-        <Input inputType="text" inputStyleType="answer" name="game" />
+        <Input inputType="text" inputStyleType="answer" name="game" border={false} />
       </form>
       <div className="w-[800px] h-8 rounded-full bg-gray2">
         <div className="w-[60%] h-full rounded-full bg-green"></div>

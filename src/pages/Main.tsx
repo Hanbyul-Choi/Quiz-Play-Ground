@@ -119,7 +119,7 @@ export const Main = () => {
           신조어 퀴즈
         </button>
       </div>
-      <div className="filter flex items-center justify-end mt-7 gap-2">
+      <div className="flex items-center justify-end gap-2 filter mt-7">
         <p>(인기순 / 최신순)</p>
         <Dropdown
           options={['인기순', '최신순']}
@@ -131,7 +131,7 @@ export const Main = () => {
         />
       </div>
       {filteredData.length === 0 ? (
-        <h2 className="text-2xl w-full text-center mt-10">
+        <h2 className="w-full mt-10 text-2xl text-center">
           현재 관련 게임이 없습니다. <br />
           <br />
           게임 제작에 참여해주세요.
