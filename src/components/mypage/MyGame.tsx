@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-
 import LikedGame from './LikedGame';
 import MadeGame from './MadeGame';
 
 const MyGame = () => {
-  const [activeButton, setActiveButton] = useState<'myQuestion' | 'favoriteGame'>('myQuestion');
+
   const [isMadeGameOpen, setIsMadeGameOpen] = useState(true);
 
-  const handleButtonClick = (type: 'myQuestion' | 'favoriteGame') => {
+
+  const handleButtonClick = (type: ButtonType) => {
     setActiveButton(type);
   };
 
@@ -31,11 +31,13 @@ const MyGame = () => {
             setIsMadeGameOpen(false);
           }}
         >
-          찜한 게임
+          좋아요한 게임
         </button>
       </div>
+
       {isMadeGameOpen && <MadeGame />}
       {!isMadeGameOpen && <LikedGame />}
+
     </div>
   );
 };

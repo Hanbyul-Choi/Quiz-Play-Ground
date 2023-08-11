@@ -1,60 +1,119 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
-import { Input } from 'components/shared';
-import Button from 'components/shared/Button';
+import { deleteComment, updateComment } from 'api/comments';
 
-const Comment = () => {
-  const [isLogin] = useState<boolean>(false);
+interface CommentWithNameType {
+  id: string;
+  userId: string;
+  postId: string;
+  content: string;
+  date: string;
+  userName: string;
+  userImg: string;
+}
+
+interface CommentProps {
+  comment: CommentWithNameType;
+}
+
+const Comment = ({ comment }: CommentProps) => {
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [value, setValue] = useState(comment.content);
+
+  const queryClient = useQueryClient();
+
+  const mutationCommentDelete = useMutation(deleteComment, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [`gameResultComment`] });
+    },
+    onError: error => {
+      alert(error);
+    }
+  });
+
+  const mutationCommentUpdate = useMutation(updateComment, {
+    onSuccess: async () => {
+      setIsUpdating(false);
+      await queryClient.invalidateQueries({ queryKey: [`gameResultComment`] });
+    },
+    onError: error => {
+      alert(error);
+    }
+  });
+
+  const handleCommentDelete = (id: string) => {
+    if (id == null) return;
+    const confirm = window.confirm('이 댓글을 삭제하시겠습니까?');
+    if (!confirm) return;
+    mutationCommentDelete.mutate(id);
+  };
+
+  const handleCommentUpdateStart = () => {
+    setValue(comment.content);
+    setIsUpdating(true);
+  };
+
+  const handleUpdateCandle = () => {
+    setIsUpdating(false);
+  };
+
+  const handleCommentUpdateDone = () => {
+    if (comment.id === '') return;
+    mutationCommentUpdate.mutate({ id: comment.id, content: value });
+    setIsUpdating(false);
+  };
 
   return (
-    <div className="flex flex-col ml-10">
-      <div className="flex items-center pb-3 border-b border-black">
-        <img src={'./assets/CommentOutlined.svg'} alt="comment" />
-        <p className="ml-4 text-[30px]">댓글</p>
-        <p className="ml-4 text-[30px] text-grid text-red">1</p>
-      </div>
+    <li>
+      <p className="mt-4 pl-1 text-gray4 text-[12px]">{comment.userName}</p>
 
-      <div className="flex gap-3 mt-8">
-        {isLogin ? (
-          <>
-            <Input inputStyleType="comment" inputType="text" holderMsg="댓글을 입력해주세요!" name="commentInput" />
-            <Button buttonStyle="yellow xs" onClick={() => {}}>
-              작성
-            </Button>
-          </>
-        ) : (
-          <>
-            <Input
-              inputStyleType="comment"
-              inputType="text"
-              holderMsg="로그인 후 작성가능합니다."
-              name="commentInput"
+      {isUpdating ? (
+        <div className="flex justify-between items-center border-b border-gray4">
+          <form className="flex">
+            <input
+              className="p-2 outline-none text-gray3"
+              value={value}
+              onChange={e => {
+                setValue(e.target.value);
+              }}
+              autoFocus
             />
-            <Button buttonStyle="yellow xs" onClick={() => {}}>
-              작성
-            </Button>
-          </>
-        )}
-      </div>
+          </form>
+          <div className="flex flex-col">
+            <div className="flex justify-end gap-1">
+              <button type="submit" onClick={handleCommentUpdateDone}>
+                완료
+              </button>
+              <button type="button" onClick={handleUpdateCandle}>
+                취소
+              </button>
+            </div>
+            <p className="pl-1 text-gray4 text-[12px]">{comment.date}</p>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between items-center border-b border-gray4">
+          <p className="p-1">{comment.content}</p>
 
-      <ul className="w-[450px] mt-4 border-black">
-        <li>
-          <p className="mt-4 pl-1 text-gray4 text-[12px]">익명의 기러기</p>
-          <div className="flex justify-between border-b border-gray4">
-            <p className="p-1">개어렵누</p>
-            <div className="flex gap-2">
-              <p className="text-gray4">2023.08.08</p>
-              <button>
+          <div className="flex flex-col">
+            <div className="flex justify-end gap-1">
+              <button onClick={handleCommentUpdateStart}>
                 <img className="mb-2" src={'./assets/EditOutlined.svg'} alt="edit" />
               </button>
-              <button>
+              <button
+                onClick={() => {
+                  handleCommentDelete(comment.id);
+                }}
+              >
                 <img className="mb-2" src={'./assets/DeleteOutlined.svg'} alt="delete" />
               </button>
             </div>
+            <p className="pl-1 text-gray4 text-[12px]">{comment.date}</p>
           </div>
-        </li>
-      </ul>
-    </div>
+        </div>
+      )}
+    </li>
   );
 };
 

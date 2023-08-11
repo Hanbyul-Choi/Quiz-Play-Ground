@@ -1,14 +1,23 @@
+
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { useQuery } from 'react-query';
 
+
 import { getUser } from 'api/auth';
 import Button from 'components/shared/Button';
+
+import { activeButtonStore } from 'store';
 import { updateImgStateStore, updateProfileStateStore } from 'store';
 
+
+import { activeButtonStore } from 'store';
+import { updateImgStateStore, updateProfileStateStore } from 'store';
 import ProfileUpdateModal from './ProfileUpdateModal';
 import UpdateImg from './UpdateImg';
 
 const MyProfile = () => {
+  const setActiveButton = activeButtonStore(state => state.setActiveButton);
   const { isModalOpen, toggleModal } = updateProfileStateStore();
   const { isModalOpen: isUpdateImgModalOpen, toggleModal: toggleImgModal } = updateImgStateStore();
   const userId = sessionStorage.getItem('userId');
@@ -20,6 +29,7 @@ const MyProfile = () => {
   if (data !== undefined) {
     userImg = data[0].userImg;
   }
+
 
   return (
     <>
@@ -44,8 +54,11 @@ const MyProfile = () => {
             </p>
           </div>
         </div>
-        <div className="flex gap-3 mt-6">
-          <Button
+
+      </div>
+      <div className="flex gap-3 mt-6">
+
+         <Button
             buttonStyle="blue md"
             onClick={() => {
               toggleModal();
@@ -53,9 +66,22 @@ const MyProfile = () => {
           >
             프로필 수정
           </Button>
-          <Button buttonStyle="yellow md" onClick={() => {}}>
+        <Link to={`/addgame`}>
+          <Button
+            buttonStyle="yellow md"
+            onClick={() => {
+              setActiveButton('addGame');
+            }}
+          >
             게임 만들기
           </Button>
+        </Link>
+      </div>
+      <div className="flex items-center mt-8 p-6 border border-black rounded-md shadow-lg">
+        <div className="flex flex-col gap-2 mr-4">
+          <p>ID</p>
+          <p>닉네임</p>
+
         </div>
         <div className="flex items-center w-full p-6 mt-8 border border-black rounded-md shadow-lg">
           <div className="flex flex-col gap-2 mr-4">

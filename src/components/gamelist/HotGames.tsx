@@ -7,7 +7,7 @@ const HotGames = ({ data }: { data: GameListContent[] }) => {
   return (
     <>
       <h2 className="text-3xl">웹종겜 인기 순위 (TOP 3)</h2>
-      <section className="box-container flex gap-5 between items-center mt-10 pb-16 border-b-2 border-black">
+      <section className="flex items-center gap-5 pb-16 mt-10 border-b-2 border-black box-container between">
         {data.map(game => (
           <Link
             to={`/game/${game.category}/${game.postId}`}
