@@ -14,7 +14,6 @@ const App = () => {
       </Routes>
       <Layout>
         <Route path="/main" element={<Main />} />
-        <Route path="/main/:category" element={<Main />} />
         <Route path="/addgame" element={<AddGame />} />
         <Route path="/game/:category/:gameid" element={<Game />} />
         <Route path="/gameresult" element={<GameResult />} />
