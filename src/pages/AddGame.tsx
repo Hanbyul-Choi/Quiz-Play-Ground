@@ -16,6 +16,9 @@ export const AddGame = () => {
           onChange={val => {
             setSelectCategory(val);
           }}
+          size="lg"
+          border={true}
+          text="카테고리 선택"
         />
         <Input
           inputType="text"
@@ -25,6 +28,7 @@ export const AddGame = () => {
             setGameTitle(e.target.value);
           }}
           value={gameTitle}
+          border={true}
         />
       </div>
       <ul className="w-full list-disc list-inside text-start text-gray3">

@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import uuid from 'react-uuid';
 
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
+import { useDialog } from 'components/shared/Dialog';
 import { Dropdown } from 'components/shared/Dropdown';
 import { db } from 'config/firebase';
+import { FirebaseError } from 'firebase/app';
 import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
 
 interface InputType {
@@ -30,6 +32,16 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [answer, setAnswer] = useState<InputType[]>([{ text: '' }]);
   const [quiz, setQuiz] = useState<GameListType[]>([]);
   const [selectTopic, setSelectTopic] = useState<string>('');
+
+  const { Alert } = useDialog();
+
+  useEffect(() => {
+    setCountList([0]);
+    setQuestion([{ text: '' }]);
+    setAnswer([{ text: '' }]);
+    setQuiz([]);
+    setSelectTopic('');
+  }, [selectCategory]);
 
   const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     const updatedQuestions = [...question];
@@ -82,15 +94,15 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
 
   const PostGameList = async (): Promise<void> => {
     if (gameTitle === '') {
-      alert('제목을 입력해주세요.');
+      await Alert('제목을 입력해주세요.');
       return;
     }
     if (topic && selectTopic === '') {
-      alert('게임 주제를 선택해주세요.');
+      await Alert('게임 주제를 선택해주세요.');
       return;
     }
     if (quiz.length <= 4) {
-      alert('5문제 이상 작성해주세요.');
+      await Alert('5문제 이상 작성해주세요.');
       return;
     }
 
@@ -105,10 +117,21 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
       title: gameTitle,
       totalQuiz: quiz.length
     };
-
-    await setDoc(doc(db, 'GameLists', id), gameList);
-    await setDoc(doc(db, 'Games', id), { quiz });
-    alert('성공');
+    try {
+      await setDoc(doc(db, 'GameLists', id), gameList);
+      await setDoc(doc(db, 'Games', id), { quiz });
+      await Alert('성공');
+    } catch (error) {
+      let errorMsg: string = '';
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          default:
+            errorMsg = '작성이 실패했습니다.';
+            break;
+        }
+      }
+      await Alert(errorMsg);
+    }
   };
 
   const getData = async () => {
@@ -131,6 +154,9 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
               onChange={val => {
                 setSelectTopic(val);
               }}
+              size="lg"
+              border={true}
+              text="주제 선택"
             />
           )}
           <p>작성된 문항 수: 0</p>
@@ -149,6 +175,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                   questionChangeHandler(e, idx);
                 }}
                 value={question[idx]?.text}
+                border={false}
               />
               {item !== 0 ? (
                 <button
@@ -170,6 +197,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                   answerChangeHandler(e, idx);
                 }}
                 value={answer[idx]?.text}
+                border={false}
               />
             </li>
           ))}

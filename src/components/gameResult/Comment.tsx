@@ -69,7 +69,7 @@ const Comment = ({ comment }: CommentProps) => {
       <p className="mt-4 pl-1 text-gray4 text-[12px]">{comment.userName}</p>
 
       {isUpdating ? (
-        <div className="flex justify-between items-center border-b border-gray4">
+        <div className="flex items-center justify-between border-b border-gray4">
           <form className="flex">
             <input
               className="p-2 outline-none text-gray3"
@@ -93,7 +93,7 @@ const Comment = ({ comment }: CommentProps) => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-between items-center border-b border-gray4">
+        <div className="flex items-center justify-between border-b border-gray4">
           <p className="p-1">{comment.content}</p>
 
           <div className="flex flex-col">
