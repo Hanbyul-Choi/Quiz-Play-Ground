@@ -48,3 +48,5 @@ export const signUpStateStore = create<AuthModalStateType>(set => ({
     set(state => ({ isModalOpen: !state.isModalOpen }));
   }
 }));
+
+export const addGameStore = () => {};

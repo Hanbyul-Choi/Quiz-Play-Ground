@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useState } from 'react';
-import uuid from 'react-uuid';
 
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
 import { Dropdown } from 'components/shared/Dropdown';
-import { db } from 'config/firebase';
-import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
 
 interface InputType {
   text: string;
@@ -24,19 +20,23 @@ interface GameListType {
   answer: string;
 }
 
-export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
+export const AddPictureGame = ({ topic, selectCategory }: Props) => {
   const [countList, setCountList] = useState<number[]>([0]);
-  const [question, setQuestion] = useState<InputType[]>([{ text: '' }]);
+  const [question, setQuestion] = useState<File[]>([]);
   const [answer, setAnswer] = useState<InputType[]>([{ text: '' }]);
   const [quiz, setQuiz] = useState<GameListType[]>([]);
-  const [selectTopic, setSelectTopic] = useState<string>('');
 
-  const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-    const updatedQuestions = [...question];
-    updatedQuestions[idx].text = e.target.value;
-    setQuestion(updatedQuestions);
-    updateQuiz(idx, e.target.value, 'question');
-  };
+  // const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+  //   const files = e.target.files;
+  //   if (files != null && files.length > 0) {
+  //     setQuestion(prevQuestions => {
+  //       const updateQuestions = [...prevQuestions];
+  //       updateQuestions[idx] = files[0];
+  //       return updateQuestions;
+  //     });
+  //   }
+  //   // updateQuiz(idx, e.target.value.split('\\')[2], 'question');
+  // };
 
   const answerChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     const updatedAnswers = [...answer];
@@ -76,47 +76,8 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
     counter += 1;
     countArr.push(counter);
     setCountList(countArr);
-    setQuestion([...question, { text: '' }]);
+    setQuestion([...question]);
     setAnswer([...answer, { text: '' }]);
-  };
-
-  const PostGameList = async (): Promise<void> => {
-    if (gameTitle === '') {
-      alert('제목을 입력해주세요.');
-      return;
-    }
-    if (topic && selectTopic === '') {
-      alert('게임 주제를 선택해주세요.');
-      return;
-    }
-    if (quiz.length <= 4) {
-      alert('5문제 이상 작성해주세요.');
-      return;
-    }
-
-    const today = new Date();
-    const id = uuid();
-
-    const gameList = {
-      date: today.toLocaleString('en-US'),
-      userId: '',
-      category: selectCategory,
-      topic: selectTopic ?? null,
-      title: gameTitle,
-      totalQuiz: quiz.length
-    };
-
-    await setDoc(doc(db, 'GameLists', id), gameList);
-    await setDoc(doc(db, 'Games', id), { quiz });
-    alert('성공');
-  };
-
-  const getData = async () => {
-    const docRef = query(collection(db, 'Games'));
-    const docSnap = await getDocs(docRef);
-    docSnap.forEach(doc => {
-      console.log(doc.id, doc.data());
-    });
   };
 
   return (
@@ -127,9 +88,9 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
             <></>
           ) : (
             <Dropdown
-              options={['속담', '사자성어', '일상 단어']}
+              options={['배우', '가수', '캐릭터', '역사 인물']}
               onChange={val => {
-                setSelectTopic(val);
+                console.log(val);
               }}
             />
           )}
@@ -141,15 +102,24 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
               key={idx}
               className="flex items-center justify-center gap-x-16 rounded-xl w-[1000px] h-[150px] bg-hoverSkyBlue shadow-md mb-10"
             >
-              <Input
-                inputType="textarea"
-                inputStyleType="quiz"
-                holderMsg="문제를 입력해주세요."
-                onChange={e => {
-                  questionChangeHandler(e, idx);
-                }}
-                value={question[idx]?.text}
-              />
+              <div className="w-[300px] h-[90px] p-4 outline-none text-center rounded-xl resize-none shadow-md bg-white">
+                <label
+                  htmlFor="file"
+                  className="py-1 px-2 rounded-[10px] bg-skyBlue hover:bg-hoverSkyBlue active:bg-clickSkyBlue"
+                >
+                  사진 넣기
+                </label>
+                <p className="mt-2 text-gray3">{question[idx]?.name}</p>
+                <input
+                  id="file"
+                  className="absolute w-0 h-0 m-[-1px] p-0 overflow-hidden"
+                  type="file"
+                  accept="image/jpeg, image/png"
+                  // onChange={e => {
+                  //   questionChangeHandler(e, idx);
+                  // }}
+                />
+              </div>
               {item !== 0 ? (
                 <button
                   className="relative w-4 bottom-[38%] left-[48%]"
@@ -178,11 +148,8 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
           +
         </Button>
       </div>
-      <Button buttonStyle="yellow md" onClick={PostGameList}>
+      <Button buttonStyle="yellow md" onClick={() => {}}>
         작성 완료
-      </Button>
-      <Button buttonStyle="yellow md" onClick={getData}>
-        테스트
       </Button>
     </>
   );

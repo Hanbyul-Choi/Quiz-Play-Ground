@@ -21,11 +21,11 @@ const GameLists = ({ data }: { data: Content[] }) => {
   // }
 
   return (
-    <section className="game-list flex-col justify-center items-center mt-10">
+    <section className="flex-col items-center justify-center mt-10 game-list">
       {data.map(game => (
         <div key={game.gameId} className="game relative w-full h-[92px] border-b-[1px] border-gray4 mb-10">
           <Link to={`/game/relay/asda`}>
-            <div className=" text-gray4 text-sm">
+            <div className="text-sm  text-gray4">
               {game.writer} | {new Date(game.date).toLocaleString()}
             </div>
             <div className="mt-4 text-lg ">
@@ -39,7 +39,7 @@ const GameLists = ({ data }: { data: Content[] }) => {
             src={'./assets/icons/BookMark.svg'}
             // src={game.isMarked ? marksvg.marked : marksvg.mark}
           />
-          <div className="flex items-center gap-2 absolute bottom-2 right-2">
+          <div className="absolute flex items-center gap-2 bottom-2 right-2">
             <img src={'./assets/icons/LikeOutLined.svg'} />
             125
           </div>
