@@ -9,7 +9,7 @@ const Result = () => {
         </div>
         <p className="mb-4 text-[18px]">17문제를 맞추셨군요!</p>
         <p className="text-[18px]">당신은 상위 80% 입니다.</p>
-        <div className="flex gap-1 absolute bottom-4 right-4">
+        <div className="absolute flex gap-1 bottom-4 right-4">
           <button>
             <img src={'./assets/LikeOutlined.svg'} alt="like" />
           </button>
