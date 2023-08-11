@@ -25,7 +25,7 @@ const GameLists = ({ data }: { data: Content[] }) => {
       {data.map(game => (
         <div key={game.gameId} className="game relative w-full h-[92px] border-b-[1px] border-gray4 mb-10">
           <Link to={`/game/relay/asda`}>
-            <div className="text-sm  text-gray4">
+            <div className="text-sm text-gray4">
               {game.writer} | {new Date(game.date).toLocaleString()}
             </div>
             <div className="mt-4 text-lg ">
