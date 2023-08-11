@@ -45,13 +45,13 @@ export const AddGame = () => {
         <li>상대방에게 불쾌한 인식을 주는 문제는 관리자에 의해 언제든 삭제될 수 있음을 알려드립니다.</li>
         <li>중복된 문제가 있을 시 관련 문항은 삭제될 수 있습니다.</li>
       </ul>
-      {selectCategory === '이어 말하기' ? (
+      {selectCategory === 'relay' ? (
         <AddTextGame topic={true} selectCategory={selectCategory} gameTitle={gameTitle} />
-      ) : selectCategory === '넌센스 퀴즈' ? (
+      ) : selectCategory === 'nonsensequiz' ? (
         <AddTextGame topic={false} selectCategory={selectCategory} gameTitle={gameTitle} />
-      ) : selectCategory === '신조어 퀴즈' ? (
+      ) : selectCategory === 'nonsensequiz' ? (
         <AddTextGame topic={false} selectCategory={selectCategory} gameTitle={gameTitle} />
-      ) : selectCategory === '인물 퀴즈' ? (
+      ) : selectCategory === 'mzwordsquiz' ? (
         <AddPictureGame topic={true} selectCategory={selectCategory} gameTitle={gameTitle} />
       ) : (
         <></>
