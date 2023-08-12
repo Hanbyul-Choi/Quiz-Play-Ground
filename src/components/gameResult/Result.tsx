@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 
+import { gameResultStore } from 'store';
+
 import LikeOutlined from '../../assets/LikeOutlined.svg';
 
 const Result = () => {
+  const { score } = gameResultStore();
   return (
     <div className="flex flex-col items-center ">
       <div className="text-[30px] mb-4">게임결과</div>
@@ -11,7 +14,7 @@ const Result = () => {
         <div className="w-[350px] h-7 rounded-full bg-gray2 mb-16">
           <div className="w-[70%] h-full rounded-full bg-green"></div>
         </div>
-        <p className="mb-4 text-[18px]">17문제를 맞추셨군요!</p>
+        <p className="mb-4 text-[18px]">{score}문제를 맞추셨군요!</p>
         <Link to={'/main'}>
           <p className="text-[18px]">다른 게임에도 도전해보세요. Click !</p>
         </Link>

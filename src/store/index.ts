@@ -110,3 +110,15 @@ export const setTimerStore = create<timerType>(set => ({
     set({ timer: newTime });
   }
 }));
+
+export const gameResultStore = create<gameResult>(set => ({
+  score: 0,
+  sendScore: score => {
+    set({ score });
+  }
+}));
+
+interface gameResult {
+  score: number;
+  sendScore: (score: number) => void;
+}

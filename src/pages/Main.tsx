@@ -46,14 +46,15 @@ export const Main = () => {
   };
   useEffect(() => {
     setFilteredData(filterData());
-  }, [curCategory]);
+  }, [curCategory, sortWay]);
 
   const filterData = (): GameListContent[] | undefined => {
     if (data === undefined) return;
     let filteredData = data;
 
     if (curCategory !== '') {
-      filteredData = filteredData.filter(content => categoryMatchKo[content.category] === curCategory);
+      filteredData = filteredData.filter(content => content.category === curCategory);
+      console.log(1, curCategory, filteredData);
     }
     if (sortWay === '인기순') {
       filteredData.sort((a, b) => {
@@ -99,9 +100,9 @@ export const Main = () => {
         </button>
         <button
           onClick={() => {
-            handleCategoryClick('nonsense');
+            handleCategoryClick('nonsensequiz');
           }}
-          className={curCategory === 'nonsense' ? 'text-black' : ''}
+          className={curCategory === 'nonsensequiz' ? 'text-black' : ''}
         >
           넌센스 퀴즈
         </button>
@@ -140,7 +141,9 @@ export const Main = () => {
           게임 제작에 참여해주세요.
         </h2>
       ) : (
-        <GameLists data={filteredData} likes={likes} />
+        <div className="h-[50vh] overflow-y-scroll">
+          <GameLists data={filteredData} likes={likes} />
+        </div>
       )}
     </div>
   );
