@@ -107,7 +107,6 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
           {topic !== null ? ` |  ${topicMatch[topic]}` : null}
         </div>
       </Link>
-      <img className="absolute top-0 right-0 cursor-pointer" src={'./assets/icons/BookMark.svg'} />
       <div className="absolute flex items-center gap-2 bottom-2 right-2">
         <img
           onClick={onClickLike}
