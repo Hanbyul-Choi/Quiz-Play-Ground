@@ -29,6 +29,7 @@ const Comment = ({ comment }: CommentProps) => {
   const mutationCommentDelete = useMutation(deleteComment, {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [`gameResultComment`] });
+      await queryClient.invalidateQueries({ queryKey: ['totalComments', comment.postId] });
     },
     onError: error => {
       alert(error);
