@@ -35,3 +35,13 @@ export const getGameData = async (gameId: string) => {
 
   return shuffledArray;
 };
+
+export const getGameInfo = async (gameId: string) => {
+  const docRef = doc(db, 'GameLists', gameId);
+  const docSnap = (await getDoc(docRef)).data();
+  // const game = [docSnap];
+  // if (docSnap != null) {
+  //   game.push({ ...docSnap });
+  // }
+  return docSnap;
+};
