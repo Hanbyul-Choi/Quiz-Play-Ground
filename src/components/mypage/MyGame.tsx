@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
+import { Skeleton } from 'antd';
+import { getGameLikes } from 'api/gameLikes';
 import { type gameType, getMadeGames, getLikedGamesId, getLikedGames } from 'api/myGame';
 import { userStore } from 'store';
 
@@ -23,36 +25,39 @@ const MyGame = () => {
     isLoading,
     refetch
   } = useQuery('MadeGameLists', async () => await getMadeGames(userId as string));
-  useEffect(() => {
-    if (!isLoading && games !== undefined) {
-      void refetch();
-    }
-  }, [isLoading, games]);
+
+  // useEffect(() => {
+  //   if (!isLoading && games !== undefined) {
+  //     void refetch();
+  //   }
+  // }, [isLoading, games]);
 
   const {
     data: gamesId,
     isLoading: isGamesIdLoading,
-    refetch: gamesIdRefetch
+    refetch: refetchGamesId
   } = useQuery('GameLikes', async () => await getLikedGamesId(userId as string));
   const {
     data: gamesLiked,
     isLoading: isGameLikedLoading,
-    refetch: refetchGamesLiked
+    refetch: refetchGamesLiked,
+    isFetching
   } = useQuery('LikedGameLists', async () => await getLikedGames(gamesId as gameType[]));
 
   useEffect(() => {
     if (!isGameLikedLoading && gamesId !== undefined && !isGamesIdLoading) {
-      void gamesIdRefetch();
+      void refetchGamesId();
       void refetchGamesLiked();
     }
   }, [isGameLikedLoading, gamesId, isGamesIdLoading]);
 
+  const { data: likes } = useQuery('gameLike', getGameLikes);
+
   return (
-    <div className="flex flex-col mr-12 w-[450px]">
+    <div className="flex flex-col mr-12 w-[450px] h-[calc(82vh-60px)] overflow-hidden">
       <div className="flex items-center gap-20 pb-3 border-b border-black justify-evenly ">
         <button
-          className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black' : 'text-gray3'}
-`}
+          className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black' : 'text-gray3'}`}
           onClick={() => {
             handleButtonClick('myQuestion');
             setIsMadeGameOpen(true);
@@ -70,9 +75,24 @@ const MyGame = () => {
           좋아요한 게임
         </button>
       </div>
-
-      {isMadeGameOpen && !isLoading && <MadeGame games={games as gameType[]} isLoading={isLoading} refetch={refetch} />}
-      {!isMadeGameOpen && <LikedGame gamesId={gamesId} games={gamesLiked as gameType[]} />}
+      {isLoading || isGameLikedLoading || isGamesIdLoading ? (
+        <>
+          <div className="mt-7">
+            <Skeleton title={false} active round />
+          </div>
+          <div className="mt-7">
+            <Skeleton title={false} active round />
+          </div>
+          <div className="mt-7">
+            <Skeleton title={false} active round />
+          </div>
+        </>
+      ) : (
+        ''
+      )}
+      {/* {isFetching && <div className="bg-gray-500">로딩중...</div>} */}
+      {isMadeGameOpen && !isLoading && <MadeGame games={games as gameType[]} refetch={refetch} likes={likes} />}
+      {!isMadeGameOpen && <LikedGame games={gamesLiked as gameType[]} isFetching={isFetching} likes={likes} />}
     </div>
   );
 };

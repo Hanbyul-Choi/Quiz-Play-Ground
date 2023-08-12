@@ -1,7 +1,11 @@
+import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { getGameInfo } from 'api/gameData';
 import { Dropdown } from 'components/shared/Dropdown';
 import { setTimerStore } from 'store';
+
+import { categoryMatchKo, topicMatch } from './Main';
 
 type Match = Record<string, number>;
 
@@ -16,11 +20,19 @@ export const Game = () => {
   const params = useParams() ?? '';
   const { category, postid } = params;
   const { setTimer } = setTimerStore();
+  const queryParams = new URLSearchParams(location.search);
+  const topic = queryParams.get('game');
+
+  const { data } = useQuery('gameInfo', async () => await getGameInfo(postid as string));
 
   return (
     <div className="flex flex-col items-center mt-32 font-medium gap-y-20">
-      <div className="flex flex-col items-center rounded-xl w-[1000px] h-[340px] bg-hoverSkyBlue shadow-md justify-center gap-y-16">
-        <h1 className="text-3xl">이어말하기</h1>
+      <h1 className="text-3xl font-bold">{data !== undefined && `${data.title as string}`}</h1>
+      <div className="flex flex-col items-center rounded-xl w-[1000px] h-[340px] bg-hoverSkyBlue shadow-md justify-center gap-y-10">
+        <h2 className="text-2xl font-bold">
+          {categoryMatchKo[category as string]} {topic != null && `- ${topicMatch[topic]}`}
+        </h2>
+        <h4 className="text-lg font-bold">{data !== undefined && `${data.totalQuiz as string}문항`}</h4>
         <div className="flex items-center ml-[-75px]">
           제한시간: &nbsp;
           <Dropdown
