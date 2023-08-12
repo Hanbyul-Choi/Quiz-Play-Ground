@@ -54,7 +54,7 @@ const Header: FC = () => {
     <>
       {isLoginModalOpen && <LoginModal />}
       {isSignUpModalOpen && <SignUpModal />}
-      <div className="flex items-center justify-between w-full p-2 px-8 bg-blue">
+      <div className="flex items-center justify-between w-full h-[60px] p-2 px-8 bg-blue">
         <Link
           to={'/'}
           onClick={() => {
