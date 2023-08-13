@@ -1,5 +1,5 @@
 import { type FC, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { logout } from 'api/auth';
 import { auth } from 'config/firebase';
@@ -11,6 +11,7 @@ import SignUpModal from './SignUpModal';
 const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { loginUser, logoutUser } = userStore();
   const uid = sessionStorage.getItem('userId');
   const name = sessionStorage.getItem('userName');
@@ -56,7 +57,7 @@ const Header: FC = () => {
       {isSignUpModalOpen && <SignUpModal />}
       <div className="flex items-center justify-between w-full h-[60px] p-2 px-8">
         <Link
-          to={'/'}
+          to={pathname === 'main' ? '/' : '/main'}
           onClick={() => {
             setActiveButton(null);
           }}

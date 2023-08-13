@@ -86,7 +86,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
     setQuiz(updatedQuiz);
   };
 
-  const divDeleteHandler = (item: number, idx: number) => {
+  const DeleteHandler = (item: number) => {
     const deleteDiv = countList.filter(el => el !== item);
     setCountList(deleteDiv);
 
@@ -96,7 +96,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
     const deletedAnswers = answer.filter((_, i) => i !== item);
     setAnswer(deletedAnswers);
 
-    updateQuiz(idx, '', 'delete');
+    updateQuiz(item, '', 'delete');
   };
 
   const divAddHandler = (): void => {
@@ -191,7 +191,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                   <button
                     className="relative w-4 bottom-[38%] left-[48%]"
                     onClick={() => {
-                      divDeleteHandler(item, idx);
+                      DeleteHandler(item);
                     }}
                   >
                     X
