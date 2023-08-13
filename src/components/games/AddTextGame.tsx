@@ -173,7 +173,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
         </div>
         <ul>
           {countList?.map((item, idx) => (
-            <li key={idx} className="relative bg-white rounded-xl">
+            <li key={idx} className="relative bg-skyBlue rounded-xl">
               <div className="flex items-center justify-center gap-x-16 rounded-xl w-[1000px] h-[150px] border-2 border-black mb-10">
                 <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                   <Input
@@ -211,7 +211,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                     border={true}
                   />
                 </div>
-                <div className="absolute z-[-10] top-2 left-2 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-skyBlue rounded-[10px]" />
+                <div className="absolute z-[-10] top-1 left-1 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-black rounded-xl" />
               </div>
             </li>
           ))}
