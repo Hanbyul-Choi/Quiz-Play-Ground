@@ -16,6 +16,7 @@ const Header: FC = () => {
   const uid = sessionStorage.getItem('userId');
   const name = sessionStorage.getItem('userName');
   const email = sessionStorage.getItem('userEmail');
+
   useEffect(() => {
     loginUser({ uid, email, name });
   }, []);
@@ -57,7 +58,7 @@ const Header: FC = () => {
       {isSignUpModalOpen && <SignUpModal />}
       <div className="flex items-center justify-between w-full h-[60px] p-2 px-8">
         <Link
-          to={pathname === 'main' ? '/' : '/main'}
+          to={pathname === '/main' ? '/' : '/main'}
           onClick={() => {
             setActiveButton(null);
           }}
@@ -114,7 +115,6 @@ const Header: FC = () => {
                   setActiveButton(null);
                   logout().catch(error => {
                     error.errorHandler(error);
-                    console.log('로그아웃 에러 발생');
                   });
                   sessionStorage.clear();
                   navigate('/');

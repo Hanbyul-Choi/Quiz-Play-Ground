@@ -149,7 +149,7 @@ export const PictureGame = () => {
               {currentQuiz === data.length ? '결과보기' : '다음문제'}
             </Button>
           </div>
-          <div className="mt-10 text-2xl font-bold text-green">정답 : {data[currentQuiz - 1].answer}</div>
+          <div className="mt-4 text-2xl font-bold text-green">정답 : {data[currentQuiz - 1].answer}</div>
         </div>
       )}
       {isCorrectModalOpen && result === 'isCorrect' && <CorrectModal />}

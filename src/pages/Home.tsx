@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom';
 
-import homeImg from 'assets/homeImg.png';
 import Button from 'components/shared/Button';
 
 export const Home = () => {
   return (
-    <div className="w-screen">
-      <div className="absolute top-0 z-[-50] h-screen">
-        <img src={homeImg} className="h-full" />
+    <div className="flex w-full ">
+      <div>
+        {/* <img src={homeImg} className="scale-50" /> */}
+        <img
+          src={'https://github.com/rmdkak/Quiz-Play-Ground/assets/92218638/5c33db9a-9f01-4c3c-9a33-0654f2548cf2'}
+          className="min-h-screen lg:min-w-[600px] md:min-w-[300px]"
+        />
       </div>
-      <div className="absolute top-[37%] left-[780px] mr-auto ml-[200px] flex-col items-center justify-center ">
-        {/* <img src={Title} className="max-w-[650px]" /> */}
+      <div className="flex flex-col items-start justify-center ml-20 ">
+        {/* <img src={e} className="max-w-[650px]" /> */}
         <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-skyBlue mb-[-25px]">
           QUIZ
         </h2>
-        <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-blue mb-[-25px]">
+        <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-blue mb-[-25px] whitespace-nowrap">
           PLAY GROUND
         </h2>
         <Link to={'/main'}>

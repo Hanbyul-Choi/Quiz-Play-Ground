@@ -62,8 +62,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
 
         return { prevGameLike };
       },
-      onError: (err, variables, context) => {
-        console.log(err);
+      onError: (_, __, context) => {
         if (context === undefined) return;
         queryClient.setQueryData<LikeDoc[]>(['gameLike'], context.prevGameLike);
       },

@@ -90,10 +90,10 @@ const CommentList = () => {
     <>
       <div className="flex flex-col ml-10">
         <div className="flex items-center justify-center pb-2 ">
-          <p className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">댓글</p>
-          <p className="ml-2 font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-yellow">
+          <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">댓글</h2>
+          <h2 className="ml-2 font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-yellow">
             {totalCommentCount}
-          </p>
+          </h2>
         </div>
 
         <div className="mt-2">
