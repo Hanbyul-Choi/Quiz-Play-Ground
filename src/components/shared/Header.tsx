@@ -11,7 +11,7 @@ import SignUpModal from './SignUpModal';
 const Header: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
-  const { loginUser } = userStore();
+  const { loginUser, logoutUser } = userStore();
   const uid = sessionStorage.getItem('userId');
   const name = sessionStorage.getItem('userName');
   const email = sessionStorage.getItem('userEmail');
@@ -109,6 +109,7 @@ const Header: FC = () => {
               <button
                 className="text-black"
                 onClick={() => {
+                  logoutUser();
                   setActiveButton(null);
                   logout().catch(error => {
                     error.errorHandler(error);
