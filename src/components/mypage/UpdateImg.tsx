@@ -73,18 +73,25 @@ const updateImg = () => {
           X
         </div>
         <img className="object-cover w-[250px] h-[250px] rounded-full" alt="미리보기" src={imgPreview as string} />
-        <input type="file" onChange={handleFileSelect} />
-        <Button
-          buttonStyle="blue md full"
-          onClick={() => {
-            handleUpload().catch(error => {
-              error.errorHandler(error);
-              console.log('사진 업로드 에러 발생');
-            });
-          }}
-        >
-          Upload
-        </Button>
+        <label htmlFor="newUserImg" className="p-1 border-2 border-black rounded-lg cursor-pointer hover:bg-gray2">
+          사진 선택
+        </label>
+        <input id="newUserImg" type="file" onChange={handleFileSelect} className="hidden" />
+        <div className="w-full mt-1">
+          <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+            <Button
+              buttonStyle="blue full"
+              onClick={() => {
+                handleUpload().catch(error => {
+                  error.errorHandler(error);
+                  console.log('사진 업로드 에러 발생');
+                });
+              }}
+            >
+              Upload
+            </Button>
+          </div>
+        </div>
       </div>
     </div>,
     modalRoot

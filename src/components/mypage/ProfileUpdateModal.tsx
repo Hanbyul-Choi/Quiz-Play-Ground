@@ -86,24 +86,28 @@ const ProfileUpdateModal = () => {
             <div className={`${labelClass}`}>
               <Label name="id">닉네임</Label>
             </div>
-            <Input
-              name="id"
-              inputType="text"
-              inputStyleType="auth"
-              holderMsg="닉네임을 입력해주세요"
-              value={newName}
-              onChange={onChangeNickname}
-              border={false}
-            />
+            <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="id"
+                inputType="text"
+                inputStyleType="auth"
+                holderMsg="닉네임을 입력해주세요"
+                value={newName}
+                onChange={onChangeNickname}
+                border={true}
+              />
+            </div>
             {!disabled ? (
               <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
             ) : (
               <p className={`${validationClass} text-red`}>두 글자 이상, 영어 또는 한글, 숫자로 입력해주세요</p>
             )}
             <div className="mt-12">
-              <Button buttonStyle="yellow md full" disabled={disabled}>
-                수정하기
-              </Button>
+              <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                <Button buttonStyle="yellow md full" disabled={disabled}>
+                  수정하기
+                </Button>
+              </div>
             </div>
           </form>
         </div>
