@@ -159,7 +159,6 @@ export const Main = () => {
           </button>
         </div>
         <div className="flex items-center justify-end gap-2 filter mt-7">
-          <p>(인기순 / 최신순)</p>
           <Dropdown
             options={['인기순', '최신순']}
             selected={1}
@@ -178,7 +177,7 @@ export const Main = () => {
             {'게임 제작에 참여해주세요.'}
           </h2>
         ) : (
-          <div className="h-[500px] overflow-y-scroll">
+          <div className="h-[500px] overflow-y-scroll ">
             <GameLists data={filteredData} likes={likes ?? []} />
           </div>
         )}
