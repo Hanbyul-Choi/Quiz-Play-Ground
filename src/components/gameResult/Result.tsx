@@ -61,8 +61,7 @@ const Result = () => {
 
         return { prevGameLike };
       },
-      onError: (err, variables, context) => {
-        console.log(err);
+      onError: (_, __, context) => {
         if (context === undefined) return;
         queryClient.setQueryData<LikeDoc[]>(['gameLike'], context.prevGameLike);
       },
@@ -89,7 +88,7 @@ const Result = () => {
   });
 
   const ratecal = (score / totalQuiz) * 100;
-  console.log(score);
+
   let rate = '';
   if (ratecal === 100) {
     rate = 'w-[100%]';
@@ -115,7 +114,7 @@ const Result = () => {
 
   return (
     <div className="flex flex-col items-center ">
-      <p className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">게임결과</p>
+      <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">게임결과</h2>
       <div className="mt-4 relative bg-white rounded-[10px]">
         <div className=" flex flex-col justify-center items-center w-[450px] h-[500px] border-[2px] border-black rounded-[10px]">
           <p className="mb-16 text-[20px] ">선택한 제한시간: {timer / 1000}초</p>

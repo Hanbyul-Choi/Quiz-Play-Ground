@@ -108,7 +108,6 @@ const SignUpModal = () => {
             onSubmit={e => {
               handleSignup(e).catch(error => {
                 error.errorHandler(error);
-                console.log('로그인 에러 발생');
               });
             }}
           >

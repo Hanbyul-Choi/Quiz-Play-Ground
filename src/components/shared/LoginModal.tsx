@@ -79,7 +79,6 @@ const LoginModal = () => {
             onSubmit={e => {
               handleLogin(e).catch(error => {
                 error.errorHandler(error);
-                console.log('로그인 에러 발생');
               });
             }}
           >

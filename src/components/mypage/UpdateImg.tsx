@@ -44,7 +44,7 @@ const updateImg = () => {
         toggleModal();
         await Alert('수정되었습니다');
       } catch (error) {
-        console.log('이미지 업로드 오류');
+        console.error(error);
       }
     }
   };
@@ -84,7 +84,6 @@ const updateImg = () => {
               onClick={() => {
                 handleUpload().catch(error => {
                   error.errorHandler(error);
-                  console.log('사진 업로드 에러 발생');
                 });
               }}
             >

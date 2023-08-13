@@ -61,7 +61,7 @@ const ProfileUpdateModal = () => {
         await Alert('수정 되었습니다');
       }
     } catch (error) {
-      console.log('프로필 수정 오류 발생');
+      await Alert('프로필 수정 오류 발생');
     }
   };
 
@@ -79,7 +79,6 @@ const ProfileUpdateModal = () => {
             onSubmit={e => {
               handleUpdate(e).catch(error => {
                 error.errorHandler(error);
-                console.log('로그인 에러 발생');
               });
             }}
           >

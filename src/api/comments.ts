@@ -141,6 +141,5 @@ export const updateComment = async ({ id, content }: updateCommentType) => {
 export const getTotalCommentCount = async (postId: string): Promise<number> => {
   const commentQ = query(collection(db, 'comments'), where('postId', '==', postId));
   const commentSnapshot = await getDocs(commentQ);
-  console.log(commentSnapshot);
   return commentSnapshot.size;
 };

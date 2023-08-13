@@ -42,6 +42,7 @@ export const Game = () => {
   const { Alert } = useDialog();
 
   useEffect(() => {
+    if (started === (false as boolean)) return;
     const start = setTimeout(() => {
       navigate(
         `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${category ?? ''}/${
@@ -55,7 +56,7 @@ export const Game = () => {
   }, [started]);
 
   return (
-    <div className="flex flex-col items-center font-medium mt-28 gap-y-20">
+    <div className="flex flex-col items-center font-medium gap-y-20">
       <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">
         {data !== undefined && `${data.title as string}`}
       </h2>

@@ -102,7 +102,7 @@ export const TextGame = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-20 font-medium gap-y-16">
+    <div className="flex flex-col items-center font-medium gap-y-16">
       <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue flex gap-2">
         {categoryMatchKo[category ?? '']}
         {<p className="text-blue"> - </p>}
@@ -150,7 +150,7 @@ export const TextGame = () => {
               {currentQuiz === data.length ? '결과보기' : '다음문제'}
             </Button>
           </div>
-          <div className="mt-10 text-2xl font-bold text-green">정답 : {data[currentQuiz - 1].answer}</div>
+          <div className="mt-4 text-2xl font-bold text-green">정답 : {data[currentQuiz - 1].answer}</div>
         </div>
       )}
       {isCorrectModalOpen && result === 'isCorrect' && <CorrectModal />}
