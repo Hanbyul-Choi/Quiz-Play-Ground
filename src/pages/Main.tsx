@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import { Skeleton } from 'antd';
 import { getGameLikes } from 'api/gameLikes';
 import { getGameLists } from 'api/gameList';
+import Loading from 'assets/Loading';
 import GameLists from 'components/gamelist/GameLists';
 import HotGames from 'components/gamelist/HotGames';
 import { Dropdown } from 'components/shared/Dropdown';
@@ -105,19 +105,7 @@ export const Main = () => {
   };
 
   if (isLoading) {
-    return (
-      <>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-      </>
-    );
+    return <Loading />;
   }
 
   return (
@@ -168,7 +156,6 @@ export const Main = () => {
           </button>
         </div>
         <div className="flex items-center justify-end gap-2 filter mt-7">
-          <p>(인기순 / 최신순)</p>
           <Dropdown
             options={['인기순', '최신순']}
             selected={1}
@@ -180,14 +167,14 @@ export const Main = () => {
         </div>
         {/* 게임 리스트 */}
         {filteredData.length === 0 ? (
-          <h2 className="w-full mt-10 text-2xl text-center">
+          <h3 className="w-full mt-10 text-2xl text-center">
             {'현재 관련 게임이 없습니다.'}
             <br />
             <br />
             {'게임 제작에 참여해주세요.'}
-          </h2>
+          </h3>
         ) : (
-          <div className="h-[500px] overflow-y-scroll">
+          <div className="h-[500px] overflow-y-scroll ">
             <GameLists data={filteredData} likes={likes ?? []} />
           </div>
         )}

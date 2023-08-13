@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -41,16 +41,29 @@ export const Game = () => {
 
   const { Alert } = useDialog();
 
+  useEffect(() => {
+    const start = setTimeout(() => {
+      navigate(
+        `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${category ?? ''}/${
+          postid ?? ''
+        }/${topic !== null ? '?game=' + topic : ''}`
+      );
+    }, 3600);
+    return () => {
+      clearTimeout(start);
+    };
+  }, [started]);
+
   return (
     <div className="flex flex-col items-center font-medium mt-28 gap-y-20">
-      <h1 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">
+      <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">
         {data !== undefined && `${data.title as string}`}
-      </h1>
+      </h2>
       <div className="relative rounded-[10px] bg-white">
         <div className="flex flex-col items-center rounded-[10px] w-[1000px] h-[340px] border-2 border-black justify-center gap-y-10">
-          <h2 className="text-2xl font-bold">
+          <h3 className="text-2xl font-bold">
             {categoryMatchKo[category as string]} {topic != null && `- ${topicMatch[topic]}`}
-          </h2>
+          </h3>
           <h4 className="text-lg font-bold">{data !== undefined && `${data.totalQuiz as string}문항`}</h4>
           <div className="flex items-center ml-[-75px]">
             제한시간: &nbsp;
@@ -79,13 +92,6 @@ export const Game = () => {
                   setInterval(() => {
                     setCountDown(prev => prev - 1);
                   }, 1200);
-                  setTimeout(() => {
-                    navigate(
-                      `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${
-                        category ?? ''
-                      }/${postid ?? ''}/${topic !== null ? '?game=' + topic : ''}`
-                    );
-                  }, 3600);
                 }}
                 className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
               >

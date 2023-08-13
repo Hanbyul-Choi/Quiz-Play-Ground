@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
+import { Skeleton } from 'antd';
 import { addComment, getComments, getTotalCommentCount } from 'api/comments';
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
@@ -74,7 +75,16 @@ const CommentList = () => {
     async () => await getTotalCommentCount(postId)
   );
 
-  if (isLoading) return <>댓글 로딩중</>;
+  if (isLoading)
+    return (
+      <div className="w-[500px] mt-24 ml-10 text-center flex flex-col justify-center gap-y-10">
+        <Skeleton title={false} active round />
+        <Skeleton title={false} active round />
+        <Skeleton title={false} active round />
+        <Skeleton title={false} active round />
+        <Skeleton title={false} active round />
+      </div>
+    );
 
   return (
     <>

@@ -24,7 +24,6 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
   const { category, title, topic, userName, likeDoc, postId } = game;
   const { userId: curUser } = userStore();
   const { Alert } = useDialog();
-
   const [isLiked, setIsLiked] = useState(false);
   const queryClient = useQueryClient();
 
