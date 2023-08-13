@@ -115,7 +115,7 @@ const Result = () => {
   return (
     <div className="flex flex-col items-center ">
       <p className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">게임결과</p>
-      <div className="relative bg-white rounded-[10px]">
+      <div className="mt-4 relative bg-white rounded-[10px]">
         <div className=" flex flex-col justify-center items-center w-[450px] h-[500px] border-[2px] border-black rounded-[10px]">
           <p className="mb-16 text-[20px] ">선택한 제한시간: 3초</p>
           <div className="border-[2px] border-black w-[350px] h-7 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] bg-gray2 mb-16">

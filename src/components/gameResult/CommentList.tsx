@@ -75,7 +75,7 @@ const CommentList = () => {
           </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-2">
           {isLogin ? (
             <form className="flex gap-3" onSubmit={handleAddComment}>
               <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
