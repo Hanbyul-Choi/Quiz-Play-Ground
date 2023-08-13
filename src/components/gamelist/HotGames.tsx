@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import like from 'assets/icons/LikeOutlined.svg';
 import { categoryMatchKo } from 'pages';
 
 import { type GameDataprops } from './GameLists';
@@ -15,7 +16,7 @@ const HotGames = ({ data, likes }: GameDataprops) => {
         {data.length !== 0 ? (
           data.map(game => (
             <Link
-              to={`/game/${game.category}/${game.postId}`}
+              to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
               key={game.date}
               className="box relative border-2 border-black w-full h-[144px] flex-col justify-center rounded-lg p-3"
             >
@@ -33,7 +34,7 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                 })}
               </p>
               <div className="absolute flex items-center gap-2 bottom-2 right-2">
-                <img src={'./assets/icons/LikeOutLined.svg'} />
+                <img src={like} />
                 {likes?.find(doc => doc.postId === game.postId)?.likeUsers.length ?? 0}
               </div>
             </Link>

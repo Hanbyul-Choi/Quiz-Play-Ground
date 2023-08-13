@@ -42,11 +42,16 @@ module.exports = {
         progress3: 'progress 3s ease-in forwards',
         progress5: 'progress 5s ease-in forwards',
         progress7: 'progress 7s ease-in forwards',
+        progress10: 'progress 10s ease-in forwards',
+        progress30: 'progress 30s ease-in forwards',
         fadeIn: 'fadeIn 0.5s forwards',
         fadeOut: 'fadeOut 0.5s forwards'
       },
       translate: {
         center: '50%'
+      },
+      dropShadow: {
+        black1: '0 8px 8px 0 rgba(0, 0, 0, 1)'
       }
     },
     plugins: []

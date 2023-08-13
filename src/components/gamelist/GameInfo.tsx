@@ -4,15 +4,12 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { clickLike } from 'api/gameLikes';
+import liked from 'assets/icons/Liked.svg';
+import like from 'assets/icons/LikeOutlined.svg';
 import { useDialog } from 'components/shared/Dialog';
 import { useMount } from 'hooks';
 import { topicMatch, type GameListContent, categoryMatchKo } from 'pages';
 import { userStore } from 'store';
-
-enum likesvg {
-  liked = './assets/icons/Liked.svg',
-  like = './assets/icons/LikeOutLined.svg'
-}
 
 export interface LikeDoc {
   postId: string;
@@ -37,9 +34,6 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
       await clickLike(postId, curUser);
     },
     {
-      // onSuccess: async () => {
-      //   await queryClient.invalidateQueries('gameLike');
-      // }
       onMutate: async () => {
         await queryClient.cancelQueries({ queryKey: 'gameLike' });
 
@@ -108,11 +102,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
         </div>
       </Link>
       <div className="absolute flex items-center gap-2 bottom-2 right-2">
-        <img
-          onClick={onClickLike}
-          src={isLiked ? likesvg.liked : likesvg.like}
-          className="cursor-pointer hover:scale-110"
-        />
+        <img onClick={onClickLike} src={isLiked ? liked : like} className="cursor-pointer hover:scale-110" />
         {likeDoc?.likeUsers.length ?? 0}
       </div>
     </div>

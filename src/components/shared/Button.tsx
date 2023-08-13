@@ -1,6 +1,6 @@
 import { type MouseEventHandler } from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle: string;
   children: React.ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -15,7 +15,7 @@ const Button = ({ buttonStyle, children, onClick, ...props }: ButtonProps) => {
   let size: string = '';
   let full: string = '';
 
-  const buttonDefault = 'text-black font-bold px-[10px] py-[5px]  shadow-lg';
+  const buttonDefault = 'text-black font-bold px-[10px] py-[5px] shadow-black1';
 
   const colorVariants: VariantsType = {
     yellow: 'bg-yellow hover:bg-hoverYellow active:bg-clickYellow',
@@ -39,7 +39,7 @@ const Button = ({ buttonStyle, children, onClick, ...props }: ButtonProps) => {
       case 'md':
         return (size = 'w-[130px] h-[50px] text-lg rounded-xl');
       case 'lg':
-        return (size = 'w-[330px] h-[115px] text-4xl rounded-xl');
+        return (size = 'w-[330px] text-3xl rounded-[60px] ');
       default:
         return (size = 'w-[110px] h-[35px] text-lg rounded-xl');
     }
@@ -104,6 +104,7 @@ export default Button;
 // buttonStyle 작성 순서
 // 1. color
 // 2. size : xs, sm, md, lg
+// 3. shadow :
 
 // (선택사항)
 // 3. full(width 100%)
