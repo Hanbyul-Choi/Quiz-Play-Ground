@@ -48,12 +48,12 @@ export const Dropdown: React.FC<DropdownProps> = ({
   useClickAway({ ref: containerRef, callback: setIsOpen.off });
 
   return (
-    <div className={`relative ${dropdownSize[size]} drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]`} ref={containerRef}>
+    <div className={`relative ${dropdownSize[size]} drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] z-10`} ref={containerRef}>
       <button
         className={`bg-white ${flex} ${dropdownSize[size]} ${border ? dropdownBorder : ''} p-[4px]`}
         onClick={setIsOpen.toggle}
       >
-        {selectedOption === null ? text : selectedOption} ▼
+        {selectedOption === null ? text : selectedOption} <span className="text-[12px] ml-1"> ▼</span>
       </button>
       {isOpen && (
         <ul

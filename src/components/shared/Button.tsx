@@ -41,13 +41,13 @@ const Button = ({ buttonStyle, children, onClick, ...props }: ButtonProps) => {
       case 'lg':
         return (size = 'w-[330px] text-3xl rounded-[60px] ');
       default:
-        return (size = 'w-[110px] h-[35px] text-lg rounded-xl');
+        return (size = 'w-[110px] h-[35px] text-lg rounded-lg border-2 border-black');
     }
   };
   sizeFunc();
 
   if (buttonStyleArr.includes('full')) {
-    full = 'w-full';
+    full = 'w-full h-full';
   }
 
   if (props.disabled === true) {
