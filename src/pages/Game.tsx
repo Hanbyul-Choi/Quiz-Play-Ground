@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Dropdown } from 'components/shared/Dropdown';
 import { setTimerStore } from 'store';
 
+import { categoryMatchKo } from './Main';
 type Match = Record<string, number>;
 
 export const timerMatch: Match = {
@@ -16,11 +17,12 @@ export const Game = () => {
   const params = useParams() ?? '';
   const { category, postid } = params;
   const { setTimer } = setTimerStore();
+  const title: string = params.category ?? '';
 
   return (
     <div className="flex flex-col items-center mt-32 font-medium gap-y-20">
       <div className="flex flex-col items-center rounded-xl w-[1000px] h-[340px] bg-hoverSkyBlue shadow-md justify-center gap-y-16">
-        <h1 className="text-3xl">이어말하기</h1>
+        <h1 className="text-3xl">{categoryMatchKo[title]}</h1>
         <div className="flex items-center ml-[-75px]">
           제한시간: &nbsp;
           <Dropdown

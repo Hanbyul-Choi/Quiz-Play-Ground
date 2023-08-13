@@ -48,6 +48,10 @@ export const Main = () => {
     setFilteredData(filterData());
   }, [curCategory]);
 
+  useEffect(() => {
+    setFilteredData(filterData());
+  }, []);
+
   const filterData = (): GameListContent[] | undefined => {
     if (data === undefined) return;
     let filteredData = data;

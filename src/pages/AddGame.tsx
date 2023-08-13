@@ -44,6 +44,7 @@ export const AddGame = () => {
         <li>최소 문항 수는 5개입니다.</li>
         <li>상대방에게 불쾌한 인식을 주는 문제는 관리자에 의해 언제든 삭제될 수 있음을 알려드립니다.</li>
         <li>중복된 문제가 있을 시 관련 문항은 삭제될 수 있습니다.</li>
+        <li>카테고리 이동 시 기존에 작성했던 내용들은 삭제되니 참고하시기 바랍니다.</li>
       </ul>
       {selectCategory === 'relay' ? (
         <AddTextGame topic={true} selectCategory={selectCategory} gameTitle={gameTitle} />
