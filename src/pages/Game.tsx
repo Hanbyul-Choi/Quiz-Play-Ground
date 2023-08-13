@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -41,6 +41,19 @@ export const Game = () => {
 
   const { Alert } = useDialog();
 
+  useEffect(() => {
+    const start = setTimeout(() => {
+      navigate(
+        `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${category ?? ''}/${
+          postid ?? ''
+        }/${topic !== null ? '?game=' + topic : ''}`
+      );
+    }, 3600);
+    return () => {
+      clearTimeout(start);
+    };
+  }, [started]);
+
   return (
     <div className="flex flex-col items-center font-medium mt-28 gap-y-20">
       <h1 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">
@@ -79,13 +92,6 @@ export const Game = () => {
                   setInterval(() => {
                     setCountDown(prev => prev - 1);
                   }, 1200);
-                  setTimeout(() => {
-                    navigate(
-                      `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${
-                        category ?? ''
-                      }/${postid ?? ''}/${topic !== null ? '?game=' + topic : ''}`
-                    );
-                  }, 3600);
                 }}
                 className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
               >
