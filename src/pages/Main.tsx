@@ -166,10 +166,10 @@ export const Main = () => {
         {/* 게임 리스트 */}
         {filteredData.length === 0 ? (
           <h2 className="w-full mt-10 text-2xl text-center">
-            {curCategory !== 'personquiz' ? '현재 관련 게임이 없습니다.' : '인물퀴즈는 업데이트 예정입니다.'}
+            {'현재 관련 게임이 없습니다.'}
             <br />
             <br />
-            {curCategory !== 'personquiz' ? '게임 제작에 참여해주세요.' : '조금만 기다려 주세요.'}
+            {'게임 제작에 참여해주세요.'}
           </h2>
         ) : (
           <div className="h-[500px] overflow-y-scroll">
