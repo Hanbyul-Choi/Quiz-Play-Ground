@@ -11,9 +11,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-      </Routes>
-      <div>
-        <Layout>
+        <Route element={<Layout />}>
           <Route path="/main" element={<Main />} />
           <Route path="/addgame" element={<AddGame />} />
           <Route path="/game/:category/:postid" element={<Game />} />
@@ -21,8 +19,8 @@ const App = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/textgame/:category/:postid" element={<TextGame />} />
           <Route path="/picturegame/:category/:postid" element={<PictureGame />} />
-        </Layout>
-      </div>
+        </Route>
+      </Routes>
     </>
   );
 };

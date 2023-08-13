@@ -1,10 +1,10 @@
-import { Routes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   return (
     <>
       <div className="flex flex-col w-full max-w-screen-lg mx-auto">
-        <Routes>{children}</Routes>
+        <Outlet />
         {/* <Footer /> */}
       </div>
     </>
