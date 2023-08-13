@@ -92,10 +92,12 @@ export const PictureGame = () => {
       setTimeout(() => {
         clickNextQuiz();
       }, 1500);
+      sendScore(score + 1);
     } else {
       // 오답일때
       openInCorrectModal();
       setResult('isWrong');
+      sendScore(score);
     }
   };
   return (
@@ -112,10 +114,12 @@ export const PictureGame = () => {
           </b>
           <b>현재 점수: {score}</b>
         </div>
-        <div className="grid grid-cols-2 gap-x-[60px]">
-          <div className="flex flex-col items-center rounded-xl w-[470px] h-[400px] bg-hoverSkyBlue shadow-md justify-center gap-y-16 text-2xl">
+        <div className="flex flex-cols gap-[60px] relative  rounded-[10px]">
+          <div className="flex flex-col items-center rounded-[10px] bg-white border-2 border-black w-[470px] h-[400px] justify-center text-2xl">
             <img className="object-contain w-full h-full p-6 " src={data[currentQuiz - 1]?.question} alt="" />
           </div>
+          <div className="absolute z-[-10] top-2 left-2 w-[470px] h-[400px] border-b-[12px] border-r-[12px] border-skyBlue rounded-[10px]" />
+
           <form
             onSubmit={submitAnswer}
             className="flex flex-col items-center rounded-xl w-[470px] h-[400px] border-4 border-gray2 justify-center"

@@ -32,7 +32,7 @@ const LikedGame = ({ games, isFetching, likes }: propsType) => {
   };
 
   return (
-    <ul className="w-[450px] mt-4 flex flex-col h-[calc(62vh-102px)] overflow-scroll">
+    <ul className="w-[450px] mt-4 flex flex-col h-[calc(62vh-102px)] overflow-y-scroll">
       {isFetching === true && (
         <>
           <div className="mt-7">

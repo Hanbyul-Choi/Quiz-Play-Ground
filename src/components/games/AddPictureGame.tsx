@@ -51,8 +51,6 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const { userId, userName } = userStore();
 
   const navigate = useNavigate();
-  console.log(question);
-  console.log(viewImg);
   useEffect(() => {
     clearState();
   }, [selectCategory]);
@@ -172,8 +170,6 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
     }
   };
 
-  console.log(quiz);
-
   return (
     <>
       <div>
@@ -186,73 +182,81 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
               onChange={val => {
                 setSelectTopic(PicTopicMatch[val]);
               }}
+              border={true}
+              size="lg"
+              text="주제 선택"
             />
           )}
           <p>작성된 문항 수: {countList.length}</p>
         </div>
         <ul>
           {countList?.map((item, idx) => (
-            <li
-              key={idx}
-              className="flex items-center justify-center gap-x-16 rounded-xl w-[1000px] h-[400px] bg-hoverSkyBlue shadow-md mb-10"
-            >
-              <div className="w-[300px] h-[350px] p-4 outline-none text-center rounded-xl resize-none shadow-md bg-white">
-                <label
-                  htmlFor="file"
-                  className="py-1 px-2 rounded-[10px] bg-skyBlue hover:bg-hoverSkyBlue active:bg-clickSkyBlue"
-                >
-                  사진 넣기
-                </label>
-                <p className="mt-2 text-gray3">{question[idx] ?? <br />}</p>
-                <img
-                  className="border-2 bg-gray1 border-black m-auto rounded-[8px] w-[250px] h-[250px] bg-cover"
-                  src={viewImg[item]}
-                  alt=""
-                />
+            <li key={idx} className="relative bg-blue rounded-xl">
+              <div className="flex items-center gap-[50px] justify-center rounded-xl w-[1000px] h-[400px] bg-hoverSkyBlue shadow-md mb-10">
+                <div className="w-[300px] h-[350px] p-4 outline-none text-center rounded-xl resize-none shadow-md bg-white">
+                  <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                    <label
+                      htmlFor="file"
+                      className="py-1 px-2 rounded-[10px] bg-skyBlue hover:bg-hoverSkyBlue active:bg-clickSkyBlue"
+                    >
+                      사진 넣기
+                    </label>
+                  </div>
+                  <p className="mt-2 text-gray3">{question[idx] ?? <br />}</p>
+                  <img
+                    className="bg-gray1 m-auto rounded-[8px] w-[250px] h-[250px] bg-cover"
+                    src={viewImg[item]}
+                    alt=""
+                  />
 
-                <input
-                  id="file"
-                  className="absolute w-0 h-0 m-[-1px] p-0 overflow-hidden"
-                  type="file"
-                  accept="image/jpeg"
+                  <input
+                    id="file"
+                    className="absolute w-0 h-0 m-[-1px] p-0 overflow-hidden"
+                    type="file"
+                    accept="image/jpeg"
+                    onChange={e => {
+                      questionChangeHandler(e);
+                    }}
+                  />
+                </div>
+
+                {item !== 0 ? (
+                  <button
+                    className="relative w-4 bottom-[38%] left-[48%]"
+                    onClick={() => {
+                      divDeleteHandler(item, idx);
+                    }}
+                  >
+                    X
+                  </button>
+                ) : (
+                  <div className="w-4" />
+                )}
+
+                <Input
+                  inputType="textarea"
+                  inputStyleType="PicQuiz"
+                  holderMsg="정답을 입력해주세요."
                   onChange={e => {
-                    questionChangeHandler(e);
+                    answerChangeHandler(e, idx);
                   }}
+                  value={answer[idx]?.text}
+                  border={false}
                 />
               </div>
-
-              {item !== 0 ? (
-                <button
-                  className="relative w-4 bottom-[38%] left-[48%]"
-                  onClick={() => {
-                    divDeleteHandler(item, idx);
-                  }}
-                >
-                  X
-                </button>
-              ) : (
-                <div className="w-4" />
-              )}
-              <Input
-                inputType="textarea"
-                inputStyleType="PicQuiz"
-                holderMsg="정답을 입력해주세요."
-                onChange={e => {
-                  answerChangeHandler(e, idx);
-                }}
-                value={answer[idx]?.text}
-                border={false}
-              />
+              <div className="absolute z-[-10] top-1 left-1 w-[1000px] h-[400px] border-b-[12px] border-r-[12px] border-black rounded-xl" />
             </li>
           ))}
         </ul>
-        <Button buttonStyle="gray2 md full outlined" onClick={divAddHandler}>
+        <Button buttonStyle="gray2 full" onClick={divAddHandler}>
           +
         </Button>
       </div>
-      <Button buttonStyle="yellow md" onClick={PostGameList}>
-        작성 완료
-      </Button>
+      <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] ">
+        <Button buttonStyle="yellow md" onClick={PostGameList}>
+          작성 완료
+        </Button>
+      </div>
     </>
   );
 };
