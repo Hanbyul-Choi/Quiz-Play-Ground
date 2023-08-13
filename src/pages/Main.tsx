@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import { Skeleton } from 'antd';
 import { getGameLikes } from 'api/gameLikes';
 import { getGameLists } from 'api/gameList';
+import Loading from 'assets/Loading';
 import GameLists from 'components/gamelist/GameLists';
 import HotGames from 'components/gamelist/HotGames';
 import { Dropdown } from 'components/shared/Dropdown';
@@ -96,19 +96,7 @@ export const Main = () => {
   };
 
   if (isLoading) {
-    return (
-      <>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-        <div className="mt-7">
-          <Skeleton title={false} active round />
-        </div>
-      </>
-    );
+    return <Loading />;
   }
 
   return (

@@ -51,8 +51,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const { userId, userName } = userStore();
 
   const navigate = useNavigate();
-  console.log(question);
-  console.log(viewImg);
+
   useEffect(() => {
     clearState();
   }, [selectCategory]);
@@ -115,9 +114,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
     countArr.push(counter);
     setCountList(countArr);
 
-    // setQuestion([...question, '']);
     setAnswer([...answer, { text: '' }]);
-    // setViewImg([...viewImg, '']);
   };
 
   const saveImg = (files: File): void => {
@@ -171,8 +168,6 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
       await Alert(errorMsg);
     }
   };
-
-  console.log(quiz);
 
   return (
     <>

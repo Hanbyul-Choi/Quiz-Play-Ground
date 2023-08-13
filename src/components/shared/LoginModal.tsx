@@ -95,6 +95,7 @@ const LoginModal = () => {
                 value={id}
                 onChange={onChangeId}
                 border={true}
+                autocomplete="on"
               />
             </div>
             {!isId && <p className={`${validationClass} text-red`}>아이디를 입력해주세요</p>}
