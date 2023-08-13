@@ -91,8 +91,8 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
   });
 
   return (
-    <div className="relative bg-white rounded-[10px] w-[940px] mb-10 z-[-1]">
-      <div className="relative w-[940px] h-[92px] border-2 border-black rounded-[10px]">
+    <div className="relative bg-white rounded-[10px] w-[940px] mb-10">
+      <div className="relative w-[950px] h-[92px] p-2 border-2 border-black bg-white rounded-[10px]">
         <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
           <div className="text-sm text-gray4">
             {userName} | {new Date(game.date).toLocaleString()}
@@ -107,7 +107,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
           {likeDoc?.likeUsers.length ?? 0}
         </div>
       </div>
-      <div className="absolute z-[-10] top-1 left-1 w-[940px] h-[92px] border-b-[10px] border-r-[10px] border-skyBlue rounded-[10px]" />
+      <div className="absolute z-[-10] top-1 left-1 w-[950px] h-[92px] border-b-[10px] border-r-[10px] border-skyBlue rounded-[10px]" />
     </div>
   );
 };

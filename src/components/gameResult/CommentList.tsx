@@ -127,7 +127,7 @@ const CommentList = () => {
           )}
         </div>
 
-        <ul className="w-[450px] h-[320px] overflow-auto mt-4 border-black">
+        <ul className="w-[500px] h-[420px] overflow-auto mt-4 border-black">
           {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
           <div ref={ref}></div>
         </ul>
