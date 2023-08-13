@@ -37,7 +37,7 @@ const Button = ({ buttonStyle, children, onClick, ...props }: ButtonProps) => {
       case 'sm':
         return (size = 'w-[110px] h-[35px] text-md rounded-[20px]');
       case 'md':
-        return (size = 'w-[130px] h-[50px] text-lg rounded-xl');
+        return (size = 'w-[184px] h-[46px] text-lg rounded-[23px]');
       case 'lg':
         return (size = 'w-[330px] text-3xl rounded-[60px] ');
       default:

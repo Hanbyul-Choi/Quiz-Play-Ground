@@ -67,25 +67,27 @@ export const Game = () => {
           {started ? (
             <Countdown countDown={countDown} />
           ) : (
-            <button
-              onClick={() => {
-                if (selectedtime === null) {
-                  Alert('시간을 선택하세요').catch(Error);
-                  return;
-                }
-                setStarted(true);
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-[20px]">
+              <button
+                onClick={() => {
+                  if (selectedtime === null) {
+                    Alert('시간을 선택하세요').catch(Error);
+                    return;
+                  }
+                  setStarted(true);
 
-                setInterval(() => {
-                  setCountDown(prev => prev - 1);
-                }, 1200);
-                setTimeout(() => {
-                  navigate(`/textgame/${category ?? ''}/${postid ?? ''}`);
-                }, 3600);
-              }}
-              className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
-            >
-              게임시작
-            </button>
+                  setInterval(() => {
+                    setCountDown(prev => prev - 1);
+                  }, 1200);
+                  setTimeout(() => {
+                    navigate(`/textgame/${category ?? ''}/${postid ?? ''}`);
+                  }, 3600);
+                }}
+                className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
+              >
+                게임시작
+              </button>
+            </div>
           )}
           <div className="absolute z-[-10] top-2 left-2 w-[1000px] h-[340px] border-b-[12px] border-r-[12px] border-skyBlue rounded-[10px]" />
         </div>
