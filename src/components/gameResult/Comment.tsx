@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { deleteComment, updateComment } from 'api/comments';
+import { userStore } from 'store';
 
 import DeleteOutlined from '../../assets/DeleteOutlined.svg';
 import EditOutlined from '../../assets/EditOutlined.svg';
@@ -23,6 +24,7 @@ interface CommentProps {
 const Comment = ({ comment }: CommentProps) => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [value, setValue] = useState(comment.content);
+  const { userId } = userStore();
 
   const queryClient = useQueryClient();
 
@@ -104,55 +106,58 @@ const Comment = ({ comment }: CommentProps) => {
   }
 
   return (
-    <li>
-      <p className="mt-4 pl-1 text-gray4 text-[12px]">{comment.userName}</p>
-
-      {isUpdating ? (
-        <div className="flex items-center justify-between border-b border-gray4">
-          <form className="flex" onSubmit={handleFormSubmit}>
-            <input
-              className="p-2 outline-none text-gray3"
-              value={value}
-              onChange={e => {
-                setValue(e.target.value);
-              }}
-              autoFocus
-            />
-          </form>
-          <div className="flex flex-col">
-            <div className="flex justify-end gap-1">
-              <button type="submit" onClick={handleCommentUpdateDone}>
-                완료
-              </button>
-              <button type="button" onClick={handleUpdateCancel}>
-                취소
-              </button>
-            </div>
-            <p className="pl-1 text-gray4 text-[12px]">{formatDate(comment.date)}</p>
-          </div>
-        </div>
-      ) : (
-        <div className="flex items-center justify-between border-b border-gray4">
-          <p className="p-1">{comment.content}</p>
-
-          <div className="flex flex-col">
-            <div className="flex justify-end gap-1">
-              <button onClick={handleCommentUpdateStart}>
-                <img className="mb-2" src={EditOutlined} alt="edit" />
-              </button>
-              <button
-                onClick={() => {
-                  handleCommentDelete(comment.id);
+    <div className="relative bg-white rounded-[10px]">
+      <li className="mt-4 border-2 border-black rounded-[10px] p-2 w-[450px] h-[120px]">
+        <p className="mt-4 pl-1 text-gray4 text-[12px]">
+          {comment.userName} · {formatDate(comment.date)}
+        </p>
+        {isUpdating ? (
+          <div className="flex items-center justify-between">
+            <form className="flex" onSubmit={handleFormSubmit}>
+              <input
+                className="p-2 outline-none text-gray3"
+                value={value}
+                onChange={e => {
+                  setValue(e.target.value);
                 }}
-              >
-                <img className="mb-2" src={DeleteOutlined} alt="delete" />
-              </button>
+                autoFocus
+              />
+            </form>
+            <div className="flex flex-col">
+              <div className="flex justify-end gap-1">
+                <button type="submit" onClick={handleCommentUpdateDone}>
+                  완료
+                </button>
+                <button type="button" onClick={handleUpdateCancel}>
+                  취소
+                </button>
+              </div>
             </div>
-            <p className="pl-1 text-gray4 text-[12px]">{formatDate(comment.date)}</p>
           </div>
-        </div>
-      )}
-    </li>
+        ) : (
+          <div className="flex items-center justify-between">
+            <p className="p-1 mt-4 font-bold">{comment.content}</p>
+            <div className="absolute flex flex-col right-3 bottom-2">
+              {userId === comment.userId && (
+                <div className="flex justify-end gap-1">
+                  <button onClick={handleCommentUpdateStart}>
+                    <img className="mb-2" src={EditOutlined} alt="edit" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleCommentDelete(comment.id);
+                    }}
+                  >
+                    <img className="mb-2" src={DeleteOutlined} alt="delete" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </li>
+      <div className="absolute z-[-10] top-1 left-1 w-[450px] h-[120px] border-b-[6px] border-r-[6px] border-yellow rounded-[10px]" />
+    </div>
   );
 };
 

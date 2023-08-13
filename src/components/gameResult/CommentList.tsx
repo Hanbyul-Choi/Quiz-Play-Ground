@@ -9,7 +9,6 @@ import Button from 'components/shared/Button';
 import { auth } from 'config/firebase';
 
 import Comment from './Comment';
-import CommentOutlined from '../../assets/CommentOutlined.svg';
 
 type RouteParams = Record<string, string | undefined>;
 
@@ -80,29 +79,34 @@ const CommentList = () => {
   return (
     <>
       <div className="flex flex-col ml-10">
-        <div className="flex items-center pb-2 border-b border-black">
-          <img src={CommentOutlined} alt="comment" />
-          <p className="ml-4 text-[30px]">댓글</p>
-          <p className="ml-2 text-[30px] text-grid text-red">{totalCommentCount}</p>
+        <div className="flex items-center justify-center pb-2 ">
+          <p className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">댓글</p>
+          <p className="ml-2 font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-yellow">
+            {totalCommentCount}
+          </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-2">
           {isLogin ? (
             <form className="flex gap-3" onSubmit={handleAddComment}>
-              <Input
-                border={false}
-                inputStyleType="comment"
-                inputType="text"
-                holderMsg="댓글을 입력해주세요!"
-                name="commentInput"
-                value={value}
-                onChange={e => {
-                  setValue(e.target.value);
-                }}
-              />
-              <Button buttonStyle="yellow xs" type="submit">
-                작성
-              </Button>
+              <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                <Input
+                  border={true}
+                  inputStyleType="comment"
+                  inputType="text"
+                  holderMsg="댓글을 입력해주세요!"
+                  name="commentInput"
+                  value={value}
+                  onChange={e => {
+                    setValue(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                <Button buttonStyle="yellow xs" type="submit">
+                  작성
+                </Button>
+              </div>
             </form>
           ) : (
             <form className="flex gap-3">
@@ -114,9 +118,11 @@ const CommentList = () => {
                 name="commentInput"
                 disabled={true}
               />
-              <Button buttonStyle="yellow xs" disabled>
-                작성
-              </Button>
+              <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                <Button buttonStyle="yellow xs" disabled>
+                  작성
+                </Button>
+              </div>
             </form>
           )}
         </div>

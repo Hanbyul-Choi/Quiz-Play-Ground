@@ -9,7 +9,7 @@ import { useDialog } from 'components/shared/Dialog';
 import { Dropdown } from 'components/shared/Dropdown';
 import { db } from 'config/firebase';
 import { FirebaseError } from 'firebase/app';
-import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { userStore } from 'store';
 
 interface InputType {
@@ -43,18 +43,16 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [quiz, setQuiz] = useState<GameListType[]>([]);
   const [selectTopic, setSelectTopic] = useState<string | null>(null);
 
-  const { Alert, Confirm } = useDialog();
+  const { Alert } = useDialog();
   const { userName, userId } = userStore();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (question[0].text === '' && answer[0].text === '') return;
-    void clearState();
+    clearState();
   }, [selectCategory]);
 
-  const clearState = async (): Promise<void> => {
-    if ((await Confirm('변경')) === false) return;
+  const clearState = (): void => {
     setCountList([0]);
     setQuestion([{ text: '' }]);
     setAnswer([{ text: '' }]);
@@ -154,14 +152,6 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
     }
   };
 
-  const getData = async () => {
-    const docRef = query(collection(db, 'Games'));
-    const docSnap = await getDocs(docRef);
-    docSnap.forEach(doc => {
-      console.log(doc.id, doc.data());
-    });
-  };
-
   return (
     <>
       <div>
@@ -179,7 +169,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
               text="주제 선택"
             />
           )}
-          <p>작성된 문항 수: 0</p>
+          <p>작성된 문항 수: {countList.length}</p>
         </div>
         <ul>
           {countList?.map((item, idx) => (
@@ -189,7 +179,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
             >
               <Input
                 inputType="textarea"
-                inputStyleType="quiz"
+                inputStyleType="TxtQuiz"
                 holderMsg="문제를 입력해주세요."
                 onChange={e => {
                   questionChangeHandler(e, idx);
@@ -211,7 +201,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
               )}
               <Input
                 inputType="textarea"
-                inputStyleType="quiz"
+                inputStyleType="TxtQuiz"
                 holderMsg="정답을 입력해주세요."
                 onChange={e => {
                   answerChangeHandler(e, idx);
@@ -228,9 +218,6 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
       </div>
       <Button buttonStyle="yellow md" onClick={PostGameList}>
         작성 완료
-      </Button>
-      <Button buttonStyle="yellow md" onClick={getData}>
-        테스트
       </Button>
     </>
   );

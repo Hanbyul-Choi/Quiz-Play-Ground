@@ -12,15 +12,17 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
-      <Layout>
-        <Route path="/main" element={<Main />} />
-        <Route path="/addgame" element={<AddGame />} />
-        <Route path="/game/:category/:postid" element={<Game />} />
-        <Route path="/gameresult/:postid" element={<GameResult />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/textgame/:category/:postid" element={<TextGame />} />
-        <Route path="/picturegame/:category/:postid" element={<PictureGame />} />
-      </Layout>
+      <div>
+        <Layout>
+          <Route path="/main" element={<Main />} />
+          <Route path="/addgame" element={<AddGame />} />
+          <Route path="/game/:category/:postid" element={<Game />} />
+          <Route path="/gameresult/:postid" element={<GameResult />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/textgame/:category/:postid" element={<TextGame />} />
+          <Route path="/picturegame/:category/:postid" element={<PictureGame />} />
+        </Layout>
+      </div>
     </>
   );
 };
