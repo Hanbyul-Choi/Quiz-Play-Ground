@@ -13,28 +13,11 @@ const ProgressBar = ({ time, color }: { time: number; color: string }) => {
   };
 
   useSound(timersound, 1, time);
-  // useEffect(() => {
-  //   if (time > 0) {
-  //     const INTERVAL_ID = setInterval(() => {
-  //       setSec(sec => sec - 1000);
-  //     }, 1000);
-
-  //     setTimeout(() => {
-  //       setColor('bg-red');
-  //     }, time * 0.8);
-
-  //     setTimeout(() => {
-  //       clearInterval(INTERVAL_ID);
-  //       toggleInCorrectModal();
-  //       timeOut();
-  //     }, time);
-  //   }
-  // }, []);
 
   return (
     <>
-      <div className="w-[1000px] overflow-hidden h-7 rounded-xl bg-gray1">
-        <div className={`h-7  w-full ${animateTime[time]} ${color}`}></div>
+      <div className="border-[2px] border-black w-[1000px] h-7 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] bg-gray1 mb-16">
+        <div className={`h-full ${animateTime[time]} ${color}`}></div>
       </div>
     </>
   );
