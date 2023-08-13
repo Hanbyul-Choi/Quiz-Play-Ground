@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 
 const defaultEvents = ['mousedown', 'touchstart'];
 
-type UseClickAwayType = {
+interface UseClickAwayType {
   ref: React.RefObject<HTMLElement>;
-  callback: () => void;
-  events: string[];
-};
+  callback: (event: Event) => void; // Specify the event type here
+  events?: string[];
+}
 
 export const useClickAway = ({ ref, callback, events = defaultEvents }: UseClickAwayType) => {
   const _callback = useRef(callback);
@@ -16,18 +16,22 @@ export const useClickAway = ({ ref, callback, events = defaultEvents }: UseClick
   }, [callback]);
 
   useEffect(() => {
-    const onClickAway = (event: any) => {
+    const onClickAway = (event: Event) => {
       event.stopPropagation();
 
-      if (ref.current && !ref.current.contains(event.target)) {
-        // _callback.current(event);
+      if (ref.current != null && !ref.current.contains(event.target as Node)) {
+        _callback.current(event);
       }
     };
 
-    events.forEach(event => document.addEventListener(event, onClickAway));
+    events.forEach(event => {
+      document.addEventListener(event, onClickAway);
+    });
 
     return () => {
-      events.forEach(event => document.removeEventListener(event, onClickAway));
+      events.forEach(event => {
+        document.removeEventListener(event, onClickAway);
+      });
     };
   }, [events, ref]);
 };

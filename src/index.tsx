@@ -1,9 +1,12 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
+
+import { OverlayProvider } from 'components/shared/Dialog';
+
+import App from './App';
+import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,9 +20,12 @@ const queryClient = new QueryClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <OverlayProvider>
+        <App />
+      </OverlayProvider>
+    </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+  </QueryClientProvider>
 );

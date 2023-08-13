@@ -1,5 +1,11 @@
-import React from 'react';
+import MyGame from 'components/mypage/MyGame';
+import MyProfile from 'components/mypage/MyProfile';
 
 export const MyPage = () => {
-  return <div>MyPage</div>;
+  return (
+    <div className="flex items-start justify-center" style={{ marginTop: '18vh' }}>
+      <MyGame />
+      <MyProfile />
+    </div>
+  );
 };
