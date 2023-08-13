@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { deleteComment, updateComment } from 'api/comments';
+import { useDialog } from 'components/shared/Dialog';
 import { userStore } from 'store';
 
 import DeleteOutlined from '../../assets/DeleteOutlined.svg';
@@ -26,14 +27,14 @@ const Comment = ({ comment }: CommentProps) => {
   const [value, setValue] = useState(comment.content);
   const { userId } = userStore();
 
+  const { Confirm } = useDialog();
+
   const queryClient = useQueryClient();
 
   const mutationCommentDelete = useMutation(deleteComment, {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [`gameResultComment`] });
-    },
-    onError: error => {
-      alert(error);
+      await queryClient.invalidateQueries({ queryKey: ['totalComments', comment.postId] });
     }
   });
 
@@ -41,17 +42,14 @@ const Comment = ({ comment }: CommentProps) => {
     onSuccess: async () => {
       setIsUpdating(false);
       await queryClient.invalidateQueries({ queryKey: [`gameResultComment`] });
-    },
-    onError: error => {
-      alert(error);
     }
   });
 
-  const handleCommentDelete = (id: string) => {
+  const handleCommentDelete = async (id: string) => {
     if (id == null) return;
 
-    const confirm = window.confirm('이 댓글을 삭제하시겠습니까?');
-    if (!confirm) return;
+    const confirmed = await Confirm('이 댓글을 삭제하시겠습니까?');
+    if (confirmed === false) return;
     mutationCommentDelete.mutate(id);
   };
 
@@ -105,7 +103,7 @@ const Comment = ({ comment }: CommentProps) => {
   }
 
   return (
-    <div className="relative bg-white rounded-[10px]">
+    <div className="relative bg-white rounded-[10px] w-[450px]">
       <li className="mt-4 border-2 border-black rounded-[10px] p-2 w-[450px] h-[120px]">
         <p className="mt-4 pl-1 text-gray4 text-[12px]">
           {comment.userName} · {formatDate(comment.date)}
@@ -144,7 +142,7 @@ const Comment = ({ comment }: CommentProps) => {
                   </button>
                   <button
                     onClick={() => {
-                      handleCommentDelete(comment.id);
+                      void handleCommentDelete(comment.id);
                     }}
                   >
                     <img className="mb-2" src={DeleteOutlined} alt="delete" />

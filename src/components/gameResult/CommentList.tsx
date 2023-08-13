@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { addComment, getComments, getTotalCommentCount } from 'api/comments';
 import { Input } from 'components/shared';
 import Button from 'components/shared/Button';
+import { auth } from 'config/firebase';
 
 import Comment from './Comment';
 
@@ -17,8 +18,18 @@ const CommentList = () => {
 
   const queryClient = useQueryClient();
 
-  const [isLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user !== null) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    });
+  }, []);
 
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     ['gameResultComment', postId],
@@ -44,6 +55,7 @@ const CommentList = () => {
   const mutationAddComment = useMutation(addComment, {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['gameResultComment'] });
+      await queryClient.invalidateQueries({ queryKey: ['totalComments', postId] });
       setValue('');
     },
     onError: error => {
@@ -57,7 +69,6 @@ const CommentList = () => {
     mutationAddComment.mutate({ postId, content: value });
   };
 
-  // const totalCommentCount = data?.pages.reduce((acc, page) => (acc += page.length), 0);
   const { data: totalCommentCount } = useQuery(
     ['totalComments', postId],
     async () => await getTotalCommentCount(postId)
@@ -105,6 +116,7 @@ const CommentList = () => {
                 inputType="text"
                 holderMsg="로그인 후 작성가능합니다."
                 name="commentInput"
+                disabled={true}
               />
               <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
                 <Button buttonStyle="yellow xs" disabled>
@@ -115,10 +127,10 @@ const CommentList = () => {
           )}
         </div>
 
-        <ul className="w-[450px] mt-4 border-black ">
+        <ul className="w-[500px] h-[420px] overflow-auto mt-4 border-black">
           {data?.pages.flatMap(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
+          <div ref={ref}></div>
         </ul>
-        <div className="h-2 mt-[300px]" ref={ref}></div>
       </div>
     </>
   );
