@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { getGameData } from 'api/gameData';
 import Button from 'components/shared/Button';
 import CorrectModal from 'components/shared/modal/CorrectModal';
 import InCorrectModal from 'components/shared/modal/InCorrectModal';
 import ProgressBar from 'components/shared/ProgressBar';
-import { categoryMatchKo } from 'pages';
+import { categoryMatchKo, topicMatch } from 'pages';
 import { gameResultStore, modalStateStore, setTimerStore } from 'store';
 
 import { Input, Label } from '../shared';
@@ -19,6 +19,8 @@ export const TextGame = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { category, postid } = params ?? '';
+  const location = useLocation();
+  const topic = location.search.split('=')[1];
 
   const answerRef = useRef<HTMLInputElement | null>(null);
 
@@ -102,7 +104,7 @@ export const TextGame = () => {
       <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue flex gap-2">
         {categoryMatchKo[category ?? '']}
         {<p className="text-blue"> - </p>}
-        토픽 연동.
+        {topicMatch[topic ?? '']}
       </h2>
 
       <div>

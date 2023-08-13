@@ -22,7 +22,7 @@ export const timerMatch: Match = {
 };
 
 const Countdown = ({ countDown }: { countDown: number }) => {
-  useSound(countsound, 3, 3000);
+  useSound(countsound, 0.5, 3000);
   return <div className="text-lg">{countDown}</div>;
 };
 
@@ -80,7 +80,11 @@ export const Game = () => {
                     setCountDown(prev => prev - 1);
                   }, 1200);
                   setTimeout(() => {
-                    navigate(`/textgame/${category ?? ''}/${postid ?? ''}`);
+                    navigate(
+                      `/${categoryMatchKo[category as string] === '인물 퀴즈' ? 'picturegame' : 'textgame'}/${
+                        category ?? ''
+                      }/${postid ?? ''}/${topic !== null ? '?game=' + topic : ''}`
+                    );
                   }, 3600);
                 }}
                 className="px-3 py-1 text-xl shadow-md rounded-2xl bg-yellow"
