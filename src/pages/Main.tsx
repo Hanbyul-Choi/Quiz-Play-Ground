@@ -34,6 +34,15 @@ export const topicMatch: Match = {
   '4words': '일상단어'
 };
 
+export const personTopicMatch: Match = {
+  actor: '배우',
+  singer: '가수',
+  character: '캐릭터',
+  greatman: '위인',
+  sports: '운동선수',
+  mix: '종합'
+};
+
 export const Main = () => {
   const [curCategory, setCurCategory] = useState<string>('');
   const [sortWay, setSortWay] = useState('인기순');
@@ -56,7 +65,7 @@ export const Main = () => {
         if (sortedCategoryData !== undefined) {
           const sortedLikeData = sortLike(sortedCategoryData);
           setFilteredData(sortedLikeData);
-          if (curCategory === '') setRankedGame(sortedLikeData);
+          if (curCategory === '') setRankedGame([sortedLikeData[1], sortedLikeData[0], sortedLikeData[2]]);
         }
       } else {
         const sortedCategoryData = sortCategory(data);
@@ -65,7 +74,7 @@ export const Main = () => {
         }
       }
     }
-  }, [sortWay, data, curCategory]);
+  }, [sortWay, data, curCategory, likes]);
 
   const sortCategory = (games: GameListContent[]) => {
     // 카테고리 별
@@ -107,10 +116,10 @@ export const Main = () => {
 
   return (
     <>
-      <div className="flex-col items-center justify-center p-5">
-        <HotGames data={rankedGame.slice(0, 3)} likes={likes ?? []} />
+      <div className="flex-col items-center justify-center">
+        <HotGames data={rankedGame} likes={likes ?? []} />
         {/* 게임 카테고리 선택 */}
-        <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
+        <div className="category justify-center flex gap-[60px] text-lg text-gray3">
           <button
             onClick={() => {
               handleCategoryClick('');
