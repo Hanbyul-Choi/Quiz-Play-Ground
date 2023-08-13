@@ -90,10 +90,12 @@ export const TextGame = () => {
       setTimeout(() => {
         clickNextQuiz();
       }, 1500);
+      sendScore(score + 1);
     } else {
       // 오답일때
       openInCorrectModal();
       setResult('isWrong');
+      sendScore(score);
     }
   };
 

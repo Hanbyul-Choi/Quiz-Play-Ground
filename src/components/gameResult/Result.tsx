@@ -9,11 +9,12 @@ import like from 'assets/icons/LikeOutlined.svg';
 import { type LikeDoc } from 'components/gamelist/GameInfo';
 import { useDialog } from 'components/shared/Dialog';
 import { useMount } from 'hooks';
-import { gameResultStore, userStore } from 'store';
+import { gameResultStore, setTimerStore, userStore } from 'store';
 
 const Result = () => {
   const { postid } = useParams();
   const { score, totalQuiz } = gameResultStore();
+  const { timer } = setTimerStore();
   const { userId: curUser } = userStore();
   const { data } = useQuery('gameLike', getGameLikes);
   const queryClient = useQueryClient();
@@ -117,7 +118,7 @@ const Result = () => {
       <p className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue">게임결과</p>
       <div className="mt-4 relative bg-white rounded-[10px]">
         <div className=" flex flex-col justify-center items-center w-[450px] h-[500px] border-[2px] border-black rounded-[10px]">
-          <p className="mb-16 text-[20px] ">선택한 제한시간: 3초</p>
+          <p className="mb-16 text-[20px] ">선택한 제한시간: {timer / 1000}초</p>
           <div className="border-[2px] border-black w-[350px] h-7 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] bg-gray2 mb-16">
             <div className={`${rate} h-full bg-green`}></div>
           </div>
