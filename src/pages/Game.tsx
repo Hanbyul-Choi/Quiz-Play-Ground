@@ -22,7 +22,7 @@ export const timerMatch: Match = {
 };
 
 const Countdown = ({ countDown }: { countDown: number }) => {
-  useSound(countsound, 3, 3000);
+  useSound(countsound, 0.5, 3000);
   return <div className="text-lg">{countDown}</div>;
 };
 

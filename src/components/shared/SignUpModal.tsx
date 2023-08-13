@@ -94,106 +94,118 @@ const SignUpModal = () => {
 
   return createPortal(
     <div className="absolute top-0 z-20 flex items-center justify-center w-screen h-screen bg-black/20">
-      <div className="flex flex-col justify-center bg-gray1 w-[500px] h-[650px] rounded-lg p-7 gap-2 shadow-lg">
-        <div
-          className="ml-auto font-bold transition-all duration-100 cursor-pointer hover:scale-150"
-          onClick={() => {
-            toggleSignUpModal();
-          }}
-        >
-          X
+      <div className="relative bg-white rounded-[10px]">
+        <div className="flex flex-col justify-center bg-gray1 w-[500px] h-[650px] border-2 border-black rounded-[10px] p-7 gap-2 shadow-lg">
+          <div
+            className="ml-auto font-bold transition-all duration-100 cursor-pointer hover:scale-150"
+            onClick={() => {
+              toggleSignUpModal();
+            }}
+          >
+            X
+          </div>
+          <form
+            onSubmit={e => {
+              handleSignup(e).catch(error => {
+                error.errorHandler(error);
+                console.log('로그인 에러 발생');
+              });
+            }}
+          >
+            <div className={`${labelClass}`}>
+              <Label name="id">아이디</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="id"
+                inputType="email"
+                inputStyleType="auth"
+                holderMsg="아이디를 입력해주세요"
+                value={id}
+                onChange={onChangeId}
+                border={true}
+              />
+            </div>
+            {!isId ? (
+              <p className={`${validationClass} text-blue`}>사용가능한 아이디입니다</p>
+            ) : (
+              <p className={`${validationClass} text-red`}>이메일 형식으로 입력해주세요</p>
+            )}
+            <div className={`${labelClass}`}>
+              <Label name="nickname">닉네임</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="nickname"
+                inputType="text"
+                inputStyleType="auth"
+                holderMsg="닉네임을 입력해주세요"
+                value={nickname}
+                onChange={onChangeNickname}
+                border={true}
+              />
+            </div>
+            {!isNickname ? (
+              <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
+            ) : (
+              <p className={`${validationClass} text-red`}>두 글자 이상, 영어 또는 한글, 숫자로 입력해주세요</p>
+            )}
+            <div className={`${labelClass}`}>
+              <Label name="password">비밀번호</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="password"
+                inputType="password"
+                inputStyleType="auth"
+                holderMsg="비밀번호를 입력해주세요"
+                value={password}
+                onChange={onChangePassword}
+                border={true}
+              />
+            </div>
+            {!isPassword ? (
+              <p className={`${validationClass} text-blue`}>사용가능한 비밀번호입니다</p>
+            ) : (
+              <p className={`${validationClass} text-red`}>8자리 이상이어야 하며, 영어와 숫자로 입력해주세요</p>
+            )}
+            <div className={`${labelClass}`}>
+              <Label name="passwordConf">비밀번호 확인</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="passwordConf"
+                inputType="password"
+                inputStyleType="auth"
+                holderMsg="비밀번호를 확인해주세요"
+                value={passwordConf}
+                onChange={onChangePasswordConf}
+                border={true}
+              />
+            </div>
+            {!isPasswordConf ? (
+              <p className={`${validationClass} text-blue`}>비밀번호가 일치합니다</p>
+            ) : (
+              <p className={`${validationClass} text-red`}>비밀번호가 일치하지 않습니다</p>
+            )}
+
+            <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-lg mt-12">
+              <Button buttonStyle="yellow full border " disabled={disabled}>
+                회원가입
+              </Button>
+            </div>
+          </form>
+          <div
+            className="mx-auto mt-4 mb-4 font-bold cursor-pointer text-blue hover:underline hover:underline-offset-4"
+            onClick={() => {
+              toggleLoginModal();
+              toggleSignUpModal();
+            }}
+          >
+            이미 회원이신가요?
+          </div>
         </div>
-        <form
-          onSubmit={e => {
-            handleSignup(e).catch(error => {
-              error.errorHandler(error);
-              console.log('로그인 에러 발생');
-            });
-          }}
-        >
-          <div className={`${labelClass}`}>
-            <Label name="id">아이디</Label>
-          </div>
-          <Input
-            name="id"
-            inputType="email"
-            inputStyleType="auth"
-            holderMsg="아이디를 입력해주세요"
-            value={id}
-            onChange={onChangeId}
-            border={false}
-          />
-          {!isId ? (
-            <p className={`${validationClass} text-blue`}>사용가능한 아이디입니다</p>
-          ) : (
-            <p className={`${validationClass} text-red`}>이메일 형식으로 입력해주세요</p>
-          )}
-          <div className={`${labelClass}`}>
-            <Label name="nickname">닉네임</Label>
-          </div>
-          <Input
-            name="nickname"
-            inputType="text"
-            inputStyleType="auth"
-            holderMsg="닉네임을 입력해주세요"
-            value={nickname}
-            onChange={onChangeNickname}
-            border={false}
-          />
-          {!isNickname ? (
-            <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
-          ) : (
-            <p className={`${validationClass} text-red`}>두 글자 이상, 영어 또는 한글, 숫자로 입력해주세요</p>
-          )}
-          <div className={`${labelClass}`}>
-            <Label name="password">비밀번호</Label>
-          </div>
-          <Input
-            name="password"
-            inputType="password"
-            inputStyleType="auth"
-            holderMsg="비밀번호를 입력해주세요"
-            value={password}
-            onChange={onChangePassword}
-            border={false}
-          />
-          {!isPassword ? (
-            <p className={`${validationClass} text-blue`}>사용가능한 비밀번호입니다</p>
-          ) : (
-            <p className={`${validationClass} text-red`}>8자리 이상이어야 하며, 영어와 숫자로 입력해주세요</p>
-          )}
-          <div className={`${labelClass}`}>
-            <Label name="passwordConf">비밀번호 확인</Label>
-          </div>
-          <Input
-            name="passwordConf"
-            inputType="password"
-            inputStyleType="auth"
-            holderMsg="비밀번호를 확인해주세요"
-            value={passwordConf}
-            onChange={onChangePasswordConf}
-            border={false}
-          />
-          {!isPasswordConf ? (
-            <p className={`${validationClass} text-blue`}>비밀번호가 일치합니다</p>
-          ) : (
-            <p className={`${validationClass} text-red`}>비밀번호가 일치하지 않습니다</p>
-          )}
-          <div className="mt-12">
-            <Button buttonStyle="yellow md full" disabled={disabled}>
-              회원가입
-            </Button>
-          </div>
-        </form>
-        <div
-          className="mx-auto mt-4 mb-4 font-bold cursor-pointer text-blue hover:underline hover:underline-offset-4"
-          onClick={() => {
-            toggleLoginModal();
-            toggleSignUpModal();
-          }}
-        >
-          이미 회원이신가요?
-        </div>
+        <div className="absolute z-[-10] top-2 left-2 w-[500px] h-[650px] border-b-[12px] border-r-[12px] border-black rounded-[10px]" />
       </div>
     </div>,
     modalRoot
