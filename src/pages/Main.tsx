@@ -31,7 +31,13 @@ export const categoryMatchKo: Match = {
 export const topicMatch: Match = {
   proverb: '속담',
   idiom: '사자성어',
-  '4words': '일상단어'
+  '4words': '일상단어',
+  actor: '배우',
+  singer: '가수',
+  character: '캐릭터',
+  sports: '운동선수',
+  greatman: '위인',
+  mix: '종합'
 };
 
 export const personTopicMatch: Match = {
