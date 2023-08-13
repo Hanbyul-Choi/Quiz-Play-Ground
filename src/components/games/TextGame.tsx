@@ -29,7 +29,7 @@ export const TextGame = () => {
   const [color, setColor] = useState('bg-green');
 
   const { isCorrectModalOpen, isInCorrectModalOpen, openCorrectModal, openInCorrectModal } = modalStateStore();
-  const { sendScore } = gameResultStore();
+  const { sendScore, sendTotalQuiz } = gameResultStore();
 
   useEffect(() => {
     setColor('bg-green');
@@ -63,6 +63,8 @@ export const TextGame = () => {
     setAnswer('');
     setResult('inprogress');
     if (currentQuiz === data?.length) {
+      // initState();
+      sendTotalQuiz(data.length);
       if (result === 'isCorrect') {
         // 마지막 문제를 맞혔을 때 스코어를 스토어로 보내기
         sendScore(score + 1);

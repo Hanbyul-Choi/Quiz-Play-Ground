@@ -113,12 +113,22 @@ export const setTimerStore = create<timerType>(set => ({
 
 export const gameResultStore = create<gameResult>(set => ({
   score: 0,
+  totalQuiz: 0,
   sendScore: score => {
     set({ score });
+  },
+  sendTotalQuiz: totalQuiz => {
+    set({ totalQuiz });
+  },
+  initState: () => {
+    set({ score: 0, totalQuiz: 0 });
   }
 }));
 
 interface gameResult {
   score: number;
+  totalQuiz: number;
   sendScore: (score: number) => void;
+  sendTotalQuiz: (totalQuiz: number) => void;
+  initState: () => void;
 }

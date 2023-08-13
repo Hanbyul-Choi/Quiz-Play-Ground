@@ -54,7 +54,7 @@ const Header: FC = () => {
     <>
       {isLoginModalOpen && <LoginModal />}
       {isSignUpModalOpen && <SignUpModal />}
-      <div className="flex items-center justify-between w-full h-[60px] p-2 px-8 bg-blue">
+      <div className="flex items-center justify-between w-full h-[60px] p-2 px-8">
         <Link
           to={'/'}
           onClick={() => {
@@ -67,16 +67,16 @@ const Header: FC = () => {
           {isLogin ? (
             <>
               <button
-                className="text-white"
+                className="text-black"
                 onClick={() => {
                   toggleSignUpModal();
                 }}
               >
                 가입하기
               </button>
-              <p className="text-white">|</p>
+              <p className="text-black">|</p>
               <button
-                className="text-white"
+                className="text-black"
                 onClick={() => {
                   toggleLoginModal();
                 }}
@@ -88,26 +88,26 @@ const Header: FC = () => {
             <>
               <Link
                 to={'/addgame'}
-                className={`${activeButton === 'addGame' ? 'text-gray3' : 'text-white'}`}
+                className={`${activeButton === 'addGame' ? 'text-gray3' : 'text-black'}`}
                 onClick={() => {
                   setActiveButton('addGame');
                 }}
               >
                 게임만들기
               </Link>
-              <p className="text-white">|</p>
+              <p className="text-black">|</p>
               <Link
                 to={'/mypage'}
-                className={`${activeButton === 'myPage' ? 'text-gray3' : 'text-white'}`}
+                className={`${activeButton === 'myPage' ? 'text-gray3' : 'text-black'}`}
                 onClick={() => {
                   setActiveButton('myPage');
                 }}
               >
                 마이페이지
               </Link>
-              <p className="text-white">|</p>
+              <p className="text-black">|</p>
               <button
-                className="text-white"
+                className="text-black"
                 onClick={() => {
                   setActiveButton(null);
                   logout().catch(error => {
