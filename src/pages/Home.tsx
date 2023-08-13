@@ -13,10 +13,10 @@ export const Home = () => {
       <div className="absolute top-[37%] left-[780px] mr-1 flex-col items-center justify-center ">
         <img src={Title} className="max-w-[650px]" />
         {/* 
-        <p className="font-extrabold drop-shadow-[1px_4px_1px_rgba(0,0,0,1)] text-[90px] text-skyBlue">
+        <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-skyBlue">
           QUIZ
         </p>
-        <p className="font-extrabold drop-shadow-[1px_4px_1px_rgba(0,0,0,1)] text-[90px] text-blue">
+        <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-blue">
           PLAY GROUND
         </p> */}
         <Link to={'/main'}>

@@ -108,7 +108,6 @@ export const Main = () => {
   return (
     <>
       <div className="flex-col items-center justify-center p-5">
-        인기게임 top 3
         <HotGames data={rankedGame.slice(0, 3)} likes={likes ?? []} />
         {/* 게임 카테고리 선택 */}
         <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
@@ -173,7 +172,7 @@ export const Main = () => {
             {curCategory !== 'personquiz' ? '게임 제작에 참여해주세요.' : '조금만 기다려 주세요.'}
           </h2>
         ) : (
-          <div className="h-[50vh] overflow-y-scroll">
+          <div className="h-[500px] overflow-y-scroll">
             <GameLists data={filteredData} likes={likes ?? []} />
           </div>
         )}

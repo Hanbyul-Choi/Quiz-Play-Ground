@@ -19,11 +19,9 @@ const GameLists = ({ data, likes }: GameDataprops) => {
     return { ...game, likeDoc };
   });
   return (
-    <section className="flex-col items-center justify-center mt-10 game-list">
+    <section className="flex-col items-center justify-center mt-10">
       {mergedData.map(game => (
-        <div key={game.postId}>
-          <GameInfo game={game} />
-        </div>
+        <GameInfo key={game.postId} game={game} />
       ))}
     </section>
   );

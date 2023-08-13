@@ -99,7 +99,12 @@ export const TextGame = () => {
 
   return (
     <div className="flex flex-col items-center mt-20 font-medium gap-y-16">
-      <h1 className="mt-8 mb-12 text-3xl">{categoryMatchKo[category ?? '']}</h1>
+      <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue flex gap-2">
+        {categoryMatchKo[category ?? '']}
+        {<p className="text-blue"> - </p>}
+        토픽 연동.
+      </h2>
+
       <div>
         <div className="flex justify-between m-2">
           <b>
@@ -107,15 +112,18 @@ export const TextGame = () => {
           </b>
           <b>현재 점수: {score}</b>
         </div>
-        <div className="flex flex-col items-center rounded-xl w-[1000px] h-[150px] bg-hoverSkyBlue shadow-md justify-center gap-y-16 text-2xl">
-          {data[currentQuiz - 1]?.question}
+        <div className="relative bg-white rounded-[10px]">
+          <div className="flex flex-col items-center rounded-[10px] w-[1000px] h-[150px] border-2 border-black justify-center gap-y-16 text-2xl">
+            {data[currentQuiz - 1]?.question}
+          </div>
+          <div className="absolute z-[-10] top-2 left-2 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-skyBlue rounded-[10px]" />
         </div>
       </div>
       <form
         onSubmit={submitAnswer}
-        className="flex flex-col items-center rounded-xl w-[1000px] h-[150px] border-4 border-gray2 justify-center"
+        className="flex flex-col items-center rounded-xl w-[1000px] h-[150px] border-4 border-gray2 justify-center text-xl"
       >
-        <Label name="game">뒤에 이어질 단어를 입력해주세요!</Label>
+        <Label name="game">{category === 'relay' ? '뒤에 이어질 단어를 입력해주세요!' : '정답을 입력해주세요!'}</Label>
         <Input
           forwardRef={answerRef}
           inputType="text"
@@ -128,14 +136,17 @@ export const TextGame = () => {
           border={false}
           disabled={result !== 'inprogress'}
           autoFocus={true}
+          autocomplete="off"
         />
       </form>
       {result === 'isWrong' && (
         <div className="text-center">
-          <Button buttonStyle="yellow md" onClick={clickNextQuiz}>
-            {currentQuiz === data.length ? '결과보기' : '다음문제'}
-          </Button>
-          <div className="mt-10">정답 : {data[currentQuiz - 1].answer}</div>
+          <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-[23px]">
+            <Button buttonStyle="yellow md" onClick={clickNextQuiz}>
+              {currentQuiz === data.length ? '결과보기' : '다음문제'}
+            </Button>
+          </div>
+          <div className="mt-10 text-2xl font-bold text-green">정답 : {data[currentQuiz - 1].answer}</div>
         </div>
       )}
       {isCorrectModalOpen && result === 'isCorrect' && <CorrectModal />}

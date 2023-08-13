@@ -10,6 +10,7 @@ interface InputProps {
   disabled?: boolean;
   autoFocus?: boolean;
   forwardRef?: React.MutableRefObject<HTMLInputElement | null>;
+  autocomplete?: string;
 }
 
 type InputConfigType = Record<string, string>;
@@ -33,7 +34,8 @@ export const Input = ({
   border,
   disabled,
   autoFocus,
-  forwardRef
+  forwardRef,
+  autocomplete = 'on'
 }: InputProps) => {
   return (
     <input
@@ -47,6 +49,7 @@ export const Input = ({
       disabled={disabled}
       autoFocus={autoFocus}
       ref={forwardRef}
+      autoComplete={autocomplete}
     />
   );
 };
