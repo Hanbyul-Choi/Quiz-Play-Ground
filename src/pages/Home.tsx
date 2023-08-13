@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 import homeImg from 'assets/homeImg.png';
-import Title from 'assets/title.png';
 import Button from 'components/shared/Button';
 
 export const Home = () => {
@@ -10,15 +9,14 @@ export const Home = () => {
       <div className="absolute top-0 z-[-50] h-screen">
         <img src={homeImg} className="h-full" />
       </div>
-      <div className="absolute top-[37%] left-[780px] mr-1 flex-col items-center justify-center ">
-        <img src={Title} className="max-w-[650px]" />
-        {/* 
-        <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-skyBlue">
+      <div className="absolute top-[37%] left-[780px] mr-auto ml-[200px] flex-col items-center justify-center ">
+        {/* <img src={Title} className="max-w-[650px]" /> */}
+        <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-skyBlue mb-[-25px]">
           QUIZ
-        </p>
-        <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-blue">
+        </h2>
+        <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-[90px] text-blue mb-[-25px]">
           PLAY GROUND
-        </p> */}
+        </h2>
         <Link to={'/main'}>
           <div className="mt-[40px] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-[60px] max-w-fit">
             <Button buttonStyle="yellow lg">게임방 입장!</Button>
