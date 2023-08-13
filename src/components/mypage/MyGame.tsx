@@ -77,13 +77,13 @@ const MyGame = () => {
       </div>
       {isLoading || isGameLikedLoading || isGamesIdLoading ? (
         <>
-          <div className="mt-7">
+          <div className="mr-12 mt-7">
             <Skeleton title={false} active round />
           </div>
-          <div className="mt-7">
+          <div className="mr-12 mt-7">
             <Skeleton title={false} active round />
           </div>
-          <div className="mt-7">
+          <div className="mr-12 mt-7">
             <Skeleton title={false} active round />
           </div>
         </>

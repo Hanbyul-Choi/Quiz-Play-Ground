@@ -30,16 +30,18 @@ export const AddGame = () => {
             border={true}
             text="카테고리 선택"
           />
-          <Input
-            inputType="text"
-            inputStyleType="auth"
-            holderMsg="제목을 입력해주세요."
-            onChange={e => {
-              setGameTitle(e.target.value);
-            }}
-            value={gameTitle}
-            border={true}
-          />
+          <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] w-full">
+            <Input
+              inputType="text"
+              inputStyleType="auth"
+              holderMsg="제목을 입력해주세요."
+              onChange={e => {
+                setGameTitle(e.target.value);
+              }}
+              value={gameTitle}
+              border={true}
+            />
+          </div>
         </div>
         <ul className="w-full list-disc list-inside text-start text-gray3">
           <li>최소 문항 수는 5개입니다.</li>

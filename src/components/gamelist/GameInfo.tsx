@@ -8,7 +8,7 @@ import liked from 'assets/icons/Liked.svg';
 import like from 'assets/icons/LikeOutlined.svg';
 import { useDialog } from 'components/shared/Dialog';
 import { useMount } from 'hooks';
-import { topicMatch, type GameListContent, categoryMatchKo } from 'pages';
+import { topicMatch, type GameListContent, categoryMatchKo, personTopicMatch } from 'pages';
 import { userStore } from 'store';
 
 export interface LikeDoc {
@@ -92,14 +92,19 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
 
   return (
     <div className="relative bg-white rounded-[10px] w-[940px] mb-10">
-      <div className="relative w-[950px] h-[92px] p-2 border-2 border-black bg-white rounded-[10px]">
+      <div className="relative w-[100%] h-[92px] p-2 border-2 border-black bg-white rounded-[10px]">
         <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
           <div className="text-sm text-gray4">
             {userName} | {new Date(game.date).toLocaleString()}
           </div>
           <div className="mt-4 text-lg ">
-            [{categoryMatchKo[category]}] {title} | {game.totalQuiz}문항
-            {topic !== null ? ` |  ${topicMatch[topic]}` : null}
+            <span className="font-bold">[{categoryMatchKo[category]}] </span>
+            {title} &nbsp; | &nbsp; {game.totalQuiz}문항
+            {topic !== null
+              ? category === 'relay'
+                ? ` (   ${topicMatch[topic]} )`
+                : `  (   ${personTopicMatch[topic]} )`
+              : null}
           </div>
         </Link>
         <div className="absolute flex items-center gap-2 bottom-2 right-2">
@@ -107,7 +112,7 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
           {likeDoc?.likeUsers.length ?? 0}
         </div>
       </div>
-      <div className="absolute z-[-10] top-1 left-1 w-[950px] h-[92px] border-b-[10px] border-r-[10px] border-skyBlue rounded-[10px]" />
+      <div className="absolute z-[-10] top-1 left-1 w-[100%] h-[92px] border-b-[10px] border-r-[10px] border-skyBlue rounded-[10px]" />
     </div>
   );
 };

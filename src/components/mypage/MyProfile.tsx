@@ -32,7 +32,7 @@ const MyProfile = () => {
 
   if (isLoading) {
     return (
-      <div className="w-[320px] text-center flex justify-center">
+      <div className="w-[320px] ml-12 text-center flex justify-center">
         <Skeleton.Avatar active size={150} />
       </div>
     );
