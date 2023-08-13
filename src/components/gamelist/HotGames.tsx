@@ -30,12 +30,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
                     className="relative flex flex-col items-center justify-center gap-[3px] rounded-lg "
                   >
-                    <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-7xl text-green">2</p>
+                    <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-7xl text-green">2</h2>
                     <div className="flex items-center gap-2 mt-2 ">
                       <img src={like} className="scale-125" />
-                      <h2 className="text-4xl font-bold">
+                      <h3 className="text-4xl font-bold">
                         {likes?.find(doc => doc.postId === game.postId)?.likeUsers.length ?? 0}
-                      </h2>
+                      </h3>
                     </div>
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
@@ -63,12 +63,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
                     className="relative flex flex-col items-center justify-center gap-1 rounded-lg"
                   >
-                    <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-8xl text-red">1</p>
+                    <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-8xl text-red">1</h2>
                     <div className="flex items-center gap-2 mt-2 ">
                       <img src={like} className="scale-125" />
-                      <h2 className="text-4xl font-bold">
+                      <h3 className="text-4xl font-bold">
                         {likes?.find(doc => doc.postId === game.postId)?.likeUsers.length ?? 0}
-                      </h2>
+                      </h3>
                     </div>
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
@@ -96,12 +96,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
                     className="relative flex flex-col items-center justify-center gap-[2px] rounded-lg"
                   >
-                    <p className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-6xl text-yellow">3</p>
+                    <h2 className="font-extrabold drop-shadow-[1px_4px_0px_rgba(0,0,0,1)] text-6xl text-yellow">3</h2>
                     <div className="flex items-center gap-2 mt-2 ">
                       <img src={like} className="scale-125" />
-                      <h2 className="text-4xl font-bold">
+                      <h3 className="text-4xl font-bold">
                         {likes?.find(doc => doc.postId === game.postId)?.likeUsers.length ?? 0}
-                      </h2>
+                      </h3>
                     </div>
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />

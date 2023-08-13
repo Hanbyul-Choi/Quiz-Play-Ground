@@ -35,7 +35,7 @@ export const Input = ({
   disabled,
   autoFocus,
   forwardRef,
-  autocomplete = 'on'
+  autocomplete
 }: InputProps) => {
   return (
     <input
@@ -49,7 +49,7 @@ export const Input = ({
       disabled={disabled}
       autoFocus={autoFocus}
       ref={forwardRef}
-      autoComplete={autocomplete}
+      autoComplete={autocomplete ?? 'off'}
     />
   );
 };

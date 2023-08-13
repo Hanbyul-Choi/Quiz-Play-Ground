@@ -51,6 +51,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const { userId, userName } = userStore();
 
   const navigate = useNavigate();
+
   useEffect(() => {
     clearState();
   }, [selectCategory]);
@@ -113,9 +114,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
     countArr.push(counter);
     setCountList(countArr);
 
-    // setQuestion([...question, '']);
     setAnswer([...answer, { text: '' }]);
-    // setViewImg([...viewImg, '']);
   };
 
   const saveImg = (files: File): void => {
@@ -191,8 +190,8 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
         </div>
         <ul>
           {countList?.map((item, idx) => (
-            <li key={idx} className="relative bg-blue rounded-xl">
-              <div className="flex items-center gap-[50px] justify-center rounded-xl w-[1000px] h-[400px] bg-hoverSkyBlue shadow-md mb-10">
+            <li key={idx} className="relative bg-skyBlue rounded-xl">
+              <div className="flex items-center gap-[50px] justify-center rounded-xl w-[1000px] h-[400px] shadow-md border-2 border-black mb-10">
                 <div className="w-[300px] h-[350px] p-4 outline-none text-center rounded-xl resize-none shadow-md bg-white">
                   <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                     <label
