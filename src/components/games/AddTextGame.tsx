@@ -211,7 +211,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                     border={true}
                   />
                 </div>
-                <div className="absolute z-[-10] top-1 left-1 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-black rounded-[10px]" />
+                <div className="absolute z-[-10] top-1 left-1 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-black rounded-xl" />
               </div>
             </li>
           ))}
