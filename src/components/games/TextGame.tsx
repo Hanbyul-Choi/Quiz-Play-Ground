@@ -8,7 +8,7 @@ import CorrectModal from 'components/shared/modal/CorrectModal';
 import InCorrectModal from 'components/shared/modal/InCorrectModal';
 import ProgressBar from 'components/shared/ProgressBar';
 import { categoryMatchKo } from 'pages';
-import { modalStateStore, setTimerStore } from 'store';
+import { gameResultStore, modalStateStore, setTimerStore } from 'store';
 
 import { Input, Label } from '../shared';
 
@@ -29,6 +29,7 @@ export const TextGame = () => {
   const [color, setColor] = useState('bg-green');
 
   const { isCorrectModalOpen, isInCorrectModalOpen, openCorrectModal, openInCorrectModal } = modalStateStore();
+  const { sendScore, sendTotalQuiz } = gameResultStore();
 
   useEffect(() => {
     setColor('bg-green');
@@ -55,20 +56,24 @@ export const TextGame = () => {
 
   useEffect(() => {
     answerRef.current?.focus();
-    // console.log(1);
-    // if (answerRef.current !== null) {
-    //   answerRef.current.focus();
-    //   console.log(2);
-    // }
   }, [currentQuiz]);
 
   const clickNextQuiz = () => {
-    if (currentQuiz === data?.length) {
-      navigate(`/gameresult/${postid as string}`);
-    }
     setCurrentQuiz(prev => prev + 1);
     setAnswer('');
     setResult('inprogress');
+    if (currentQuiz === data?.length) {
+      // initState();
+      sendTotalQuiz(data.length);
+      if (result === 'isCorrect') {
+        // 마지막 문제를 맞혔을 때 스코어를 스토어로 보내기
+        sendScore(score + 1);
+      } else if (result === 'isWrong') {
+        // 마지막 문제를 틀렸을 때 기존 스코어를 스토어로 보내기
+        sendScore(score);
+      }
+      navigate(`/gameresult/${postid as string}`);
+    }
   };
 
   if (postid === undefined) return;

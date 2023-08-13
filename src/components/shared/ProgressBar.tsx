@@ -7,7 +7,9 @@ const ProgressBar = ({ time, color }: { time: number; color: string }) => {
   const animateTime: animateType = {
     3000: 'animate-progress3',
     5000: 'animate-progress5',
-    7000: 'animate-progress7'
+    7000: 'animate-progress7',
+    10000: 'animate-progress10',
+    30000: 'animate-progress30'
   };
 
   useSound(timersound, 1, time);

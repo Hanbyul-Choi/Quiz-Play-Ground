@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
+import { Skeleton } from 'antd';
 import { getGameLikes } from 'api/gameLikes';
 import { getGameLists } from 'api/gameList';
 import GameLists from 'components/gamelist/GameLists';
@@ -35,117 +36,148 @@ export const topicMatch: Match = {
 
 export const Main = () => {
   const [curCategory, setCurCategory] = useState<string>('');
-
-  const { data } = useQuery('gameList', getGameLists);
-  const { data: likes } = useQuery('gameLike', getGameLikes);
   const [sortWay, setSortWay] = useState('인기순');
-  const [filteredData, setFilteredData] = useState<GameListContent[]>();
+  const [filteredData, setFilteredData] = useState<GameListContent[]>([]);
+  const [rankedGame, setRankedGame] = useState<GameListContent[]>([]);
+
+  const { data, isLoading } = useQuery('gameList', getGameLists);
+  const { data: likes } = useQuery('gameLike', getGameLikes);
 
   const handleCategoryClick = (category: string) => {
     setCurCategory(category);
   };
-  useEffect(() => {
-    setFilteredData(filterData());
-  }, [curCategory]);
 
   useEffect(() => {
-    setFilteredData(filterData());
-  }, []);
+    // 인기순
+    if (data !== undefined) {
+      if (sortWay === '인기순') {
+        const sortedCategoryData = sortCategory(data);
 
-  const filterData = (): GameListContent[] | undefined => {
-    if (data === undefined) return;
-    let filteredData = data;
+        if (sortedCategoryData !== undefined) {
+          const sortedLikeData = sortLike(sortedCategoryData);
+          setFilteredData(sortedLikeData);
+          if (curCategory === '') setRankedGame(sortedLikeData);
+        }
+      } else {
+        const sortedCategoryData = sortCategory(data);
+        if (sortedCategoryData !== undefined) {
+          setFilteredData(sortedCategoryData);
+        }
+      }
+    }
+  }, [sortWay, data, curCategory]);
 
-    if (curCategory !== '') {
-      filteredData = filteredData.filter(content => categoryMatchKo[content.category] === curCategory);
+  const sortCategory = (games: GameListContent[]) => {
+    // 카테고리 별
+    if (data !== undefined) {
+      if (curCategory !== '') {
+        return games.filter(content => content.category === curCategory);
+      }
+      return games;
     }
-    if (sortWay === '인기순') {
-      filteredData.sort((a, b) => {
-        const firstLike = likes?.find(doc => doc.postId === a.postId)?.likeUsers.length ?? 0;
-        const secondLike = likes?.find(doc => doc.postId === b.postId)?.likeUsers.length ?? 0;
-        if (firstLike > secondLike) return -1;
-        if (firstLike < secondLike) return 1;
-        else return 0;
-      });
-    } else if (sortWay === '최신순') {
-      filteredData.sort((a, b) => {
-        if (a.date > b.date) return -1;
-        if (a.date < b.date) return 1;
-        else return 0;
-      });
-    }
-    return filteredData;
   };
 
-  if (filteredData === undefined || data === undefined || likes === undefined) return;
+  const sortLike = (games: GameListContent[]) => {
+    const copyData = [...games];
+    if (likes !== undefined) {
+      copyData.sort((a, b) => {
+        const firstLike = likes.find(doc => doc.postId === a.postId)?.likeUsers.length ?? 0;
+        const secondLike = likes.find(doc => doc.postId === b.postId)?.likeUsers.length ?? 0;
+        return secondLike - firstLike;
+      });
+    }
+    return copyData;
+  };
 
-  const topGame = [filteredData[0], filteredData[1], filteredData[2]];
+  if (isLoading) {
+    return (
+      <>
+        <div className="mt-7">
+          <Skeleton title={false} active round />
+        </div>
+        <div className="mt-7">
+          <Skeleton title={false} active round />
+        </div>
+        <div className="mt-7">
+          <Skeleton title={false} active round />
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className="flex-col items-center justify-center p-5">
-      <HotGames data={topGame} likes={likes} />
-      <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
-        <button
-          onClick={() => {
-            handleCategoryClick('');
-          }}
-          className={curCategory === '' ? 'text-black' : ''}
-        >
-          전체
-        </button>
-        <button
-          onClick={() => {
-            handleCategoryClick('relay');
-          }}
-          className={curCategory === 'relay' ? 'text-black' : ''}
-        >
-          이어 말하기
-        </button>
-        <button
-          onClick={() => {
-            handleCategoryClick('nonsense');
-          }}
-          className={curCategory === 'nonsense' ? 'text-black' : ''}
-        >
-          넌센스 퀴즈
-        </button>
-        <button
-          onClick={() => {
-            handleCategoryClick('personquiz');
-          }}
-          className={curCategory === 'personquiz' ? 'text-black' : ''}
-        >
-          인물 퀴즈
-        </button>
-        <button
-          onClick={() => {
-            handleCategoryClick('mzwordsquiz');
-          }}
-          className={curCategory === 'mzwordsquiz' ? 'text-black' : ''}
-        >
-          신조어 퀴즈
-        </button>
+    <>
+      <div className="flex-col items-center justify-center p-5">
+        인기게임 top 3
+        <HotGames data={rankedGame.slice(0, 3)} likes={likes ?? []} />
+        {/* 게임 카테고리 선택 */}
+        <div className="category justify-center flex gap-[60px] mt-10 text-lg text-gray3">
+          <button
+            onClick={() => {
+              handleCategoryClick('');
+            }}
+            className={curCategory === '' ? 'text-black underline' : ''}
+          >
+            전체
+          </button>
+          <button
+            onClick={() => {
+              handleCategoryClick('relay');
+            }}
+            className={curCategory === 'relay' ? 'text-black underline' : ''}
+          >
+            이어 말하기
+          </button>
+          <button
+            onClick={() => {
+              handleCategoryClick('nonsensequiz');
+            }}
+            className={curCategory === 'nonsensequiz' ? 'text-black underline' : ''}
+          >
+            넌센스 퀴즈
+          </button>
+          <button
+            onClick={() => {
+              handleCategoryClick('personquiz');
+            }}
+            className={curCategory === 'personquiz' ? 'text-black underline' : ''}
+          >
+            인물 퀴즈
+          </button>
+          <button
+            onClick={() => {
+              handleCategoryClick('mzwordsquiz');
+            }}
+            className={curCategory === 'mzwordsquiz' ? 'text-black underline' : ''}
+          >
+            신조어 퀴즈
+          </button>
+        </div>
+        <div className="flex items-center justify-end gap-2 filter mt-7">
+          <p>(인기순 / 최신순)</p>
+          <Dropdown
+            options={['인기순', '최신순']}
+            selected={1}
+            border
+            onChange={val => {
+              setSortWay(() => val);
+            }}
+          />
+        </div>
+        {/* 게임 리스트 */}
+        {filteredData.length === 0 ? (
+          <h2 className="w-full mt-10 text-2xl text-center">
+            {curCategory !== 'personquiz' ? '현재 관련 게임이 없습니다.' : '인물퀴즈는 업데이트 예정입니다.'}
+            <br />
+            <br />
+            {curCategory !== 'personquiz' ? '게임 제작에 참여해주세요.' : '조금만 기다려 주세요.'}
+          </h2>
+        ) : (
+          <div className="h-[50vh] overflow-y-scroll">
+            <GameLists data={filteredData} likes={likes ?? []} />
+          </div>
+        )}
       </div>
-      <div className="flex items-center justify-end gap-2 filter mt-7">
-        <p>(인기순 / 최신순)</p>
-        <Dropdown
-          options={['인기순', '최신순']}
-          selected={1}
-          border
-          onChange={val => {
-            setSortWay(val);
-          }}
-        />
-      </div>
-      {filteredData.length === 0 ? (
-        <h2 className="w-full mt-10 text-2xl text-center">
-          현재 관련 게임이 없습니다. <br />
-          <br />
-          게임 제작에 참여해주세요.
-        </h2>
-      ) : (
-        <GameLists data={filteredData} likes={likes} />
-      )}
-    </div>
+    </>
   );
 };
