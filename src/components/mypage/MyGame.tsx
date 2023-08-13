@@ -54,10 +54,10 @@ const MyGame = () => {
   const { data: likes } = useQuery('gameLike', getGameLikes);
 
   return (
-    <div className="flex flex-col mr-12 w-[450px] h-[calc(82vh-60px)] overflow-hidden">
-      <div className="flex items-center gap-20 pb-3 border-b border-black justify-evenly ">
+    <div className="flex flex-col mr-12 w-[450px] h-[calc(82vh-60px)] overflow-y-hidden">
+      <div className="flex items-center gap-20 pb-3 justify-evenly ">
         <button
-          className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black' : 'text-gray3'}`}
+          className={`text-[20px] ${activeButton === 'myQuestion' ? 'text-black underline' : 'text-gray3'}`}
           onClick={() => {
             handleButtonClick('myQuestion');
             setIsMadeGameOpen(true);
@@ -66,7 +66,7 @@ const MyGame = () => {
           내가 작성한 문제
         </button>
         <button
-          className={`text-[20px] ${activeButton === 'favoriteGame' ? 'text-black' : 'text-gray3'}`}
+          className={`text-[20px] ${activeButton === 'favoriteGame' ? 'text-black underline' : 'text-gray3'}`}
           onClick={() => {
             handleButtonClick('favoriteGame');
             setIsMadeGameOpen(false);

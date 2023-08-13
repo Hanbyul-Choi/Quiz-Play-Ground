@@ -47,11 +47,13 @@ const MyProfile = () => {
           <div className="flex flex-col items-center ">
             <button>
               {userImg !== undefined ? (
-                <img
-                  className="object-cover w-[150px] h-[150px] rounded-full shadow-md"
-                  src={userImg}
-                  alt="profileImage"
-                />
+                <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                  <img
+                    className="object-cover w-[150px] h-[150px] rounded-full shadow-md"
+                    src={userImg}
+                    alt="profileImage"
+                  />
+                </div>
               ) : (
                 <div className="bg-gray2 w-[150px] h-[150px] rounded-full shadow-md"></div>
               )}
@@ -65,7 +67,7 @@ const MyProfile = () => {
             </p>
           </div>
         </div>
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 mt-6 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
           <Button
             buttonStyle="blue md"
             onClick={() => {
@@ -85,7 +87,7 @@ const MyProfile = () => {
             </Button>
           </Link>
         </div>
-        <div className="flex items-center w-full p-6 mt-8 border border-black rounded-md shadow-lg">
+        <div className="relative flex items-center w-full p-6 mt-8 bg-white border border-black rounded-md shadow-lg">
           <div className="flex flex-col gap-2 mr-4">
             <p>ID</p>
             <p>닉네임</p>
@@ -95,6 +97,7 @@ const MyProfile = () => {
             <p>{userEmail}</p>
             <p>{userName}</p>
           </div>
+          <div className="absolute z-[-10] top-1 left-1 w-[380px] h-[118px] border-b-[10px] border-r-[10px] border-black rounded-[10px]" />
         </div>
       </div>
     </>

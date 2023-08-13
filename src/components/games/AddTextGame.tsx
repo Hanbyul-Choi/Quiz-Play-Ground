@@ -173,52 +173,59 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
         </div>
         <ul>
           {countList?.map((item, idx) => (
-            <li
-              key={idx}
-              className="flex items-center justify-center gap-x-16 rounded-xl w-[1000px] h-[150px] bg-hoverSkyBlue shadow-md mb-10"
-            >
-              <Input
-                inputType="textarea"
-                inputStyleType="TxtQuiz"
-                holderMsg="문제를 입력해주세요."
-                onChange={e => {
-                  questionChangeHandler(e, idx);
-                }}
-                value={question[idx]?.text}
-                border={false}
-              />
-              {item !== 0 ? (
-                <button
-                  className="relative w-4 bottom-[38%] left-[48%]"
-                  onClick={() => {
-                    divDeleteHandler(item, idx);
-                  }}
-                >
-                  X
-                </button>
-              ) : (
-                <div className="w-4" />
-              )}
-              <Input
-                inputType="textarea"
-                inputStyleType="TxtQuiz"
-                holderMsg="정답을 입력해주세요."
-                onChange={e => {
-                  answerChangeHandler(e, idx);
-                }}
-                value={answer[idx]?.text}
-                border={false}
-              />
+            <li key={idx} className="relative bg-white rounded-xl">
+              <div className="flex items-center justify-center gap-x-16 rounded-xl w-[1000px] h-[150px] border-2 border-black mb-10">
+                <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                  <Input
+                    inputType="textarea"
+                    inputStyleType="TxtQuiz"
+                    holderMsg="문제를 입력해주세요."
+                    onChange={e => {
+                      questionChangeHandler(e, idx);
+                    }}
+                    value={question[idx]?.text}
+                    border={true}
+                  />
+                </div>
+                {item !== 0 ? (
+                  <button
+                    className="relative w-4 bottom-[38%] left-[48%]"
+                    onClick={() => {
+                      divDeleteHandler(item, idx);
+                    }}
+                  >
+                    X
+                  </button>
+                ) : (
+                  <div className="w-4" />
+                )}
+                <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                  <Input
+                    inputType="textarea"
+                    inputStyleType="TxtQuiz"
+                    holderMsg="정답을 입력해주세요."
+                    onChange={e => {
+                      answerChangeHandler(e, idx);
+                    }}
+                    value={answer[idx]?.text}
+                    border={true}
+                  />
+                </div>
+                <div className="absolute z-[-10] top-2 left-2 w-[1000px] h-[150px] border-b-[12px] border-r-[12px] border-skyBlue rounded-[10px]" />
+              </div>
             </li>
           ))}
         </ul>
-        <Button buttonStyle="gray2 md full outlined" onClick={divAddHandler}>
+
+        <Button buttonStyle="gray2 full" onClick={divAddHandler}>
           +
         </Button>
       </div>
-      <Button buttonStyle="yellow md" onClick={PostGameList}>
-        작성 완료
-      </Button>
+      <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] ">
+        <Button buttonStyle="yellow md" onClick={PostGameList}>
+          작성 완료
+        </Button>
+      </div>
     </>
   );
 };

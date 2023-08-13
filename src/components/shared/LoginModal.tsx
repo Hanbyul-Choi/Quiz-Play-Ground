@@ -65,64 +65,73 @@ const LoginModal = () => {
 
   return createPortal(
     <div className="absolute top-0 z-20 flex items-center justify-center w-screen h-screen bg-black/20">
-      <div className="flex flex-col justify-center bg-gray1 w-[500px] h-[450px] rounded-lg p-7 gap-2 shadow-lg">
-        <div
-          className="ml-auto font-bold transition-all duration-100 cursor-pointer hover:scale-150"
-          onClick={() => {
-            toggleLoginModal();
-          }}
-        >
-          X
+      <div className="relative bg-white rounded-[10px]">
+        <div className="flex flex-col justify-center bg-gray1 w-[500px] h-[450px] border-2 border-black rounded-[10px] p-7 gap-2 shadow-lg">
+          <div
+            className="ml-auto font-bold transition-all duration-100 cursor-pointer hover:scale-150"
+            onClick={() => {
+              toggleLoginModal();
+            }}
+          >
+            X
+          </div>
+          <form
+            onSubmit={e => {
+              handleLogin(e).catch(error => {
+                error.errorHandler(error);
+                console.log('로그인 에러 발생');
+              });
+            }}
+          >
+            <div className={`${labelClass}`}>
+              <Label name="id">아이디</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="id"
+                inputType="email"
+                inputStyleType="auth"
+                holderMsg="아이디를 입력해주세요"
+                value={id}
+                onChange={onChangeId}
+                border={true}
+              />
+            </div>
+            {!isId && <p className={`${validationClass} text-red`}>아이디를 입력해주세요</p>}
+            <div className={`${labelClass}`}>
+              <Label name="password">비밀번호</Label>
+            </div>
+            <div className="drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Input
+                name="password"
+                inputType="password"
+                inputStyleType="auth"
+                holderMsg="비밀번호를 입력해주세요"
+                value={password}
+                onChange={onChangePassword}
+                border={true}
+              />
+            </div>
+            {!isPassword && <p className={`${validationClass} text-red`}>비밀번호를 입력해주세요</p>}
+            <div className="mt-12">
+              <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-lg">
+                <Button buttonStyle="yellow full border " disabled={disabled}>
+                  로그인
+                </Button>
+              </div>
+            </div>
+          </form>
+          <div
+            className="mx-auto mt-4 mb-4 font-bold cursor-pointer text-blue hover:underline hover:underline-offset-4"
+            onClick={() => {
+              toggleLoginModal();
+              toggleSignUpModal();
+            }}
+          >
+            아직 회원이 아니신가요?
+          </div>
         </div>
-        <form
-          onSubmit={e => {
-            handleLogin(e).catch(error => {
-              error.errorHandler(error);
-              console.log('로그인 에러 발생');
-            });
-          }}
-        >
-          <div className={`${labelClass}`}>
-            <Label name="id">아이디</Label>
-          </div>
-          <Input
-            name="id"
-            inputType="email"
-            inputStyleType="auth"
-            holderMsg="아이디를 입력해주세요"
-            value={id}
-            onChange={onChangeId}
-            border={false}
-          />
-          {!isId && <p className={`${validationClass} text-red`}>아이디를 입력해주세요</p>}
-          <div className={`${labelClass}`}>
-            <Label name="password">비밀번호</Label>
-          </div>
-          <Input
-            name="password"
-            inputType="password"
-            inputStyleType="auth"
-            holderMsg="비밀번호를 입력해주세요"
-            value={password}
-            onChange={onChangePassword}
-            border={false}
-          />
-          {!isPassword && <p className={`${validationClass} text-red`}>비밀번호를 입력해주세요</p>}
-          <div className="mt-12">
-            <Button buttonStyle="yellow md full" disabled={disabled}>
-              로그인
-            </Button>
-          </div>
-        </form>
-        <div
-          className="mx-auto mt-4 mb-4 font-bold cursor-pointer text-blue hover:underline hover:underline-offset-4"
-          onClick={() => {
-            toggleLoginModal();
-            toggleSignUpModal();
-          }}
-        >
-          아직 회원이 아니신가요?
-        </div>
+        <div className="absolute z-[-10] top-2 left-2 w-[500px] h-[450px] border-b-[12px] border-r-[12px] border-black rounded-[10px]" />
       </div>
     </div>,
     modalRoot
