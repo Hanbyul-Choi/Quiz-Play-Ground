@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 
@@ -8,7 +8,6 @@ import liked from 'assets/icons/Liked.svg';
 import like from 'assets/icons/LikeOutlined.svg';
 import { type LikeDoc } from 'components/gamelist/GameInfo';
 import { useDialog } from 'components/shared/Dialog';
-import { useMount } from 'hooks';
 import { gameResultStore, setTimerStore, userStore } from 'store';
 
 const Result = () => {
@@ -67,6 +66,8 @@ const Result = () => {
       },
       onSettled: async () => {
         await queryClient.invalidateQueries({ queryKey: 'gameLike' });
+        await queryClient.invalidateQueries({ queryKey: 'GameLikes' });
+        await queryClient.invalidateQueries({ queryKey: 'LikedGameLists' });
       }
     }
   );
@@ -76,16 +77,16 @@ const Result = () => {
       await Alert('로그인 후 이용 가능합니다.');
       return;
     }
-    setIsLiked(prev => !prev);
     clickLikeMutation.mutate();
+    setIsLiked(prev => !prev);
   };
 
-  useMount(() => {
+  useEffect(() => {
     if (curUser === null) return;
     if (likeDoc?.likeUsers.includes(curUser) as boolean) {
       setIsLiked(true);
     }
-  });
+  }, [curUser]);
 
   const ratecal = (score / totalQuiz) * 100;
 
