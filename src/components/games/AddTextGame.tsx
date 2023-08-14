@@ -12,6 +12,8 @@ import { FirebaseError } from 'firebase/app';
 import { doc, setDoc } from 'firebase/firestore';
 import { userStore } from 'store';
 
+import DeleteOutlined from '../../assets/DeleteOutlined.svg';
+
 interface InputType {
   text: string;
 }
@@ -42,7 +44,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [answer, setAnswer] = useState<InputType[]>([{ text: '' }]);
   const [quiz, setQuiz] = useState<GameListType[]>([]);
   const [selectTopic, setSelectTopic] = useState<string | null>(null);
-  console.log(selectTopic);
+
   const { Alert } = useDialog();
   const { userName, userId } = userStore();
 
@@ -194,7 +196,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                       DeleteHandler(item);
                     }}
                   >
-                    X
+                    <img src={DeleteOutlined} alt="" />
                   </button>
                 ) : (
                   <div className="w-4" />
