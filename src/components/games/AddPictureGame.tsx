@@ -12,6 +12,8 @@ import { FirebaseError } from 'firebase/app';
 import { doc, setDoc } from 'firebase/firestore';
 import { userStore } from 'store';
 
+import DeleteOutlined from '../../assets/DeleteOutlined.svg';
+
 interface InputType {
   text: string;
 }
@@ -221,12 +223,12 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
 
                 {item !== 0 ? (
                   <button
-                    className="relative w-4 bottom-[38%] left-[48%]"
+                    className="relative w-4 bottom-[45%] left-[48%]"
                     onClick={() => {
                       divDeleteHandler(item, idx);
                     }}
                   >
-                    X
+                    <img src={DeleteOutlined} alt="delete" />
                   </button>
                 ) : (
                   <div className="w-4" />
