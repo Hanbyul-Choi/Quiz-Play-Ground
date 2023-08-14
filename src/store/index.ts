@@ -105,9 +105,10 @@ export const updateImgStateStore = create<AuthModalStateType>(set => ({
 }));
 
 export const setTimerStore = create<timerType>(set => ({
-  timer: 0,
+  timer: parseInt(sessionStorage.getItem('timer') ?? '0'),
   setTimer: newTime => {
     set({ timer: newTime });
+    sessionStorage.setItem('timer', `${newTime}`);
   }
 }));
 
