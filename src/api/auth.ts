@@ -28,6 +28,13 @@ export interface getUserType {
   userImg?: string;
 }
 
+export interface getUsersType {
+  userEmail: string;
+  userId: string;
+  userImg: string;
+  userName: string;
+}
+
 const basicImg = 'https://github.com/rmdkak/Quiz-Play-Ground/assets/92218638/6ac8e9b4-f269-48d7-8943-bfd00d833d51';
 
 export const signup = async ({ id, password, nickname }: signupType) => {
@@ -97,4 +104,21 @@ export const updateUserImg = async (selectedFile: File) => {
     });
     return downloadURL;
   }
+};
+
+export const getUsers = async () => {
+  const querySnapshot = await getDocs(collection(db, 'users'));
+  const data: getUsersType[] = [];
+
+  querySnapshot.forEach(doc => {
+    const users: getUsersType = {
+      userEmail: '',
+      userId: '',
+      userImg: '',
+      userName: '',
+      ...doc.data()
+    };
+    data.push(users);
+  });
+  return data;
 };

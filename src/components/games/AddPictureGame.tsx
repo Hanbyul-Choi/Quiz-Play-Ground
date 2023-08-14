@@ -50,7 +50,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [selectTopic, setSelectTopic] = useState<string | null>(null);
 
   const { Alert } = useDialog();
-  const { userId, userName } = userStore();
+  const { userId } = userStore();
 
   const navigate = useNavigate();
 
@@ -147,7 +147,6 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
     const gameList = {
       date: Date.now(),
       userId,
-      userName,
       category: selectCategory,
       topic: selectTopic,
       title: gameTitle,

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { Skeleton } from 'antd';
+import { getUsers } from 'api/auth';
 import { type gameType } from 'api/myGame';
 import { type LikeDoc } from 'components/gamelist/GameInfo';
-
-type gamePropType = Record<string, string>;
+import { categoryMatchKo, topicMatch } from 'pages';
 
 interface propsType {
   games: gameType[];
@@ -18,18 +19,7 @@ interface propsType {
 }
 
 const LikedGame = ({ games, isFetching, likes }: propsType) => {
-  const gameCategory: gamePropType = {
-    relay: '이어말하기',
-    nonsensequiz: '넌센스 퀴즈',
-    mzwordsquiz: '신조어 퀴즈',
-    personquiz: '인물 퀴즈'
-  };
-
-  const gameTopic: gamePropType = {
-    proverb: '속담',
-    idiom: '사자성어',
-    '4words': '일상단어'
-  };
+  const { data: users } = useQuery('users', getUsers);
 
   return (
     <ul className="w-[450px] mt-4 flex flex-col h-[calc(62vh-102px)] overflow-y-scroll">
@@ -56,14 +46,17 @@ const LikedGame = ({ games, isFetching, likes }: propsType) => {
               >
                 <li>
                   <div className="flex mb-3 felx-row">
-                    <p className="mt-1 pl-1 text-gray4 text-[12px]">{game.userName}</p>
+                    <p className="mt-1 pl-1 text-gray4 text-[12px]">
+                      {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="mt-1 pl-1 text-gray4 text-[12px]">|</p>
                     <p className="mt-1 pl-1 text-gray4 text-[12px]">{new Date(Number(game.date)).toLocaleString()}</p>
                   </div>
                   <div className="flex justify-between">
                     <p className="w-[350px] mt-4 whitespace-nowrap overflow-hidden text-ellipsis">
-                      [{game.category !== undefined && gameCategory[game.category]}] {game.title} | {game.totalQuiz}문항
-                      {game.topic != null && ` | ${gameTopic[game.topic]}`}
+                      [{game.category !== undefined && categoryMatchKo[game.category]}] {game.title} | {game.totalQuiz}
+                      문항
+                      {game.topic != null && ` | ${topicMatch[game.topic]}`}
                     </p>
                     <div className="flex items-center gap-2 mt-4">
                       <button>

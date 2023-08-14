@@ -28,7 +28,7 @@ const ProfileUpdateModal = () => {
 
   const isValidNickname = (): boolean => {
     const nicknameCheck = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]*$/;
-    if (newName.length > 1 && nicknameCheck.test(newName)) {
+    if (newName.length > 1 && nicknameCheck.test(newName) && newName.length < 11) {
       return false;
     }
     return true;
@@ -46,6 +46,7 @@ const ProfileUpdateModal = () => {
   const mutation = useMutation(updateUserName, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('user');
+      await queryClient.invalidateQueries('users');
     }
   });
 
@@ -99,7 +100,9 @@ const ProfileUpdateModal = () => {
             {!disabled ? (
               <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
             ) : (
-              <p className={`${validationClass} text-red`}>두 글자 이상, 영어 또는 한글, 숫자로 입력해주세요</p>
+              <p className={`${validationClass} text-red`}>
+                두 글자 이상 열 글자 이하, 영어 또는 한글, 숫자로 입력해주세요
+              </p>
             )}
             <div className="mt-12">
               <div className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">

@@ -1,14 +1,16 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import { getUsers } from 'api/auth';
 import like from 'assets/icons/LikeOutlined.svg';
 import { categoryMatchKo } from 'pages';
 
 import { type GameDataprops } from './GameLists';
 
 const HotGames = ({ data, likes }: GameDataprops) => {
-  if (data === undefined || likes === undefined) return;
-
+  const { data: users } = useQuery('users', getUsers);
+  if (data === undefined || likes === undefined || users === undefined) return;
   return (
     <>
       <div className="flex justify-center">
@@ -37,10 +39,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? game.title.slice(0, 10) + '...' : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -70,10 +74,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? game.title.slice(0, 10) + '...' : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -103,10 +109,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? `${game.title.slice(0, 10).trimEnd()}...` : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
