@@ -61,7 +61,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
     setQuestion([]);
     setAnswer([{ text: '' }]);
     setQuiz([]);
-    setSelectTopic('');
+    setSelectTopic(null);
   };
 
   const questionChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

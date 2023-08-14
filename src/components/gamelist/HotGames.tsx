@@ -20,12 +20,9 @@ const HotGames = ({ data, likes }: GameDataprops) => {
       <section className="flex items-end justify-center gap-20 pb-10 mt-2 box-container">
         {data.length !== 0 ? (
           data.map((game, index) => (
-            <>
+            <div key={game.postId}>
               {index === 0 ? (
-                <div
-                  key={game.postId}
-                  className="relative w-[250px] h-[320px] p-2 border-2 border-black bg-white rounded-[10px] hover:bg-gray1 "
-                >
+                <div className="relative w-[250px] h-[320px] p-2 border-2 border-black bg-white rounded-[10px] hover:bg-gray1 ">
                   <Link
                     to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
                     className="relative flex flex-col items-center justify-center gap-[3px] rounded-lg "
@@ -121,7 +118,7 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                   <div className="absolute z-[-10] top-2 left-2 w-[250px] h-[300px] border-b-[14px] border-r-[14px] border-yellow rounded-[10px]" />
                 </div>
               )}
-            </>
+            </div>
           ))
         ) : (
           <div>아직 랭크된 게임이 없습니다.</div>
