@@ -26,12 +26,6 @@ const MyGame = () => {
     refetch
   } = useQuery('MadeGameLists', async () => await getMadeGames(userId as string));
 
-  // useEffect(() => {
-  //   if (!isLoading && games !== undefined) {
-  //     void refetch();
-  //   }
-  // }, [isLoading, games]);
-
   const {
     data: gamesId,
     isLoading: isGamesIdLoading,

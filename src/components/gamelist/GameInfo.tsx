@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import { getUsers } from 'api/auth';
 import { clickLike } from 'api/gameLikes';
 import liked from 'assets/icons/Liked.svg';
 import like from 'assets/icons/LikeOutlined.svg';
@@ -21,12 +22,12 @@ interface GameinfoProps extends GameListContent {
 }
 
 const GameInfo = ({ game }: { game: GameinfoProps }) => {
-  const { category, title, topic, userName, likeDoc, postId } = game;
+  const { category, title, topic, userId, likeDoc, postId } = game;
   const { userId: curUser } = userStore();
   const { Alert } = useDialog();
   const [isLiked, setIsLiked] = useState(false);
   const queryClient = useQueryClient();
-
+  const { data: users } = useQuery('users', getUsers);
   const clickLikeMutation = useMutation(
     async () => {
       if (curUser === null) return;
@@ -68,6 +69,8 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
       },
       onSettled: async () => {
         await queryClient.invalidateQueries({ queryKey: 'gameLike' });
+        await queryClient.invalidateQueries({ queryKey: 'GameLikes' });
+        await queryClient.invalidateQueries({ queryKey: 'LikedGameLists' });
       }
     }
   );
@@ -93,11 +96,11 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
       <div className="relative w-[100%] h-[92px] p-2 border-2 border-black bg-white rounded-[10px]">
         <Link to={`/game/${category}/${game.postId}${topic !== null ? '?game=' + topic : ''}`}>
           <div className="text-sm text-gray4">
-            {userName} | {new Date(game.date).toLocaleString()}
+            {users?.find(user => user.userId === userId)?.userName} · {new Date(game.date).toLocaleString()}
           </div>
           <div className="mt-4 text-lg ">
             <span className="font-bold">[{categoryMatchKo[category]}] </span>
-            {title} &nbsp; | &nbsp; {game.totalQuiz}문항
+            &nbsp; {title} &nbsp; <span className="font-extrabold">-</span> &nbsp; {game.totalQuiz}문항
             {topic !== null
               ? category === 'relay'
                 ? ` (   ${topicMatch[topic]} )`

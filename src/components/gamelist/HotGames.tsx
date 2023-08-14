@@ -1,14 +1,16 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import { getUsers } from 'api/auth';
 import like from 'assets/icons/LikeOutlined.svg';
 import { categoryMatchKo } from 'pages';
 
 import { type GameDataprops } from './GameLists';
 
 const HotGames = ({ data, likes }: GameDataprops) => {
-  if (data === undefined || likes === undefined) return;
-
+  const { data: users } = useQuery('users', getUsers);
+  if (data === undefined || likes === undefined || users === undefined) return;
   return (
     <>
       <div className="flex justify-center">
@@ -20,12 +22,9 @@ const HotGames = ({ data, likes }: GameDataprops) => {
       <section className="flex items-end justify-center gap-20 pb-10 mt-2 box-container">
         {data.length !== 0 ? (
           data.map((game, index) => (
-            <>
+            <div key={game.postId}>
               {index === 0 ? (
-                <div
-                  key={game.postId}
-                  className="relative w-[250px] h-[320px] p-2 border-2 border-black bg-white rounded-[10px] hover:bg-gray1 "
-                >
+                <div className="relative w-[250px] h-[320px] p-2 border-2 border-black bg-white rounded-[10px] hover:bg-gray1 ">
                   <Link
                     to={`/game/${game.category}/${game.postId}${game.topic !== null ? '?game=' + game.topic : ''}`}
                     className="relative flex flex-col items-center justify-center gap-[3px] rounded-lg "
@@ -40,10 +39,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? game.title.slice(0, 10) + '...' : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -73,10 +74,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? game.title.slice(0, 10) + '...' : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -106,10 +109,12 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                     <p className="font-semibold text-center ">
                       [{categoryMatchKo[game.category]}]<br />
                       <br />
-                      {game.title.length > 10 ? game.title.slice(0, 10) + '....' : game.title}
+                      {game.title.length > 10 ? `${game.title.slice(0, 10).trimEnd()}...` : game.title}
                     </p>
                     <p className="font-bold"> {game.totalQuiz} 문항</p>
-                    <p className="mt-4 text-sm text-gray4">작성자 - {game.userName}</p>
+                    <p className="mt-4 text-sm text-gray4">
+                      작성자 - {users?.find(user => user.userId === game.userId)?.userName}
+                    </p>
                     <p className="text-sm text-gray4">
                       {new Date(game.date).toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -121,7 +126,7 @@ const HotGames = ({ data, likes }: GameDataprops) => {
                   <div className="absolute z-[-10] top-2 left-2 w-[250px] h-[300px] border-b-[14px] border-r-[14px] border-yellow rounded-[10px]" />
                 </div>
               )}
-            </>
+            </div>
           ))
         ) : (
           <div>아직 랭크된 게임이 없습니다.</div>

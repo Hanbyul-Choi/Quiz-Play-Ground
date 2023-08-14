@@ -85,7 +85,7 @@ export const TextGame = () => {
   const submitAnswer = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 정답일때
-    if (data[currentQuiz - 1].answer === answer) {
+    if (data[currentQuiz - 1].answer.replaceAll(' ', '') === answer.replaceAll(' ', '')) {
       setScore(prev => prev + 1);
       setResult('isCorrect');
       openCorrectModal();
@@ -105,7 +105,7 @@ export const TextGame = () => {
     <div className="flex flex-col items-center font-medium gap-y-16">
       <h2 className="font-bold drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] text-[50px] text-skyBlue flex gap-2">
         {categoryMatchKo[category ?? '']}
-        {<p className="text-blue"> - </p>}
+        {topic !== undefined ? <p className="text-blue"> - </p> : ''}
         {topicMatch[topic ?? '']}
       </h2>
 
