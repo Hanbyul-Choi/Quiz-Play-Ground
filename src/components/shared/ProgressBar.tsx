@@ -1,4 +1,4 @@
-import timersound from '../../assets/audio/timersound.mp3';
+import timersound from '../../assets/audio/timersound2.mp3';
 import useSound from '../../hooks/useSound';
 
 type animateType = Record<number, string>;
