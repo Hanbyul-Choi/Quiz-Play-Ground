@@ -46,7 +46,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
   const [selectTopic, setSelectTopic] = useState<string | null>(null);
 
   const { Alert } = useDialog();
-  const { userName, userId } = userStore();
+  const { userId } = userStore();
 
   const navigate = useNavigate();
 
@@ -130,7 +130,6 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
     const gameList = {
       date: Date.now(),
       userId,
-      userName,
       category: selectCategory,
       topic: selectTopic,
       title: gameTitle,
@@ -196,7 +195,7 @@ export const AddTextGame = ({ topic, selectCategory, gameTitle }: Props) => {
                       DeleteHandler(item);
                     }}
                   >
-                    <img src={DeleteOutlined} alt="" />
+                    <img src={DeleteOutlined} alt="delete" />
                   </button>
                 ) : (
                   <div className="w-4" />

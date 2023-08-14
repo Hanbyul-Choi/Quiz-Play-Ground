@@ -33,7 +33,7 @@ const SignUpModal = () => {
   };
   const isValidNickname = (): boolean => {
     const nicknameCheck = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]*$/;
-    if (nickname.length > 1 && nicknameCheck.test(nickname)) {
+    if (nickname.length > 1 && nicknameCheck.test(nickname) && nickname.length < 11) {
       return false;
     }
     return true;
@@ -147,7 +147,9 @@ const SignUpModal = () => {
             {!isNickname ? (
               <p className={`${validationClass} text-blue`}>사용가능한 닉네임입니다</p>
             ) : (
-              <p className={`${validationClass} text-red`}>두 글자 이상, 영어 또는 한글, 숫자로 입력해주세요</p>
+              <p className={`${validationClass} text-red`}>
+                두 글자 이상 열 글자 이하, 영어 또는 한글, 숫자로 입력해주세요
+              </p>
             )}
             <div className={`${labelClass}`}>
               <Label name="password">비밀번호</Label>
