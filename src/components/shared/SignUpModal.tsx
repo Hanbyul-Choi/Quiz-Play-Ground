@@ -1,6 +1,5 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
 
 import { signup } from 'api/auth';
 import { FirebaseError } from 'firebase/app';
@@ -15,7 +14,6 @@ import { PORTAL_MODAL } from './modal/CorrectModal';
 
 const SignUpModal = () => {
   const modalRoot = document.getElementById(PORTAL_MODAL);
-  const navigate = useNavigate();
   const { Alert } = useDialog();
 
   const [id, onChangeId] = useInput();
@@ -69,7 +67,6 @@ const SignUpModal = () => {
     e.preventDefault();
     try {
       await signup({ id, password, nickname });
-      navigate('/');
       toggleSignUpModal();
       await Alert(`회원가입에 성공했습니다. 로그인해주세요!`);
     } catch (error) {

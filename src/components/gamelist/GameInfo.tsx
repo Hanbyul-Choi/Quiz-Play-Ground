@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +8,6 @@ import { clickLike } from 'api/gameLikes';
 import liked from 'assets/icons/Liked.svg';
 import like from 'assets/icons/LikeOutlined.svg';
 import { useDialog } from 'components/shared/Dialog';
-import { useMount } from 'hooks';
 import { topicMatch, type GameListContent, categoryMatchKo, personTopicMatch } from 'pages';
 import { userStore } from 'store';
 
@@ -80,16 +79,16 @@ const GameInfo = ({ game }: { game: GameinfoProps }) => {
       await Alert('로그인 후 이용 가능합니다.');
       return;
     }
-    setIsLiked(prev => !prev);
     clickLikeMutation.mutate();
+    setIsLiked(prev => !prev);
   };
 
-  useMount(() => {
+  useEffect(() => {
     if (curUser === null) return;
     if (likeDoc?.likeUsers.includes(curUser) as boolean) {
       setIsLiked(true);
     }
-  });
+  }, [curUser]);
 
   return (
     <div className="relative bg-white rounded-[10px] w-[940px] mb-10">
