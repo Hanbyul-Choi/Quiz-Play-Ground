@@ -222,7 +222,7 @@ export const AddPictureGame = ({ topic, selectCategory, gameTitle }: Props) => {
 
                 {item !== 0 ? (
                   <button
-                    className="relative w-4 bottom-[38%] left-[48%]"
+                    className="relative w-4 bottom-[45%] left-[48%]"
                     onClick={() => {
                       divDeleteHandler(item, idx);
                     }}

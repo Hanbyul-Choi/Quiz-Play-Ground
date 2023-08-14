@@ -105,7 +105,7 @@
 
 ## 2. 프로젝트 S.A
 
-[Quiz Play-Ground Notion](주소)
+[Quiz Play-Ground Notion](https://teamsparta.notion.site/1-eb309b6109f143eeab64fd826ae3c7d2)
 
 ## 3. 기술스택
 
